@@ -40,8 +40,8 @@
             this.gamePictureBox.Size = new System.Drawing.Size(1097, 819);
             this.gamePictureBox.TabIndex = 0;
             this.gamePictureBox.TabStop = false;
-            this.gamePictureBox.Click += new System.EventHandler(this.pictureBox1_Click);
-            this.gamePictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
+            this.gamePictureBox.Click += new System.EventHandler(this.gamePictureBox_Click);
+            this.gamePictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.gamePictureBox_Paint);
             // 
             // Form1
             // 

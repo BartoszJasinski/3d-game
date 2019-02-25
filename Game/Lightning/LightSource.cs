@@ -8,7 +8,7 @@ namespace Game.Lightning
 
         public LightSource()
         {
-            
+            light = new Light();
         }
         
         public LightSource(Light light)
