@@ -6,14 +6,20 @@ namespace Game.Lightning
     {
         public Model model { get; set; }
 
-        public Lamp()
+        public Lamp(): base()
         {
-            
+            this.model = new Cone();
         }
 
-        public Lamp(Model model)
+        public Lamp(Model model): base()
         {
             this.model = model;
+        }
+
+        public Lamp(Model model, LightSource lightSource)
+        {
+            this.model = model;
+            this.light = lightSource.light;
         }
     }
 }

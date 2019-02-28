@@ -10,12 +10,21 @@ namespace Game.GameData
         {
             gameData.models = CreateModels();
             gameData.lightSources = CreateIllumination();
+            AddLightModelsToRenderList(gameData);
         }
 
-        
+        private void AddLightModelsToRenderList(GameData gameData)
+        {
+            foreach (var lightSource in gameData.lightSources)
+            {
+//                lightSource.model
+            }
+        }
+
+
         private List<LightSource> CreateIllumination()
         {
-            List<LightSource> lightSources = new List<LightSource> { CreateLightSource() };
+            List<LightSource> lightSources = new List<LightSource> { CreateLamp() };
 
             return lightSources;
         }
@@ -23,7 +32,7 @@ namespace Game.GameData
         
         private Lamp CreateLamp()
         {
-            return new Lamp(CreateCone());
+            return new Lamp(new Cone(), new LightSource(new Light(new Color(1.0, 1.0, 1.0))));
         }
         
         private LightSource CreateLightSource()
