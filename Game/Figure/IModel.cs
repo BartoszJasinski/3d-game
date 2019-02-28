@@ -4,6 +4,6 @@ namespace Game.Figure
 {
     public interface IModel
     {
-        List<Triangle> CreateModel();
+//        List<Triangle> CreateModel();
     }
 }

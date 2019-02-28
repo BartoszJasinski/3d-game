@@ -24,6 +24,7 @@ namespace Game.Lightning
 
             if (r < oldMinColorValue || r > oldMaxColorValue || g < oldMinColorValue || g > oldMaxColorValue ||
                 b < oldMinColorValue || b > oldMaxColorValue)
+                //TODO create appropiate exception
                 throw new Exception("RGB should be in range (0, 255)");
             
             rgb = DenseVector.OfArray(ConvertRGBToRange(r, g, b, oldMinColorValue, oldMaxColorValue, newMinColorValue,newMaxColorValue));
@@ -39,7 +40,9 @@ namespace Game.Lightning
 
             if (r < minColorValue || r > maxColorValue || g < minColorValue || g > maxColorValue || b < minColorValue ||
                 b > maxColorValue)
+                //TODO create appropiate exception
                 throw new Exception("RGB should be in range (0.0, 1.0)");
+
             rgb = DenseVector.OfArray(new double[] { r, g, b });
         }
         
@@ -64,6 +67,7 @@ namespace Game.Lightning
             };
         }
 
+        //TODO create implicit Color -> System.COlor converter
         public System.Drawing.Color ToSystemColor()
         {
             const double oldMinimalColorValue = 0.0, oldMaximalColorValue = 1.0;

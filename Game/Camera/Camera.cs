@@ -20,8 +20,8 @@ namespace Game.Camera
 //            direction.Normalize(2);
 //            Vector<double> up = upAxis.Normalize(2);
             
-            Vector<double> left = Misc.Math.Cross(direction, upAxis).Normalize(2);
-            Vector<double> up = Misc.Math.Cross(left, direction);
+            Vector<double> left = Misc.Math.CrossProduct(direction, upAxis).Normalize(2);
+            Vector<double> up = Misc.Math.CrossProduct(left, direction);
             
 //            Matrix<double> ViewMatrix = DenseMatrix.OfArray(new double[,] {
 //                {right[0], right[1], right[2], 0},
@@ -47,8 +47,8 @@ namespace Game.Camera
 
             Vector<double> UpVector = upAxis.Normalize(2);
             Vector<double> zAxis = (cameraPosition - cameraTarget).Normalize(2);
-            Vector<double> xAxis = Misc.Math.Cross(UpVector, zAxis).Normalize(2);
-            Vector<double> yAxis = Misc.Math.Cross(zAxis, xAxis).Normalize(2);
+            Vector<double> xAxis = Misc.Math.CrossProduct(UpVector, zAxis).Normalize(2);
+            Vector<double> yAxis = Misc.Math.CrossProduct(zAxis, xAxis).Normalize(2);
             
             Matrix<double> ViewMatrix = DenseMatrix.OfArray(new double[,]
             {

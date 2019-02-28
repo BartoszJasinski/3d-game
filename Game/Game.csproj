@@ -61,6 +61,7 @@
     <Compile Include="Figure\Board.cs" />
     <Compile Include="Figure\Cone.cs" />
     <Compile Include="Figure\IModel.cs" />
+    <Compile Include="Figure\ListException.cs" />
     <Compile Include="Figure\Model.cs" />
     <Compile Include="Figure\Point3D.cs" />
     <Compile Include="Figure\Sphere.cs" />
@@ -75,13 +76,16 @@
     </Compile>
     <Compile Include="Lightning\BlinnLighting.cs" />
     <Compile Include="Lightning\Color.cs" />
+    <Compile Include="Lightning\ILightningModel.cs" />
     <Compile Include="Lightning\Lamp.cs" />
     <Compile Include="Lightning\Light.cs" />
+    <Compile Include="Lightning\Lightning.cs" />
     <Compile Include="Lightning\LightSource.cs" />
     <Compile Include="Lightning\PhongLighting.cs" />
     <Compile Include="Matrix\Matrixes.cs" />
     <Compile Include="Misc\Math.cs" />
     <Compile Include="Misc\Misc.cs" />
+    <Compile Include="Misc\VectorExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Render\Render.cs" />

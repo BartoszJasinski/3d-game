@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
 using static System.Math;
 
 
@@ -13,7 +15,7 @@ namespace Game.Figure
         {
              Random rand = new Random();
 
-            Point3D p1, p2, p3, p4;
+            Vector<double> p1, p2, p3, p4;
             Triangle triangle;
             double Angle = 30f / 180 * PI;
             double R = 0.1;
@@ -21,16 +23,16 @@ namespace Game.Figure
             double Beta = 0;
             double height = 1;
             double kat = PI / 4;
-            Point3D p0 = new Point3D(1, 1, 1, 1);
+            Vector<double> p0 = new DenseVector(new double[]{ 1, 1, 1, 1 });
             List<Triangle> triangles = new List<Triangle>();
-            p1 = new Point3D(0, 0, height, 1);
+            p1 = new DenseVector(new double[]{ 0, 0, height, 1 });
             //p1 = new Point4D(height * Cos(kat) * Sin(Alpha), height * Sin(kat) * Cos(Alpha), height/* * Sin(Alpha)*/, 1);
             //p2 = new Point4D(height * Cos(kat) * Cos(Alpha + Angle), height * Sin(kat) * Cos(Alpha + Angle), height/* * Sin(Alpha + Angle)*/, 1);
             while (Alpha <= PI * 2)
             {
 
-                p3 = new Point3D(R * Cos(Alpha), R * Sin(Alpha), 0, 1);
-                    p4 = new Point3D(R * Cos(Alpha+ Angle), R * Sin(Alpha + Angle), 0, 1);
+                p3 = new DenseVector(new double[]{ R * Cos(Alpha), R * Sin(Alpha), 0, 1});
+                p4 = new DenseVector(new double[] { R * Cos(Alpha+ Angle), R * Sin(Alpha + Angle), 0, 1});
                 //p3 = new Point4D(height * Cos(kat + Angle) * Sin(Alpha), height * Sin(kat + Angle) * Cos(Alpha), height/* * Sin(Beta)*/, 1);
                 //p4 = new Point4D(height * Cos(kat + Angle) * Cos(Alpha + Angle), height * Sin(kat + Angle) * Cos(Alpha + Angle), height /** Sin(Beta + Angle)*/, 1);
                 //triangle = new Triangle(p1, p2, p3);
@@ -91,73 +93,73 @@ namespace Game.Figure
 
 
 
-         public List<Triangle> CreateModel()
-         {
-             Random rand = new Random();
-
-            Point3D p1, p2, p3, p4;
-            Triangle triangle;
-            double Angle = 30f / 180 * PI;
-            double R = 0.1;
-            double Alpha = 0;
-            double Beta = 0;
-            double height = 1;
-            double kat = PI / 4;
-            Point3D p0 = new Point3D(1, 1, 1, 1);
-            List<Triangle> triangles = new List<Triangle>();
-            p1 = new Point3D(0, 0, height, 1);
-            //p1 = new Point4D(height * Cos(kat) * Sin(Alpha), height * Sin(kat) * Cos(Alpha), height/* * Sin(Alpha)*/, 1);
-            //p2 = new Point4D(height * Cos(kat) * Cos(Alpha + Angle), height * Sin(kat) * Cos(Alpha + Angle), height/* * Sin(Alpha + Angle)*/, 1);
-            while (Alpha <= PI * 2)
-            {
-
-                p3 = new Point3D(R * Cos(Alpha), R * Sin(Alpha), 0, 1);
-                    p4 = new Point3D(R * Cos(Alpha+ Angle), R * Sin(Alpha + Angle), 0, 1);
-                //p3 = new Point4D(height * Cos(kat + Angle) * Sin(Alpha), height * Sin(kat + Angle) * Cos(Alpha), height/* * Sin(Beta)*/, 1);
-                //p4 = new Point4D(height * Cos(kat + Angle) * Cos(Alpha + Angle), height * Sin(kat + Angle) * Cos(Alpha + Angle), height /** Sin(Beta + Angle)*/, 1);
-                //triangle = new Triangle(p1, p2, p3);
-                //triangles.Add(triangle);
-                  
-                triangle = new Triangle(p1, p3, p4);
-                int r = rand.Next(255);
-                int g = rand.Next(255);
-                int b = rand.Next(255);
-                triangle.Color = new Lightning.Color(r, g, b);
-                triangles.Add(triangle);
-                //p2 = p3;
-                p3 = p4;
-                Alpha += Angle;
-            }
-            Beta += Angle;
-            Alpha = 0;
-
-            //for (i = 0; i < n; i++)
-            //{
-            //    printf("%f %f\n", x + r * Math.cos(2 * Math.PI * i / n), y + r * Math.sin(2 * Math.PI * i / n));
-            //}
-
-
-            //Beta = 0;
-            //Alpha = 0;
-            //while (Beta >= -Math.PI / 2)
-            //{
-            //    while (Alpha <= Math.PI * 2)
-            //    {
-            //        p3 = new Point4D(R * Cos(Alpha + Angle) * Cos(Beta), R * Sin(Alpha + Angle) * Cos(Beta), R * Sin(Beta), 1);
-            //        p4 = new Point4D(R * Cos(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Beta + Angle), 1);
-            //        triangle = new Triangle(p1, p2, p3);
-            //        triangles.Add(triangle);
-            //        triangle = new Triangle(p2, p3, p4);
-            //        triangles.Add(triangle);
-            //        p1 = p3;
-            //        p2 = p4;
-            //        Alpha += Angle;
-            //    }
-            //    Beta -= Angle;
-            //    Alpha = 0;
-            //}
-
-            return triangles;
-         }
+//         public List<Triangle> CreateModel()
+//         {
+//             Random rand = new Random();
+//
+//            Point3D p1, p2, p3, p4;
+//            Triangle triangle;
+//            double Angle = 30f / 180 * PI;
+//            double R = 0.1;
+//            double Alpha = 0;
+//            double Beta = 0;
+//            double height = 1;
+//            double kat = PI / 4;
+//            Point3D p0 = new Point3D(1, 1, 1, 1);
+//            List<Triangle> triangles = new List<Triangle>();
+//            p1 = new Point3D(0, 0, height, 1);
+//            //p1 = new Point4D(height * Cos(kat) * Sin(Alpha), height * Sin(kat) * Cos(Alpha), height/* * Sin(Alpha)*/, 1);
+//            //p2 = new Point4D(height * Cos(kat) * Cos(Alpha + Angle), height * Sin(kat) * Cos(Alpha + Angle), height/* * Sin(Alpha + Angle)*/, 1);
+//            while (Alpha <= PI * 2)
+//            {
+//
+//                p3 = new Point3D(R * Cos(Alpha), R * Sin(Alpha), 0, 1);
+//                    p4 = new Point3D(R * Cos(Alpha+ Angle), R * Sin(Alpha + Angle), 0, 1);
+//                //p3 = new Point4D(height * Cos(kat + Angle) * Sin(Alpha), height * Sin(kat + Angle) * Cos(Alpha), height/* * Sin(Beta)*/, 1);
+//                //p4 = new Point4D(height * Cos(kat + Angle) * Cos(Alpha + Angle), height * Sin(kat + Angle) * Cos(Alpha + Angle), height /** Sin(Beta + Angle)*/, 1);
+//                //triangle = new Triangle(p1, p2, p3);
+//                //triangles.Add(triangle);
+//                  
+//                triangle = new Triangle(p1, p3, p4);
+//                int r = rand.Next(255);
+//                int g = rand.Next(255);
+//                int b = rand.Next(255);
+//                triangle.Color = new Lightning.Color(r, g, b);
+//                triangles.Add(triangle);
+//                //p2 = p3;
+//                p3 = p4;
+//                Alpha += Angle;
+//            }
+//            Beta += Angle;
+//            Alpha = 0;
+//
+//            //for (i = 0; i < n; i++)
+//            //{
+//            //    printf("%f %f\n", x + r * Math.cos(2 * Math.PI * i / n), y + r * Math.sin(2 * Math.PI * i / n));
+//            //}
+//
+//
+//            //Beta = 0;
+//            //Alpha = 0;
+//            //while (Beta >= -Math.PI / 2)
+//            //{
+//            //    while (Alpha <= Math.PI * 2)
+//            //    {
+//            //        p3 = new Point4D(R * Cos(Alpha + Angle) * Cos(Beta), R * Sin(Alpha + Angle) * Cos(Beta), R * Sin(Beta), 1);
+//            //        p4 = new Point4D(R * Cos(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Beta + Angle), 1);
+//            //        triangle = new Triangle(p1, p2, p3);
+//            //        triangles.Add(triangle);
+//            //        triangle = new Triangle(p2, p3, p4);
+//            //        triangles.Add(triangle);
+//            //        p1 = p3;
+//            //        p2 = p4;
+//            //        Alpha += Angle;
+//            //    }
+//            //    Beta -= Angle;
+//            //    Alpha = 0;
+//            //}
+//
+//            return triangles;
+//         }
     }
 }

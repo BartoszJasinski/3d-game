@@ -11,6 +11,7 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using Game.Figure;
 using Game.Lightning;
 using Game.GameData;
+using Color = Game.Lightning.Color;
 
 namespace Game.Render
 {
@@ -65,17 +66,17 @@ namespace Game.Render
         {
             foreach(Triangle triangle in model.triangles)
             {
-                Vector<double> p1 = DenseVector.OfArray(new double[]
-                    { triangle.firstVertex.x, triangle.firstVertex.y, triangle.firstVertex.z, triangle.firstVertex.w });
-                Vector<double> p2 = DenseVector.OfArray(new double[]
-                    { triangle.secondVertex.x, triangle.secondVertex.y, triangle.secondVertex.z, triangle.secondVertex.w });
-                Vector<double> p3 = DenseVector.OfArray(new double[]
-                    { triangle.thirdVertex.x, triangle.thirdVertex.y, triangle.thirdVertex.z, triangle.thirdVertex.w });
+//                Vector<double> p1 = DenseVector.OfArray(new double[]
+//                    { triangle.firstVertex.x, triangle.firstVertex.y, triangle.firstVertex.z, triangle.firstVertex.w });
+//                Vector<double> p2 = DenseVector.OfArray(new double[]
+//                    { triangle.secondVertex.x, triangle.secondVertex.y, triangle.secondVertex.z, triangle.secondVertex.w });
+//                Vector<double> p3 = DenseVector.OfArray(new double[]
+//                    { triangle.thirdVertex.x, triangle.thirdVertex.y, triangle.thirdVertex.z, triangle.thirdVertex.w });
                 
                 
-                Vector<double> p1e = Matrix.Matrixes.ProjectionMatrix * gameData.camera.ViewMatrix * model.modelMatrix * p1;
-                Vector<double> p2e = Matrix.Matrixes.ProjectionMatrix * gameData.camera.ViewMatrix * model.modelMatrix * p2;
-                Vector<double> p3e = Matrix.Matrixes.ProjectionMatrix * gameData.camera.ViewMatrix * model.modelMatrix * p3;
+                Vector<double> p1e = Matrix.Matrixes.ProjectionMatrix * gameData.camera.ViewMatrix * model.modelMatrix * triangle.vertices[0];
+                Vector<double> p2e = Matrix.Matrixes.ProjectionMatrix * gameData.camera.ViewMatrix * model.modelMatrix * triangle.vertices[1];
+                Vector<double> p3e = Matrix.Matrixes.ProjectionMatrix * gameData.camera.ViewMatrix * model.modelMatrix * triangle.vertices[2];
                
                 
                 double p1_x_prim = p1e[0] / p1e[3];
@@ -109,7 +110,11 @@ namespace Game.Render
                 p3_y_prim *= gamePictureBox.Height;
 
 
-                System.Drawing.Color triangleColor = ApplyLightning(gameData.lightSources, triangle).ToSystemColor();
+//                System.Drawing.Color triangleColor = Game.Lightning.Lightning.ApplyLightning(gameData.lightningModel, triangle).ToSystemColor();
+
+                Vector<double> fragPosition = model.modelMatrix * triangle.vertices[0];
+                System.Drawing.Color triangleColor = ApplyDiffuseLightning(triangle, fragPosition).ToSystemColor();
+
                 ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e);
 
                 e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p2_x_prim, (float)p2_y_prim);
@@ -119,16 +124,36 @@ namespace Game.Render
             }
         }
 
-        Lightning.Color ApplyLightning(List<LightSource> lightSources, Triangle triangle)
+        private Color ApplyDiffuseLightning(Triangle triangle, Vector<double> fragPosition)
         {
-            Vector<double> colorVector = Misc.Math.PointwiseMultiply(lightSources[0].light.lightColor.rgb,
-                DenseVector.OfArray(new double[] {triangle.Color.R, triangle.Color.G, triangle.Color.B}));
-            return new Lightning.Color(colorVector);
+//            vec3 norm = normalize(Normal);
+//            vec3 lightDir = normalize(lightPos - FragPos);
+//            float diff = max(dot(norm, lightDir), 0.0);
+//            vec3 diffuse = diff * lightColor;
+
+            Vector<double> lightPos = DenseVector.OfArray(new double[] {0, 0, 0, 0});
+            Vector<double> lightColor = DenseVector.OfArray(new double[] {1, 1, 1});
+                
+            Vector<double> norm = triangle.normals[0].Normalize(2);
+            norm = DenseVector.OfArray(new double[] {norm[0], norm[1], norm[2], 1});
+            Vector<double> lightDir = (lightPos - fragPosition).Normalize(2);
+            double diff = Math.Max(lightDir.DotProduct(norm), 0.0);
+            Vector<double> diffuse = diff * lightColor;
+
+            return new Color(diffuse[0], diffuse[1], diffuse[2]);
+
         }
         
+//        Lightning.Color ApplyLightning(List<LightSource> lightSources, Triangle triangle)
+//        {
+//            Vector<double> colorVector = Misc.Math.PointwiseMultiply(lightSources[0].light.lightColor.rgb,
+//                DenseVector.OfArray(new double[] {triangle.Color.R, triangle.Color.G, triangle.Color.B}));
+//            return new Lightning.Color(colorVector);
+//        }
         
         
-         public class Vertex
+        
+        public class Vertex
         {
             public Point point { get; set; }
             public int index { get; set; }

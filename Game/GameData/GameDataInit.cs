@@ -6,6 +6,7 @@ namespace Game.GameData
 {
     public class GameDataInit
     {
+        
         public void InitializeGameObjects(GameData gameData)
         {
             gameData.models = CreateModels();

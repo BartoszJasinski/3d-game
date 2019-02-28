@@ -10,7 +10,8 @@ namespace Game.Figure
     public class Model
     {
         public List<Triangle> triangles { get; set; }
-
+        
+        
         public Matrix<double> modelMatrix { get; set; } = DenseMatrix.OfArray(new double[,]
         {
             {1, 0, 0, 0},

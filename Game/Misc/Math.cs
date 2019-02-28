@@ -6,13 +6,13 @@ namespace Game.Misc
 {
     public class Math
     {
-        public static Vector Cross(Vector<double> firstVector, Vector<double> secondVector)
+        public static Vector CrossProduct(Vector<double> firstVector, Vector<double> secondVector)
         {
-            if ((firstVector.Count != 3 || secondVector.Count != 3))
-            {
-                string message = "Vectors must have a length of 3.";
-                throw new Exception(message);
-            }
+//            if ((firstVector.Count != 3 || secondVector.Count != 3))
+//            {
+//                string message = "Vectors must have a length of 3.";
+//                throw new Exception(message);
+//            }
             
             Vector crossProduct = new DenseVector(3);
             crossProduct[0] = firstVector[1] * secondVector[2] - firstVector[2] * secondVector[1];
