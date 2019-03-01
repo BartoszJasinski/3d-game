@@ -8,9 +8,7 @@ namespace Game
 {
     public partial class GameWindow : Form
     {
-        double[,] zBuffer;
 
-        double phi = 0;
         DateTime startTime = DateTime.Now;
         GameData.GameData gameData;
         private Render.Render renderer = new Render.Render();
@@ -27,12 +25,6 @@ namespace Game
         private void Init()
         {
             gamePictureBox.BackColor = System.Drawing.Color.Black;
-            
-            zBuffer = new double[gamePictureBox.Width, gamePictureBox.Height];
-
-            for(int x = 0; x < zBuffer.GetLength(0); x++)
-            for(int y = 0; y < zBuffer.GetLength(1); y++)
-                zBuffer[x, y] = Double.MaxValue;
             
             gameData = new GameData.GameData();
             

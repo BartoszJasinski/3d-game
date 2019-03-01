@@ -12,7 +12,7 @@ namespace Game.Lightning
         private List<LightSource> ambientLights { get; set; }
         private List<LightSource> diffuseLights { get; set; }
         
-        public PhongLighting() : this(new List<LightSource> {new LightSource(new Light(new Color(1.0, 1.0, 1.0), 0.5))},
+        public PhongLighting() : this(new List<LightSource> {new LightSource(new Light(new Color(1.0, 1.0, 1.0), 0.9))},
             new List<LightSource>
             {
                 new LightSource((new Light(new Color(1.0, 1.0, 1.0))),
@@ -31,8 +31,8 @@ namespace Game.Lightning
         //TODO write function which applies(renders) phong lighining on scene
         public Color ApplyLightning(Triangle triangle)
         {
-//            return ApplyAmbientLightning(triangle);
-            return ApplyDiffuseLightning(triangle);
+            return ApplyAmbientLightning(triangle);
+//            return ApplyDiffuseLightning(triangle);
 //            ApplySpecularLightning();
         }
 

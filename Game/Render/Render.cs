@@ -11,37 +11,59 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using Game.Figure;
 using Game.Lightning;
 using Game.GameData;
+using MathNet.Numerics.Distributions;
 using Color = Game.Lightning.Color;
 
 namespace Game.Render
 {
     public class Render
     {
+        
+        //TODO: zBuffer trhrows System.IndexOutOfRangeException: Index was outside the bounds of the array. when outside of window
+
+        double[,] zBuffer = new double[1097, 819];
+        private double phi = 0;
+        public void DepthTesting(PictureBox gamePictureBox)
+        {
+            for (int x = 0; x < zBuffer.GetLength(0); x++)
+            {
+                for (int y = 0; y < zBuffer.GetLength(1); y++)
+                {
+                    zBuffer[x, y] = Double.MaxValue;
+                }                
+            }
+            
+            
+            
+        }
+        
         public void RenderModels(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData)
         {
             foreach(Model model in gameData.models)
                 RenderModel(e, gamePictureBox, gameData, model);
+            
+            DepthTesting(gamePictureBox);
         }
 
         
         void RenderModel(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData, Model model)
         {
 
-//            phi += 0.007;
+            phi += 0.07;
 
 //            Vector<double> modelPosition = new DenseVector(new double[] {Cos(phi), Sin(phi), 0});
 //            model.modelMatrix = model.Transformate(new DenseVector(new double[] {Cos(phi), Sin(phi), Cos(phi)}), modelPosition, 1, modelPosition);
             Vector<double> modelPosition = new DenseVector(new double[] {0, 0, 0});
             Vector<double> scaleVector = new DenseVector(new double[] { 5, 5, 1});
-            Vector<double> rotationVector = modelPosition;
-            double rotationAngle = 10;
+            Vector<double> rotationVector = new DenseVector(new double[] { 0, 0, 1});
+            double rotationAngle = phi;
             Vector<double> translationVector = modelPosition;
             model.modelMatrix = model.Transformate(scaleVector, rotationVector, rotationAngle, translationVector);
 
 //Stationary Camera
-            Vector<double> cameraPosition = new DenseVector(new[] {5, 1.0, 1.0});
-            Vector<double> cameraTarget = new DenseVector(new[] {0, 1.0, 1.0});
-            Vector<double> upAxis = new DenseVector(new[] {0.0, 0.0, 1.0});
+            Vector<double> cameraPosition = new DenseVector(new[] {5.0, 0.0, 0.0});
+            Vector<double> cameraTarget = new DenseVector(new[] {0, 0.0, 0.0});
+            Vector<double> upAxis = new DenseVector(new[] {0.0, 0.0, -1.0});
             gameData.camera.ViewMatrix = Camera.Camera.LookAt(cameraPosition, cameraTarget, upAxis);
 
 //Stationary Tracking Camera
@@ -113,15 +135,38 @@ namespace Game.Render
 //                System.Drawing.Color triangleColor = Game.Lightning.Lightning.ApplyLightning(gameData.lightningModel, triangle).ToSystemColor();
 
                 Vector<double> fragPosition = model.modelMatrix * triangle.vertices[0];
-                System.Drawing.Color triangleColor = ApplyDiffuseLightning(triangle, fragPosition).ToSystemColor();
+//                System.Drawing.Color triangleColor = ApplyDiffuseLightning(triangle, fragPosition).ToSystemColor();
+                Vector<double> cameraPosition = new DenseVector(new[] {5.0, 0.0, 0.0});
 
-                ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e);
+                System.Drawing.Color triangleColor = ApplySpecularLightning(triangle, cameraPosition, new DenseVector(new double[]{ fragPosition[0], fragPosition[1], fragPosition[2]})).ToSystemColor();
+                
+                ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e[3]);
 
-                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p2_x_prim, (float)p2_y_prim);
-                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p3_x_prim, (float)p3_y_prim);
-                e.Graphics.DrawLine(Pens.Black, (float)p2_x_prim, (float)p2_y_prim, (float)p3_x_prim, (float)p3_y_prim);
+//                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p2_x_prim, (float)p2_y_prim);
+//                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p3_x_prim, (float)p3_y_prim);
+//                e.Graphics.DrawLine(Pens.Black, (float)p2_x_prim, (float)p2_y_prim, (float)p3_x_prim, (float)p3_y_prim);
+
+//                MyDrawLine(e, Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p2_x_prim, (float)p2_y_prim);
+//                MyDrawLine(e, Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p3_x_prim, (float)p3_y_prim);
+//                MyDrawLine(e, Pens.Black, (float)p2_x_prim, (float)p2_y_prim, (float)p3_x_prim, (float)p3_y_prim);
+
+
 
             }
+        }
+
+        public Color ApplySpecularLightning(Triangle triangle, Vector<double> cameraPosition, Vector<double> fragPosition)
+        {
+            Vector<double> lightColor = DenseVector.OfArray(new double[] {0, 1, 1});
+
+            double specularStrength = 0.5;
+            Vector<double> viewDir = (cameraPosition - fragPosition).Normalize(2);
+            Vector<double> reflectDir = ReflectVector(viewDir, triangle.normals[0]);
+            double dot = viewDir.DotProduct(reflectDir);
+            double spec = Math.Pow(Math.Max(dot, 0.0), 32);
+
+            Color specular = new Color(specularStrength * spec * lightColor);
+            return specular;
         }
 
         private Color ApplyDiffuseLightning(Triangle triangle, Vector<double> fragPosition)
@@ -130,20 +175,28 @@ namespace Game.Render
 //            vec3 lightDir = normalize(lightPos - FragPos);
 //            float diff = max(dot(norm, lightDir), 0.0);
 //            vec3 diffuse = diff * lightColor;
-
-            Vector<double> lightPos = DenseVector.OfArray(new double[] {0, 0, 0, 0});
+            fragPosition = DenseVector.OfArray(new double[] { fragPosition[0], fragPosition[1], fragPosition[2] });
+            Vector<double> lightPos = DenseVector.OfArray(new double[] {0, 0, 0});
             Vector<double> lightColor = DenseVector.OfArray(new double[] {1, 1, 1});
-                
+                //TODO thing if normals[0] or normals[1] or normals[2]
             Vector<double> norm = triangle.normals[0].Normalize(2);
-            norm = DenseVector.OfArray(new double[] {norm[0], norm[1], norm[2], 1});
+            norm = DenseVector.OfArray(new double[] {norm[0], norm[1], norm[2]});
             Vector<double> lightDir = (lightPos - fragPosition).Normalize(2);
-            double diff = Math.Max(lightDir.DotProduct(norm), 0.0);
+            double dot = norm.DotProduct(lightDir);
+            double diff = Math.Max(dot, 0.0);
             Vector<double> diffuse = diff * lightColor;
-
-            return new Color(diffuse[0], diffuse[1], diffuse[2]);
+            Vector<double> col = Misc.Math.PointwiseMultiply(diffuse, triangle.Color.rgb);
+            
+            return new Color(col[0], col[1], col[2]);
 
         }
-        
+
+        public Vector<double> ReflectVector(Vector<double> vectorToReflect, Vector<double> reflectionVector)
+        {
+            Vector<double> resultVector = vectorToReflect - 2 * (vectorToReflect * reflectionVector) * reflectionVector;
+
+            return resultVector;
+        }
 //        Lightning.Color ApplyLightning(List<LightSource> lightSources, Triangle triangle)
 //        {
 //            Vector<double> colorVector = Misc.Math.PointwiseMultiply(lightSources[0].light.lightColor.rgb,
@@ -175,7 +228,7 @@ namespace Game.Render
             public int secondVertexIndex { get; set; }
         }
 
-        static void ScanLineFillVertexSort(double p1_x_prim, double p1_y_prim, double p2_x_prim, double p2_y_prim, double p3_x_prim, double p3_y_prim, System.Drawing.Color color, PaintEventArgs e)
+        public void ScanLineFillVertexSort(double p1_x_prim, double p1_y_prim, double p2_x_prim, double p2_y_prim, double p3_x_prim, double p3_y_prim, System.Drawing.Color color, PaintEventArgs e, double z)
         {
             List<Vertex> polygonVertexes = new List<Vertex>();
             //for (int i = 0; i < 3; i++)
@@ -217,21 +270,26 @@ namespace Game.Render
                 }
 
                 AET.OrderBy(x => x.x);
+//                for (int i = 0; i < AET.Count / 2; i++)
+//                {
+//                    e.Graphics.DrawLine(new Pen(color), new Point((int)AET[2 * i].x, y), new Point((int)AET[2 * i + 1].x, y));
+//                }
                 for (int i = 0; i < AET.Count / 2; i++)
-                    e.Graphics.DrawLine(new Pen(color), new Point((int)AET[2 * i].x, y), new Point((int)AET[2 * i + 1].x, y));
-
-                for (int i = 0; i < AET.Count; i++)
                 {
+                    MyDrawLine(e, new Pen(color), new Point((int)AET[2 * i].x, y), new Point((int)AET[2 * i + 1].x, y), z);
+                }
 
-                    AET[i].x += AET[i].mInverse;
-                    if (double.IsInfinity(AET[i].mInverse))
-                        AET[i].x = polygonVertexes[AET[i].secondVertexIndex].point.X;
+                foreach (var aetData in AET)
+                {
+                    aetData.x += aetData.mInverse;
+                    if (double.IsInfinity(aetData.mInverse))
+                        aetData.x = polygonVertexes[aetData.secondVertexIndex].point.X;
                 }
 
             }
         }
 
-
+      
 
         private static void SetPixel(PaintEventArgs e, Brush brush, Point point)
         {
@@ -242,6 +300,55 @@ namespace Game.Render
         {
             return (Math.Abs(a * b) + a) % b;
         }
+        
+        public void MyDrawLine(PaintEventArgs e, Pen pen,Point p1, Point p2, double z)
+        {
+
+            line(e, p1.X, p1.Y, p2.X, p2.Y, pen.Brush, z);
+            //graphics.DrawLine(pen, p1, p2);
+        }
+
+
+        public void line(PaintEventArgs e, int x, int y, int x2, int y2, Brush brush, double z)
+        {
+            int w = x2 - x;
+            int h = y2 - y;
+            int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
+            if (w < 0) dx1 = -1; else if (w > 0) dx1 = 1;
+            if (h < 0) dy1 = -1; else if (h > 0) dy1 = 1;
+            if (w < 0) dx2 = -1; else if (w > 0) dx2 = 1;
+            int longest = Math.Abs(w);
+            int shortest = Math.Abs(h);
+            if (!(longest > shortest))
+            {
+                longest = Math.Abs(h);
+                shortest = Math.Abs(w);
+                if (h < 0) dy2 = -1; else if (h > 0) dy2 = 1;
+                dx2 = 0;
+            }
+            int numerator = longest >> 1;
+            for (int i = 0; i <= longest; i++)
+            {
+                if (z <= zBuffer[x, y])
+                {
+                    e.Graphics.FillRectangle(brush, x, y, 1, 1);
+                    zBuffer[x, y] = z;
+                }
+                numerator += shortest;
+                if (!(numerator < longest))
+                {
+                    numerator -= longest;
+                    x += dx1;
+                    y += dy1;
+                }
+                else
+                {
+                    x += dx2;
+                    y += dy2;
+                }
+            }
+        }
+
 
 
     }
