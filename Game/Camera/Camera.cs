@@ -1,7 +1,9 @@
 using System;
+using Game.Figure;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using Math = Game.Misc.Math;
+using Math = Game.Math.Math;
+using Vector = Game.Math.Vector;
 
 
 namespace Game.Camera
@@ -9,19 +11,36 @@ namespace Game.Camera
     public class Camera
     {
     
-        private Vector<double> initCameraPosition;
-        private Vector<double> initCameraTarget;
-        private Vector<double> upAxis;
-        public Matrix<double> ViewMatrix { get; set; }
-    
-        public static Matrix<double> LookAt(Vector<double> cameraPosition, Vector<double> cameraTarget, Vector<double> upAxis)
+        public Vector cameraPosition { get; set; }
+        public Vector cameraTarget { get; set; }
+        public Vector upAxis { get; set; }
+        public Matrix<double> viewMatrix { get; set; }
+
+        public Camera() : this(new Vector(0, 0, 0), new Vector(0, 0, 0), new Vector(0, 0, -1))
         {
-            Vector<double> direction = (cameraPosition - cameraTarget).Normalize(2);
+            
+        }
+        
+        public Camera(Vector cameraPosition, Vector cameraTarget, Vector upAxis)
+        {
+            this.cameraPosition = cameraPosition;
+            this.cameraTarget = cameraTarget;
+            this.upAxis = upAxis;
+        }
+
+        public Matrix<double> LookAt()
+        {
+            return LookAt(cameraPosition, cameraTarget, upAxis);
+        }
+        
+        public Matrix<double> LookAt(Vector cameraPosition, Vector cameraTarget, Vector upAxis)
+        {
+            Vector direction = (cameraPosition - cameraTarget).Normalize(2);
 //            direction.Normalize(2);
 //            Vector<double> up = upAxis.Normalize(2);
             
-            Vector<double> left = Misc.Math.CrossProduct(direction, upAxis).Normalize(2);
-            Vector<double> up = Misc.Math.CrossProduct(left, direction);
+            Vector left = direction.CrossProduct(upAxis).Normalize(2);
+            Vector up = left.CrossProduct(direction);
             
 //            Matrix<double> ViewMatrix = DenseMatrix.OfArray(new double[,] {
 //                {right[0], right[1], right[2], 0},
@@ -45,10 +64,10 @@ namespace Game.Camera
 
 
 
-            Vector<double> UpVector = upAxis.Normalize(2);
-            Vector<double> zAxis = (cameraPosition - cameraTarget).Normalize(2);
-            Vector<double> xAxis = Misc.Math.CrossProduct(UpVector, zAxis).Normalize(2);
-            Vector<double> yAxis = Misc.Math.CrossProduct(zAxis, xAxis).Normalize(2);
+            Vector upVector = upAxis.Normalize(2);
+            Vector zAxis = (cameraPosition - cameraTarget).Normalize(2);
+            Vector xAxis = upVector.CrossProduct(zAxis).Normalize(2);
+            Vector yAxis = zAxis.CrossProduct(xAxis).Normalize(2);
             
             Matrix<double> ViewMatrix = DenseMatrix.OfArray(new double[,]
             {

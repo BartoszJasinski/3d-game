@@ -1,13 +1,13 @@
 using System;
-using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
-using Math = Game.Misc.Math;
+
+using Game.Math;
+using Math = Game.Math.Math;
 
 namespace Game.Lightning
 {
     public class Color
     {
-        public Vector<double> rgb { get; set; }
+        public Vector rgb { get; set; }
         public double R => rgb[0];
         public double G => rgb[1];
         public double B => rgb[2];
@@ -27,7 +27,7 @@ namespace Game.Lightning
                 //TODO create appropiate exception
                 throw new Exception("RGB should be in range (0, 255)");
             
-            rgb = DenseVector.OfArray(ConvertRGBToRange(r, g, b, oldMinColorValue, oldMaxColorValue, newMinColorValue,newMaxColorValue));
+            rgb = new Vector(ConvertRGBToRange(r, g, b, oldMinColorValue, oldMaxColorValue, newMinColorValue,newMaxColorValue));
         }
         
         // 
@@ -43,15 +43,15 @@ namespace Game.Lightning
                 //TODO create appropiate exception
                 throw new Exception("RGB should be in range (0.0, 1.0)");
 
-            rgb = DenseVector.OfArray(new double[] { r, g, b });
+            rgb = new Vector(r, g, b);
         }
         
-        public Color(Vector<double> rgb)
+        public Color(Vector rgb)
         {
             this.rgb = rgb ;
         }
 
-        private double[] ConvertRGBToRange(Vector<double> rgb, double oldMin, double oldMax, double newMin,
+        private double[] ConvertRGBToRange(Vector rgb, double oldMin, double oldMax, double newMin,
             double newMax)
         {
             return ConvertRGBToRange(rgb[0], rgb[1], rgb[2], oldMin, oldMax, newMin, newMax);
@@ -61,9 +61,9 @@ namespace Game.Lightning
         {
             return new double[]
             {
-                Misc.Math.ConvertToRange(r, oldMin, oldMax, newMin, newMax),
-                Misc.Math.ConvertToRange(g, oldMin, oldMax, newMin, newMax),
-                Misc.Math.ConvertToRange(b, oldMin, oldMax, newMin, newMax)
+                Math.Math.ConvertToRange(r, oldMin, oldMax, newMin, newMax),
+                Math.Math.ConvertToRange(g, oldMin, oldMax, newMin, newMax),
+                Math.Math.ConvertToRange(b, oldMin, oldMax, newMin, newMax)
             };
         }
 

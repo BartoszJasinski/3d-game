@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+
 using Game.Figure;
-using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
+using Game.Math;
 
 namespace Game.Lightning
 {
@@ -16,7 +16,7 @@ namespace Game.Lightning
             new List<LightSource>
             {
                 new LightSource((new Light(new Color(1.0, 1.0, 1.0))),
-                    DenseVector.OfArray(new double[] {0.0, 0.0, 0.0}))
+                    new Vector(0.0, 0.0, 0.0))
             })
         {
             
@@ -38,12 +38,11 @@ namespace Game.Lightning
 
         private Color ApplyAmbientLightning(Triangle triangle)
         {
-            Vector<double> finalColorVector = DenseVector.OfArray(new double[] { 0, 0, 0 });
+            Vector finalColorVector = new Vector(0, 0, 0);
             foreach (var ambientLight in ambientLights)
             {
-                Vector<double> ambient = ambientLight.light.lightStrength * ambientLight.light.lightColor.rgb;
-                Vector<double> colorVector = Misc.Math.PointwiseMultiply(ambient,
-                   DenseVector.OfArray(new double[] {triangle.Color.R, triangle.Color.G, triangle.Color.B}));
+                Vector ambient = ambientLight.light.lightStrength * ambientLight.light.lightColor.rgb;
+                Vector colorVector = ambient.PointwiseMultiply(new Vector(triangle.Color.R, triangle.Color.G, triangle.Color.B));
 
                finalColorVector = finalColorVector.Add(colorVector);
             }

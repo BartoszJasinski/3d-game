@@ -1,19 +1,15 @@
 ﻿using System.Collections.Generic;
 
-using MathNet.Numerics.LinearAlgebra;
-
+using Game.Math;
 using Game.Lightning;
 
 namespace Game.Figure
 {
     public class Triangle
     {
-        public List<Vector<double>> vertices { get; set; } = new List<Vector<double>>();
-//        public Vector<double> firstVertex { get; set; }
-//        public Vector<double> secondVertex { get; set; }
-//        public Vector<double> thirdVertex { get; set; }
+        public List<Vector> vertices { get; set; } = new List<Vector>();
 
-        public List<Vector<double>> normals { get; set; } = new List<Vector<double>>();
+        public List<Vector> normals { get; set; } = new List<Vector>();
 //        public Vector<double> firstVertexNormal { get; set; }
 //        public Vector<double> secondVertexNormal { get; set; }
 //        public Vector<double> thirdVertexNormal { get; set; }
@@ -21,7 +17,7 @@ namespace Game.Figure
         public Color Color = new Color(0.0, 1.0, 0.0);
         private const int numberOfTriangleVertices = 3;
 
-        public Triangle(Vector<double> firstVertex, Vector<double> secondVertex, Vector<double> thirdVertex)
+        public Triangle(Vector firstVertex, Vector secondVertex, Vector thirdVertex)
         {
             
             vertices.Add(firstVertex);
@@ -30,7 +26,7 @@ namespace Game.Figure
             CalculateNormalVectors();
         }
 
-        public Triangle(List<Vector<double>> vertices) 
+        public Triangle(List<Vector> vertices) 
         {
             if(vertices.Count != numberOfTriangleVertices)
                 throw new ListException("Triangle should have three vertices");
@@ -42,11 +38,11 @@ namespace Game.Figure
         {
             for (int i = 0; i < numberOfTriangleVertices; i++)
             {
-                Vector<double> firstSide = vertices[(i + 1) % numberOfTriangleVertices] - vertices[i];
-                Vector<double> secondSide = vertices[(i + 2) % numberOfTriangleVertices] - vertices[i];
+                Vector firstSide = vertices[(i + 1) % numberOfTriangleVertices] - vertices[i];
+                Vector secondSide = vertices[(i + 2) % numberOfTriangleVertices] - vertices[i];
                 
                 //TODO normals should have dimenson 3 
-                normals.Add(Misc.Math.CrossProduct(firstSide, secondSide));
+                normals.Add(firstSide.CrossProduct(secondSide));
             }
             
         }

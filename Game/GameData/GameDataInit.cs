@@ -1,17 +1,24 @@
 using System.Collections.Generic;
 using Game.Figure;
 using Game.Lightning;
+using Game.Math;
 
 namespace Game.GameData
 {
     public class GameDataInit
     {
         
-        public void InitializeGameObjects(GameData gameData)
+        public void InitializeGameData(GameData gameData)
         {
             gameData.models = CreateModels();
             gameData.lightSources = CreateIllumination();
+            gameData.camera = CreateCamera();
             AddLightModelsToRenderList(gameData);
+        }
+
+        private Camera.Camera CreateCamera()
+        {
+            return new Camera.Camera(new Vector (5.0, 0.0, 0.0), new Vector (0, 0.0, 0.0), new Vector(0.0, 0.0, -1.0));
         }
 
         private void AddLightModelsToRenderList(GameData gameData)

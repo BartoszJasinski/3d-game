@@ -4,15 +4,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-
-using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
-
 using Game.Figure;
-using Game.Lightning;
-using Game.GameData;
-using MathNet.Numerics.Distributions;
 using Color = Game.Lightning.Color;
+using Vector = Game.Math.Vector;
 
 namespace Game.Render
 {
@@ -20,7 +14,8 @@ namespace Game.Render
     {
         
         //TODO: zBuffer trhrows System.IndexOutOfRangeException: Index was outside the bounds of the array. when outside of window
-
+        //TODO: make screenWidth and screenHeightchanging apropiate to screen size
+        private const int screenWidth = 1097, screenHeight = 819;
         double[,] zBuffer = new double[1097, 819];
         private double phi = 0;
         public void DepthTesting(PictureBox gamePictureBox)
@@ -49,22 +44,23 @@ namespace Game.Render
         void RenderModel(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData, Model model)
         {
 
-            phi += 0.07;
+            phi += 0.1;
 
 //            Vector<double> modelPosition = new DenseVector(new double[] {Cos(phi), Sin(phi), 0});
 //            model.modelMatrix = model.Transformate(new DenseVector(new double[] {Cos(phi), Sin(phi), Cos(phi)}), modelPosition, 1, modelPosition);
-            Vector<double> modelPosition = new DenseVector(new double[] {0, 0, 0});
-            Vector<double> scaleVector = new DenseVector(new double[] { 5, 5, 1});
-            Vector<double> rotationVector = new DenseVector(new double[] { 0, 0, 1});
+           //TODO: move all model vectors to Model class
+            Vector modelPosition = new Vector(System.Math.Sin(phi), System.Math.Cos(phi), System.Math.Sin(phi));
+            Vector scaleVector = new Vector(5, 5, 0.1);
+            Vector rotationVector = new Vector(0, 1, 1);
             double rotationAngle = phi;
-            Vector<double> translationVector = modelPosition;
-            model.modelMatrix = model.Transformate(scaleVector, rotationVector, rotationAngle, translationVector);
+            Vector translationVector = modelPosition;
+            model.modelMatrix = model.Transform(scaleVector, rotationVector, rotationAngle, translationVector);
 
 //Stationary Camera
-            Vector<double> cameraPosition = new DenseVector(new[] {5.0, 0.0, 0.0});
-            Vector<double> cameraTarget = new DenseVector(new[] {0, 0.0, 0.0});
-            Vector<double> upAxis = new DenseVector(new[] {0.0, 0.0, -1.0});
-            gameData.camera.ViewMatrix = Camera.Camera.LookAt(cameraPosition, cameraTarget, upAxis);
+//            Vector  cameraPosition = new Vector (5.0, 0.0, 0.0);
+//            Vector  cameraTarget = new Vector (0, 0.0, 0.0);
+//            Vector upAxis = new Vector(0.0, 0.0, -1.0);
+            gameData.camera.viewMatrix = gameData.camera.LookAt();
 
 //Stationary Tracking Camera
 //            Vector<double> cameraPosition = new DenseVector(new[] {3.0, 1.0, 1.0});
@@ -96,19 +92,19 @@ namespace Game.Render
 //                    { triangle.thirdVertex.x, triangle.thirdVertex.y, triangle.thirdVertex.z, triangle.thirdVertex.w });
                 
                 
-                Vector<double> p1e = Matrix.Matrixes.ProjectionMatrix * gameData.camera.ViewMatrix * model.modelMatrix * triangle.vertices[0];
-                Vector<double> p2e = Matrix.Matrixes.ProjectionMatrix * gameData.camera.ViewMatrix * model.modelMatrix * triangle.vertices[1];
-                Vector<double> p3e = Matrix.Matrixes.ProjectionMatrix * gameData.camera.ViewMatrix * model.modelMatrix * triangle.vertices[2];
+                Vector p1e = Matrix.Matrixes.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.vertices[0];
+                Vector p2e = Matrix.Matrixes.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.vertices[1];
+                Vector p3e = Matrix.Matrixes.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.vertices[2];
                
                 
-                double p1_x_prim = p1e[0] / p1e[3];
-                double p1_y_prim = p1e[1] / p1e[3];
+                double p1_x_prim = p1e.x / p1e.w;
+                double p1_y_prim = p1e.y / p1e.w;
 
-                double p2_x_prim = p2e[0] / p2e[3];
-                double p2_y_prim = p2e[1] / p2e[3];
+                double p2_x_prim = p2e.x / p2e.w;
+                double p2_y_prim = p2e.y / p2e.w;
 
-                double p3_x_prim = p3e[0] / p3e[3];
-                double p3_y_prim = p3e[1] / p3e[3];
+                double p3_x_prim = p3e.x / p3e.w;
+                double p3_y_prim = p3e.y / p3e.w;
 
                 p1_x_prim += 1;
                 p1_x_prim /= 2;
@@ -134,13 +130,13 @@ namespace Game.Render
 
 //                System.Drawing.Color triangleColor = Game.Lightning.Lightning.ApplyLightning(gameData.lightningModel, triangle).ToSystemColor();
 
-                Vector<double> fragPosition = model.modelMatrix * triangle.vertices[0];
+                Vector fragPosition = model.modelMatrix * triangle.vertices[0];
 //                System.Drawing.Color triangleColor = ApplyDiffuseLightning(triangle, fragPosition).ToSystemColor();
-                Vector<double> cameraPosition = new DenseVector(new[] {5.0, 0.0, 0.0});
+                Vector cameraPosition = new Vector(5.0, 0.0, 0.0);
 
-                System.Drawing.Color triangleColor = ApplySpecularLightning(triangle, cameraPosition, new DenseVector(new double[]{ fragPosition[0], fragPosition[1], fragPosition[2]})).ToSystemColor();
+                System.Drawing.Color triangleColor = ApplySpecularLightning(triangle, cameraPosition, new Vector(fragPosition[0], fragPosition[1], fragPosition[2])).ToSystemColor();
                 
-                ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e[3]);
+                ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e[2]);
 
 //                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p2_x_prim, (float)p2_y_prim);
 //                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p3_x_prim, (float)p3_y_prim);
@@ -155,45 +151,45 @@ namespace Game.Render
             }
         }
 
-        public Color ApplySpecularLightning(Triangle triangle, Vector<double> cameraPosition, Vector<double> fragPosition)
+        public Color ApplySpecularLightning(Triangle triangle, Vector cameraPosition, Vector fragPosition)
         {
-            Vector<double> lightColor = DenseVector.OfArray(new double[] {0, 1, 1});
+            Vector lightColor = new Vector(0, 1, 1);
 
             double specularStrength = 0.5;
-            Vector<double> viewDir = (cameraPosition - fragPosition).Normalize(2);
-            Vector<double> reflectDir = ReflectVector(viewDir, triangle.normals[0]);
+            Vector viewDir = (cameraPosition - fragPosition).Normalize(2);
+            Vector reflectDir = ReflectVector(viewDir, triangle.normals[0]);
             double dot = viewDir.DotProduct(reflectDir);
-            double spec = Math.Pow(Math.Max(dot, 0.0), 32);
+            double spec = System.Math.Pow(System.Math.Max(dot, 0.0), 32);
 
             Color specular = new Color(specularStrength * spec * lightColor);
             return specular;
         }
 
-        private Color ApplyDiffuseLightning(Triangle triangle, Vector<double> fragPosition)
+        private Color ApplyDiffuseLightning(Triangle triangle, Vector fragPosition)
         {
 //            vec3 norm = normalize(Normal);
 //            vec3 lightDir = normalize(lightPos - FragPos);
 //            float diff = max(dot(norm, lightDir), 0.0);
 //            vec3 diffuse = diff * lightColor;
-            fragPosition = DenseVector.OfArray(new double[] { fragPosition[0], fragPosition[1], fragPosition[2] });
-            Vector<double> lightPos = DenseVector.OfArray(new double[] {0, 0, 0});
-            Vector<double> lightColor = DenseVector.OfArray(new double[] {1, 1, 1});
+            fragPosition = new Vector(fragPosition[0], fragPosition[1], fragPosition[2]);
+            Vector lightPos = new Vector(0, 0, 0);
+            Vector lightColor = new Vector(1, 1, 1);
                 //TODO thing if normals[0] or normals[1] or normals[2]
-            Vector<double> norm = triangle.normals[0].Normalize(2);
-            norm = DenseVector.OfArray(new double[] {norm[0], norm[1], norm[2]});
-            Vector<double> lightDir = (lightPos - fragPosition).Normalize(2);
+            Vector norm = triangle.normals[0].Normalize(2);
+            norm = new Vector(norm[0], norm[1], norm[2]);
+            Vector lightDir = (lightPos - fragPosition).Normalize(2);
             double dot = norm.DotProduct(lightDir);
-            double diff = Math.Max(dot, 0.0);
-            Vector<double> diffuse = diff * lightColor;
-            Vector<double> col = Misc.Math.PointwiseMultiply(diffuse, triangle.Color.rgb);
+            double diff = System.Math.Max(dot, 0.0);
+            Vector diffuse = diff * lightColor;
+            Vector col = diffuse.PointwiseMultiply(triangle.Color.rgb);
             
             return new Color(col[0], col[1], col[2]);
 
         }
 
-        public Vector<double> ReflectVector(Vector<double> vectorToReflect, Vector<double> reflectionVector)
+        public Vector  ReflectVector(Vector vectorToReflect, Vector reflectionVector)
         {
-            Vector<double> resultVector = vectorToReflect - 2 * (vectorToReflect * reflectionVector) * reflectionVector;
+            Vector resultVector = vectorToReflect - 2 * (vectorToReflect * reflectionVector) * reflectionVector;
 
             return resultVector;
         }
@@ -298,7 +294,7 @@ namespace Game.Render
 
         static int MathMod(int a, int b)
         {
-            return (Math.Abs(a * b) + a) % b;
+            return (System.Math.Abs(a * b) + a) % b;
         }
         
         public void MyDrawLine(PaintEventArgs e, Pen pen,Point p1, Point p2, double z)
@@ -317,23 +313,31 @@ namespace Game.Render
             if (w < 0) dx1 = -1; else if (w > 0) dx1 = 1;
             if (h < 0) dy1 = -1; else if (h > 0) dy1 = 1;
             if (w < 0) dx2 = -1; else if (w > 0) dx2 = 1;
-            int longest = Math.Abs(w);
-            int shortest = Math.Abs(h);
+            int longest = System.Math.Abs(w);
+            int shortest = System.Math.Abs(h);
             if (!(longest > shortest))
             {
-                longest = Math.Abs(h);
-                shortest = Math.Abs(w);
+                longest = System.Math.Abs(h);
+                shortest = System.Math.Abs(w);
                 if (h < 0) dy2 = -1; else if (h > 0) dy2 = 1;
                 dx2 = 0;
             }
             int numerator = longest >> 1;
             for (int i = 0; i <= longest; i++)
             {
-                if (z <= zBuffer[x, y])
+                if (x < 0 || x > screenWidth || y < 0 || y > screenHeight)
                 {
-                    e.Graphics.FillRectangle(brush, x, y, 1, 1);
-                    zBuffer[x, y] = z;
+                    
                 }
+                else
+                {
+                    if (z <= zBuffer[x, y])
+                    {
+                        e.Graphics.FillRectangle(brush, x, y, 1, 1);
+                        zBuffer[x, y] = z;
+                    }
+                }
+               
                 numerator += shortest;
                 if (!(numerator < longest))
                 {

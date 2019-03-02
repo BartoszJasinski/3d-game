@@ -28,7 +28,7 @@ namespace Game
             
             gameData = new GameData.GameData();
             
-            gameDataInit.InitializeGameObjects(gameData);
+            gameDataInit.InitializeGameData(gameData);
             InitializeTimer();
             startTime = DateTime.Now;
         }
