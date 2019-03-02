@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 
 using Game.Figure;
+using Game.Perspective;
 using Color = Game.Lightning.Color;
 using Vector = Game.Math.Vector;
 
@@ -16,7 +17,7 @@ namespace Game.Render
         //TODO: zBuffer trhrows System.IndexOutOfRangeException: Index was outside the bounds of the array. when outside of window
         //TODO: make screenWidth and screenHeightchanging apropiate to screen size
         private const int screenWidth = 1097, screenHeight = 819;
-        double[,] zBuffer = new double[1097, 819];
+        double[,] zBuffer = new double[screenWidth, screenHeight];
         private double phi = 0;
         public void DepthTesting(PictureBox gamePictureBox)
         {
@@ -92,9 +93,9 @@ namespace Game.Render
 //                    { triangle.thirdVertex.x, triangle.thirdVertex.y, triangle.thirdVertex.z, triangle.thirdVertex.w });
                 
                 
-                Vector p1e = Matrix.Matrixes.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.vertices[0];
-                Vector p2e = Matrix.Matrixes.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.vertices[1];
-                Vector p3e = Matrix.Matrixes.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.vertices[2];
+                Vector p1e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.vertices[0];
+                Vector p2e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.vertices[1];
+                Vector p3e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.vertices[2];
                
                 
                 double p1_x_prim = p1e.x / p1e.w;

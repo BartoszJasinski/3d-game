@@ -1,7 +1,7 @@
 using System;
+
 using Game.Figure;
-using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
+using Game.Math;
 using Math = Game.Math.Math;
 using Vector = Game.Math.Vector;
 
@@ -14,7 +14,7 @@ namespace Game.Camera
         public Vector cameraPosition { get; set; }
         public Vector cameraTarget { get; set; }
         public Vector upAxis { get; set; }
-        public Matrix<double> viewMatrix { get; set; }
+        public Matrix viewMatrix { get; set; }
 
         public Camera() : this(new Vector(0, 0, 0), new Vector(0, 0, 0), new Vector(0, 0, -1))
         {
@@ -28,12 +28,12 @@ namespace Game.Camera
             this.upAxis = upAxis;
         }
 
-        public Matrix<double> LookAt()
+        public Matrix LookAt()
         {
             return LookAt(cameraPosition, cameraTarget, upAxis);
         }
         
-        public Matrix<double> LookAt(Vector cameraPosition, Vector cameraTarget, Vector upAxis)
+        public Matrix LookAt(Vector cameraPosition, Vector cameraTarget, Vector upAxis)
         {
             Vector direction = (cameraPosition - cameraTarget).Normalize(2);
 //            direction.Normalize(2);
@@ -69,7 +69,7 @@ namespace Game.Camera
             Vector xAxis = upVector.CrossProduct(zAxis).Normalize(2);
             Vector yAxis = zAxis.CrossProduct(xAxis).Normalize(2);
             
-            Matrix<double> ViewMatrix = DenseMatrix.OfArray(new double[,]
+            Matrix ViewMatrix = new Matrix(new double[,]
             {
                 {xAxis[0], yAxis[0], zAxis[0], cameraPosition[0]},
                 {xAxis[1], yAxis[1], zAxis[1], cameraPosition[1]},

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using System;
-using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
+
+using Game.Math;
 
 namespace Game.Camera
 {
@@ -9,7 +8,7 @@ namespace Game.Camera
     
     public class Cameras
     {
-        Matrix<double> ViewMatrix(CameraMode cameraMode, Camera camera/*,  cameraPosition, cameraTarget,upAxis */)
+        Matrix ViewMatrix(CameraMode cameraMode, Camera camera/*,  cameraPosition, cameraTarget,upAxis */)
         {
 //            camera.cameraPosition = cameraPosition ?? new DenseVector(new[] {0.0, 0.0, 0.0});
 //            camera.cameraTarget = cameraTarget ?? new DenseVector(new[] {0.0, 0.0, 0.0});
@@ -19,18 +18,16 @@ namespace Game.Camera
 
         }
 
-        
-        //TODO: refactor List<DeneseVector> → List<Game.Figure.Vector>
-        Dictionary<CameraMode, List<DenseVector>> CamerasList = new Dictionary<CameraMode, List<DenseVector>>
+        Dictionary<CameraMode, List<Vector>> CamerasList = new Dictionary<CameraMode, List<Vector>>
         {
-            {CameraMode.StationaryCamera, new List<DenseVector> {new DenseVector(new[] {0.0, 0.0, 0.0}), 
-                new DenseVector(new[] {0.0, 0.0, 0.0}),new DenseVector(new[] {0.0, 1.0, 0.0})}},
+            {CameraMode.StationaryCamera, new List<Vector> {new Vector(0.0, 0.0, 0.0), 
+                new Vector(0.0, 0.0, 0.0),new Vector(0.0, 1.0, 0.0)}},
             
-            {CameraMode.StationaryTrackingObjectCamera, new List<DenseVector>{new DenseVector(new[] {0.0, 0.0, 0.0}), 
-                new DenseVector(new[] {0.0, 0.0, 0.0}),new DenseVector(new[] {0.0, 1.0, 0.0})}},
+            {CameraMode.StationaryTrackingObjectCamera, new List<Vector>{new Vector(0.0, 0.0, 0.0), 
+                new Vector(0.0, 0.0, 0.0),new Vector(0.0, 1.0, 0.0)}},
 
-            {CameraMode.MovingAssociatedWithObjectCamera, new List<DenseVector> {new DenseVector(new[] {0.0, 0.0, 0.0}), 
-                new DenseVector(new[] {0.0, 0.0, 0.0}),new DenseVector(new[] {0.0, 1.0, 0.0})}}
+            {CameraMode.MovingAssociatedWithObjectCamera, new List<Vector> {new Vector(0.0, 0.0, 0.0), 
+                new Vector(0.0, 0.0, 0.0),new Vector(0.0, 1.0, 0.0)}}
         };
     }
 }

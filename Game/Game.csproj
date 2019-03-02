@@ -84,7 +84,7 @@
     <Compile Include="Math\Math.cs" />
     <Compile Include="Math\Matrix.cs" />
     <Compile Include="Math\Vector.cs" />
-    <Compile Include="Matrix\Matrixes.cs" />
+    <Compile Include="Perspective\Projection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Render\Render.cs" />

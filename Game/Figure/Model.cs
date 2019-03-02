@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using static System.Math;
 
-using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
-
+using Game.Math;
 using Game.Lightning;
 using Vector = Game.Math.Vector;
 
@@ -14,7 +12,7 @@ namespace Game.Figure
     {
         public List<Triangle> triangles { get; set; }
         
-        public Matrix<double> modelMatrix { get; set; } = DenseMatrix.OfArray(new double[,]
+        public Matrix modelMatrix { get; set; } = new Matrix(new double[,]
         {
             {1, 0, 0, 0},
             {0, 1, 0, 0},
@@ -24,9 +22,9 @@ namespace Game.Figure
 
         public Color color { get; set; }
         
-        public Matrix<double> Scale(Vector scalingVector)
+        public Matrix Scale(Vector scalingVector)
         {
-            Matrix<double> scalingMatrix = DenseMatrix.OfArray(new double[,]
+            Matrix scalingMatrix = new Matrix(new double[,]
             {
                 {scalingVector.x, 0, 0, 0},
                 {0, scalingVector.y, 0, 0},
@@ -51,13 +49,13 @@ namespace Game.Figure
 //            return scaledmatrix;
 //        }
 
-        public Matrix<double> Rotate(Vector rotationVector, double rotationAngle)
+        public Matrix Rotate(Vector rotationVector, double rotationAngle)
         {
             double rotCos = Cos(rotationAngle), rotSin = Sin(rotationAngle);
             double Rx = rotationVector[0], Ry = rotationVector[1], Rz = rotationVector[2];
             double RxRy = Rx * Ry, RxRz = Rx * Rz, RyRx = Ry * Rx, RyRz = Ry * Rz, RzRx = Rz * Rx, RzRy = Rz * Ry;
             
-            Matrix<double> rotationMatrix = DenseMatrix.OfArray(new double[,]
+            Matrix rotationMatrix = new Matrix(new double[,]
             {
                 {rotCos + Pow(Rx, 2) * (1 - rotCos), RxRy * (1 - rotCos) - Rz * rotSin, RxRz * (1 - rotCos) + Ry * rotSin, 0},
                 {RyRx * (1 - rotCos) + Rz * rotSin, rotCos + Pow(Ry, 2) * (1 - rotCos), RyRz * (1 - rotCos) - Rx * rotSin, 0},
@@ -86,9 +84,9 @@ namespace Game.Figure
 //            return rotationMatrix;
 //        }
         
-        public Matrix<double> Translate(Vector translationVector)
+        public Matrix Translate(Vector translationVector)
         {
-            Matrix<double> translationMatrix = DenseMatrix.OfArray(new double[,]
+            Matrix translationMatrix = new Matrix(new double[,]
             {
                 {1, 0, 0, translationVector[0]},
                 {0,1,0,translationVector[1]},
@@ -113,7 +111,7 @@ namespace Game.Figure
 //            return translatedModelMatrix;
 //        }
 
-        public Matrix<double> Transform(Vector scaleVector, Vector rotationVector, 
+        public Matrix Transform(Vector scaleVector, Vector rotationVector, 
             double rotationAngle, Vector translationVector)
         {
             
