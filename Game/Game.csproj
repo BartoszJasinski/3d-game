@@ -33,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GlmNet, Version=0.5.1.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\GlmNet.0.5.1.0\lib\net40\GlmNet.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="MathNet.Numerics, Version=3.20.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MathNet.Numerics.3.20.0\lib\net40\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
@@ -73,6 +69,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="IO\Keyboard.cs" />
     <Compile Include="Lightning\BlinnLighting.cs" />
     <Compile Include="Lightning\Color.cs" />
     <Compile Include="Lightning\ILightningModel.cs" />

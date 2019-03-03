@@ -50,8 +50,15 @@ namespace Game.GameData
         
         private List<Model> CreateModels()
         {
-            List<Model> models = new List<Model> { CreateCone() };
-//            gameObjects.models.Add(CreateSphere());
+            List<Model> models = new List<Model> {};
+            Cone cone = CreateCone();
+            Vector modelPosition = new Vector(0, 0, 0);
+            cone.translationVector = modelPosition;
+            cone.scaleVector = new Vector(5, 5, 1.0);
+            cone.rotationVector = new Vector(0, 0, 1);
+            cone.rotationAngle = 0;
+            models.Add(cone);
+            
             return models;
         }
 

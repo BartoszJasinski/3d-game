@@ -71,9 +71,9 @@ namespace Game.Camera
             
             Matrix ViewMatrix = new Matrix(new double[,]
             {
-                {xAxis[0], yAxis[0], zAxis[0], cameraPosition[0]},
-                {xAxis[1], yAxis[1], zAxis[1], cameraPosition[1]},
-                {xAxis[2], yAxis[2], zAxis[2], cameraPosition[2]},
+                {xAxis.x, yAxis.x, zAxis.x, cameraPosition.x},
+                {xAxis.y, yAxis.y, zAxis.y, cameraPosition.y},
+                {xAxis.z, yAxis.z, zAxis.z, cameraPosition.z},
                 {0, 0, 0, 1}
             });
 

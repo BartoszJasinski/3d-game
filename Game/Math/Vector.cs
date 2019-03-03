@@ -40,11 +40,10 @@ namespace Game.Math
 
         public Vector(double[] vectorElements) : this(DenseVector.OfArray(vectorElements))
         {
-            
         }
             
 
-        public Vector(double x, double y, double z): this(new DenseVector(new double[] {x, y, z}))
+        public Vector(double x, double y, double z): this(new DenseVector(new double[] {x, y, z, 1}))
         {
             
         }
@@ -78,9 +77,9 @@ namespace Game.Math
 //            }
             
             Vector crossProduct = new DenseVector(3);
-            crossProduct[0] = y * secondVector.z - z * secondVector.y;
-            crossProduct[1] = -x * secondVector.z + z * secondVector.x;
-            crossProduct[2] = x * secondVector.y - y * secondVector.x;
+            crossProduct.x = y * secondVector.z - z * secondVector.y;
+            crossProduct.y = -x * secondVector.z + z * secondVector.x;
+            crossProduct.z = x * secondVector.y - y * secondVector.x;
 
             return crossProduct;
         }
@@ -89,21 +88,32 @@ namespace Game.Math
         
         public Vector PointwiseMultiply(Vector secondVector)
         {
-            if (Count != secondVector.Count)
-                throw new Exception("Vectors should have the same number of elements");
+//            if (Count != secondVector.Count)
+//                throw new ArgumentException("Vectors should have the same number of elements");
 
             Vector resultVector = new Vector();
-
-            for (int i = 0; i < Count; i++)
+            int resultVectorSize = System.Math.Min(Count, secondVector.Count);
+            for (int i = 0; i < resultVectorSize; i++)
                 resultVector[i] = vector[i] * secondVector[i];
+
+            return resultVector;
+        }
+        public Vector  ReflectVector(Vector reflectionVector)
+        {
+            Vector resultVector = this - 2 * (this * reflectionVector) * reflectionVector;
 
             return resultVector;
         }
         
         //TODO: implement
-        public Vector DropLastValue(Vector<double> vector)
+        public Vector ResizeVectorToLength(int lengthOfNewVector)
         {
-            Vector<double> resultVec = vector;
+            double[] resultVectorElements = new double[lengthOfNewVector];
+            for (int i = 0; i < lengthOfNewVector; i++)
+                resultVectorElements[i] = vector[i];
+            
+            Vector<double> resultVec = new Vector(resultVectorElements);
+            
             return resultVec;
         }
         public static implicit operator Vector<double>(Vector vector)

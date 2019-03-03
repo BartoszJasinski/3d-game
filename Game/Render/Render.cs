@@ -50,12 +50,12 @@ namespace Game.Render
 //            Vector<double> modelPosition = new DenseVector(new double[] {Cos(phi), Sin(phi), 0});
 //            model.modelMatrix = model.Transformate(new DenseVector(new double[] {Cos(phi), Sin(phi), Cos(phi)}), modelPosition, 1, modelPosition);
            //TODO: move all model vectors to Model class
-            Vector modelPosition = new Vector(System.Math.Sin(phi), System.Math.Cos(phi), System.Math.Sin(phi));
-            Vector scaleVector = new Vector(5, 5, 0.1);
-            Vector rotationVector = new Vector(0, 1, 1);
-            double rotationAngle = phi;
-            Vector translationVector = modelPosition;
-            model.modelMatrix = model.Transform(scaleVector, rotationVector, rotationAngle, translationVector);
+//            Vector modelPosition = new Vector(0, 0, 0);
+//            Vector scaleVector = new Vector(5, 5, 0.1);
+//            Vector rotationVector = new Vector(0, 0, 1);
+            model.rotationAngle = phi;
+//            Vector translationVector = modelPosition;
+            model.modelMatrix = model.Transform(model.scaleVector, model.rotationVector, model.rotationAngle, model.translationVector);
 
 //Stationary Camera
 //            Vector  cameraPosition = new Vector (5.0, 0.0, 0.0);
@@ -129,15 +129,14 @@ namespace Game.Render
                 p3_y_prim *= gamePictureBox.Height;
 
 
-//                System.Drawing.Color triangleColor = Game.Lightning.Lightning.ApplyLightning(gameData.lightningModel, triangle).ToSystemColor();
-
+//                System.Drawing.Color triangleColor = Game.Lightning.Lightning.ApplyLightning(gameData, triangle).ToSystemColor();
+                //TODO: fix tirangle.verticec[0] because it is not fragPosition probably
                 Vector fragPosition = model.modelMatrix * triangle.vertices[0];
 //                System.Drawing.Color triangleColor = ApplyDiffuseLightning(triangle, fragPosition).ToSystemColor();
-                Vector cameraPosition = new Vector(5.0, 0.0, 0.0);
 
-                System.Drawing.Color triangleColor = ApplySpecularLightning(triangle, cameraPosition, new Vector(fragPosition[0], fragPosition[1], fragPosition[2])).ToSystemColor();
+                System.Drawing.Color triangleColor = Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition).ToSystemColor();
                 
-                ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e[2]);
+                ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e.z);
 
 //                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p2_x_prim, (float)p2_y_prim);
 //                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p3_x_prim, (float)p3_y_prim);
@@ -152,48 +151,7 @@ namespace Game.Render
             }
         }
 
-        public Color ApplySpecularLightning(Triangle triangle, Vector cameraPosition, Vector fragPosition)
-        {
-            Vector lightColor = new Vector(0, 1, 1);
-
-            double specularStrength = 0.5;
-            Vector viewDir = (cameraPosition - fragPosition).Normalize(2);
-            Vector reflectDir = ReflectVector(viewDir, triangle.normals[0]);
-            double dot = viewDir.DotProduct(reflectDir);
-            double spec = System.Math.Pow(System.Math.Max(dot, 0.0), 32);
-
-            Color specular = new Color(specularStrength * spec * lightColor);
-            return specular;
-        }
-
-        private Color ApplyDiffuseLightning(Triangle triangle, Vector fragPosition)
-        {
-//            vec3 norm = normalize(Normal);
-//            vec3 lightDir = normalize(lightPos - FragPos);
-//            float diff = max(dot(norm, lightDir), 0.0);
-//            vec3 diffuse = diff * lightColor;
-            fragPosition = new Vector(fragPosition[0], fragPosition[1], fragPosition[2]);
-            Vector lightPos = new Vector(0, 0, 0);
-            Vector lightColor = new Vector(1, 1, 1);
-                //TODO thing if normals[0] or normals[1] or normals[2]
-            Vector norm = triangle.normals[0].Normalize(2);
-            norm = new Vector(norm[0], norm[1], norm[2]);
-            Vector lightDir = (lightPos - fragPosition).Normalize(2);
-            double dot = norm.DotProduct(lightDir);
-            double diff = System.Math.Max(dot, 0.0);
-            Vector diffuse = diff * lightColor;
-            Vector col = diffuse.PointwiseMultiply(triangle.Color.rgb);
-            
-            return new Color(col[0], col[1], col[2]);
-
-        }
-
-        public Vector  ReflectVector(Vector vectorToReflect, Vector reflectionVector)
-        {
-            Vector resultVector = vectorToReflect - 2 * (vectorToReflect * reflectionVector) * reflectionVector;
-
-            return resultVector;
-        }
+     
 //        Lightning.Color ApplyLightning(List<LightSource> lightSources, Triangle triangle)
 //        {
 //            Vector<double> colorVector = Misc.Math.PointwiseMultiply(lightSources[0].light.lightColor.rgb,

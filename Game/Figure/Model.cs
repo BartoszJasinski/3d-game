@@ -12,6 +12,11 @@ namespace Game.Figure
     {
         public List<Triangle> triangles { get; set; }
         
+        public Vector scaleVector { get; set; }
+        public Vector rotationVector { get; set; }
+        public double rotationAngle { get; set; }
+        public Vector translationVector { get; set; }
+        
         public Matrix modelMatrix { get; set; } = new Matrix(new double[,]
         {
             {1, 0, 0, 0},
@@ -21,7 +26,8 @@ namespace Game.Figure
         });
 
         public Color color { get; set; }
-        
+
+
         public Matrix Scale(Vector scalingVector)
         {
             Matrix scalingMatrix = new Matrix(new double[,]
@@ -52,7 +58,7 @@ namespace Game.Figure
         public Matrix Rotate(Vector rotationVector, double rotationAngle)
         {
             double rotCos = Cos(rotationAngle), rotSin = Sin(rotationAngle);
-            double Rx = rotationVector[0], Ry = rotationVector[1], Rz = rotationVector[2];
+            double Rx = rotationVector.x, Ry = rotationVector.y, Rz = rotationVector.z;
             double RxRy = Rx * Ry, RxRz = Rx * Rz, RyRx = Ry * Rx, RyRz = Ry * Rz, RzRx = Rz * Rx, RzRy = Rz * Ry;
             
             Matrix rotationMatrix = new Matrix(new double[,]
@@ -88,9 +94,9 @@ namespace Game.Figure
         {
             Matrix translationMatrix = new Matrix(new double[,]
             {
-                {1, 0, 0, translationVector[0]},
-                {0,1,0,translationVector[1]},
-                {0,0,1,translationVector[2]},
+                {1, 0, 0, translationVector.x},
+                {0,1,0,translationVector.y},
+                {0,0,1,translationVector.z},
                 {0,0,0,1}
             });
 

@@ -78,5 +78,11 @@ namespace Game.Lightning
             return System.Drawing.Color.FromArgb((int)rgb[0], (int)rgb[1], (int)rgb[2]);
         }
         
+        public static Color operator *(double multipliedNumber, Color color)
+        {
+            return new Color(multipliedNumber * color.rgb);
+        }
+        
+        
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Game.GameData;
-using GlmNet;
+using Game.IO;
 
 
 namespace Game
@@ -13,6 +13,7 @@ namespace Game
         GameData.GameData gameData;
         private Render.Render renderer = new Render.Render();
         private GameDataInit gameDataInit = new GameDataInit();
+        Keyboard keyboard = new Keyboard();
         public GameWindow()
         {
             InitializeComponent();
@@ -31,6 +32,9 @@ namespace Game
             gameDataInit.InitializeGameData(gameData);
             InitializeTimer();
             startTime = DateTime.Now;
+            
+            keyboard.Subscribe();
+            
         }
 
 
