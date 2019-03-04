@@ -10,21 +10,21 @@ namespace Game.Figure
 
         public Sphere()
         {
-            Vector p1, p2, p3, p4;
+            Vertex p1, p2, p3, p4;
             Triangle triangle;
             double Angle = 30f / 180 * PI;
             double R = 0.5;
             double Alpha = 0;
             double Beta = 0;
             List<Triangle> triangles = new List<Triangle>();
-            p1 = new Vector(R * Cos(Alpha) * Cos(Beta), R * Sin(Alpha) * Cos(Beta), R * Sin(Beta), 1);
-            p2 = new Vector(R * Cos(Alpha) * Cos(Beta + Angle), R * Sin(Alpha) * Cos(Beta + Angle), R * Sin(Beta + Angle), 1);
+            p1 = new Vertex(R * Cos(Alpha) * Cos(Beta), R * Sin(Alpha) * Cos(Beta), R * Sin(Beta), 1);
+            p2 = new Vertex(R * Cos(Alpha) * Cos(Beta + Angle), R * Sin(Alpha) * Cos(Beta + Angle), R * Sin(Beta + Angle), 1);
             while (Beta <= PI / 2)
             {
                 while (Alpha <= PI * 2)
                 {
-                    p3 = new Vector(R * Cos(Alpha + Angle) * Cos(Beta), R * Sin(Alpha + Angle) * Cos(Beta), R * Sin(Beta), 1);
-                    p4 =  new Vector(R * Cos(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Beta + Angle), 1);
+                    p3 = new Vertex(R * Cos(Alpha + Angle) * Cos(Beta), R * Sin(Alpha + Angle) * Cos(Beta), R * Sin(Beta), 1);
+                    p4 =  new Vertex(R * Cos(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Beta + Angle), 1);
                     triangle = new Triangle(p1, p2, p3);
                     triangles.Add(triangle);
 //                    triangle = new Triangle(p2, p3, p4);
@@ -44,8 +44,8 @@ namespace Game.Figure
             {
                 while (Alpha <= PI * 2)
                 {
-                    p3 = new Vector(R * Cos(Alpha + Angle) * Cos(Beta), R * Sin(Alpha + Angle) * Cos(Beta), R * Sin(Beta), 1);
-                    p4 = new Vector(R * Cos(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Beta + Angle), 1);
+                    p3 = new Vertex(R * Cos(Alpha + Angle) * Cos(Beta), R * Sin(Alpha + Angle) * Cos(Beta), R * Sin(Beta), 1);
+                    p4 = new Vertex(R * Cos(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Beta + Angle), 1);
                     triangle = new Triangle(p1, p2, p3);
                     triangles.Add(triangle);
 //                    triangle = new Triangle(p2, p3, p4);

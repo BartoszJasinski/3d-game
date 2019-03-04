@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 using Game.Figure;
 using Game.Perspective;
+using MathNet.Numerics.LinearAlgebra;
 using Color = Game.Lightning.Color;
 using Vector = Game.Math.Vector;
 
@@ -93,9 +94,9 @@ namespace Game.Render
 //                    { triangle.thirdVertex.x, triangle.thirdVertex.y, triangle.thirdVertex.z, triangle.thirdVertex.w });
                 
                 
-                Vector p1e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.vertices[0];
-                Vector p2e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.vertices[1];
-                Vector p3e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.vertices[2];
+                Vector p1e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.vertices[0].position;
+                Vector p2e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.vertices[1].position;
+                Vector p3e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.vertices[2].position;
                
                 
                 double p1_x_prim = p1e.x / p1e.w;
@@ -131,10 +132,10 @@ namespace Game.Render
 
 //                System.Drawing.Color triangleColor = Game.Lightning.Lightning.ApplyLightning(gameData, triangle).ToSystemColor();
                 //TODO: fix tirangle.verticec[0] because it is not fragPosition probably
-                Vector fragPosition = model.modelMatrix * triangle.vertices[0];
+                Vector fragPosition = model.modelMatrix * triangle.vertices[1].position;
 //                System.Drawing.Color triangleColor = ApplyDiffuseLightning(triangle, fragPosition).ToSystemColor();
-                triangle.normals[0] = model.modelMatrix * triangle.normals2[0];
-                System.Drawing.Color triangleColor = Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition).ToSystemColor();
+                Vector triangleNormal = model.modelMatrix * triangle.vertices[1].normal;
+                System.Drawing.Color triangleColor = Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition, triangleNormal).ToSystemColor();
                 
                 ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e.z);
 

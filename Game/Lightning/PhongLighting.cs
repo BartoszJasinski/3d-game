@@ -29,12 +29,12 @@ namespace Game.Lightning
         }
 
         //TODO write function which applies(renders) phong lighining on scene
-        public Color ApplyLightning(GameData.GameData gameData, Triangle triangle, Vector fragPosition)
+        public Color ApplyLightning(GameData.GameData gameData, Triangle triangle, Vector fragPosition, Vector triangleNormal)
         {
 //            Color triangleColor = 
 //            return ApplyAmbientLightning(triangle);
-            return ApplyDiffuseLightning(triangle, fragPosition);
-//            return ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition);
+//            return ApplyDiffuseLightning(triangle, fragPosition, triangleNormal);
+            return ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition, triangleNormal);
         }
 
         private Color ApplyAmbientLightning(Triangle triangle)
@@ -58,7 +58,7 @@ namespace Game.Lightning
 
 
 
-        private Color ApplyDiffuseLightning(Triangle triangle, Vector fragPosition)
+        private Color ApplyDiffuseLightning(Triangle triangle, Vector fragPosition, Vector triangleNormal)
         {
 //            vec3 norm = normalize(Normal);
 //            vec3 lightDir = normalize(lightPos - FragPos);
@@ -69,7 +69,7 @@ namespace Game.Lightning
             Vector lightPos = new Vector(5.0, 0, 0);
             Color lightColor = new Color(1.0, 1.0, 1.0);
             //TODO think if norm should be normals[0] or normals[1] or normals[2]
-            Vector norm = triangle.normals[0].Normalize(2);
+            Vector norm = triangleNormal.Normalize(2);
             norm = new Vector(norm.x, norm.y, norm.z);
             Vector lightDir = (lightPos - fragPosition).Normalize(2);
             double dot = norm.DotProduct(lightDir);
@@ -82,14 +82,25 @@ namespace Game.Lightning
         }
 
         
-        private Color ApplySpecularLightning(Triangle triangle, Vector cameraPosition, Vector fragPosition)
+        private Color ApplySpecularLightning(Triangle triangle, Vector cameraPosition, Vector fragPosition,
+            Vector triangleNormal)
         {
-            Vector lightColor = new Vector(1, 1, 1);
+            
+//            float specularStrength = 0.5;
+//            vec3 viewDir = normalize(viewPos - FragPos);
+//            vec3 lightDir = normalize(lightPos - FragPos);
+//            vec3 reflectDir = reflect(-lightDir, norm);  
+//            float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+//            vec3 specular = specularStrength * spec * lightColor;  
 
+            Vector lightColor = new Vector(1, 1, 1);            
+            Vector lightPos = new Vector(5.0, 0, 0);
             double specularStrength = 0.5;
+
             Vector viewDir = (cameraPosition - fragPosition).Normalize(2);
-            Vector reflectDir = (viewDir.ResizeVectorToLength(3)).ReflectVector(triangle.normals[0]);
-            double dot = (viewDir.ResizeVectorToLength(3)).DotProduct(reflectDir);
+            Vector lightDir = (lightPos - fragPosition).Normalize(2);
+            Vector reflectDir = (lightDir/*.ResizeVectorToLength(3)*/).ReflectVector(triangleNormal);
+            double dot = (viewDir/*.ResizeVectorToLength(3)*/).DotProduct(reflectDir);
             double spec = System.Math.Pow(System.Math.Max(dot, 0.0), 32);
 
             Color specular = new Color(specularStrength * spec * lightColor);

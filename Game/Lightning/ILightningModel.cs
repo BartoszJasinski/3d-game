@@ -5,6 +5,6 @@ namespace Game.Lightning
 {
     public interface ILightningModel
     {
-        Color ApplyLightning(GameData.GameData gameData ,Triangle triangle, Vector fragPosition);
+        Color ApplyLightning(GameData.GameData gameData, Triangle triangle, Vector fragPosition, Vector triangleNormal);
     }
 }

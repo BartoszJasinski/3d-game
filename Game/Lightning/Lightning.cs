@@ -1,6 +1,5 @@
 using Game.Figure;
 using Game.Math;
-using MathNet.Numerics.LinearAlgebra;
 
 namespace Game.Lightning
 {
@@ -11,9 +10,9 @@ namespace Game.Lightning
 //            return lightningModel.ApplyLightning(gameData, triangle, fragPosition);
 //        }
 
-        public static Color ApplyLightning(GameData.GameData gameData, Triangle triangle, Vector fragPosition)
+        public static Color ApplyLightning(GameData.GameData gameData, Triangle triangle, Vector fragPosition, Vector triangleNormal)
         {
-            return gameData.lightningModel.ApplyLightning(gameData,triangle, fragPosition);
+            return gameData.lightningModel.ApplyLightning(gameData, triangle, fragPosition, triangleNormal);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Game.Figure
         {
              Random rand = new Random();
 
-            Vector p1, p2, p3, p4;
+            Vertex p1, p2, p3, p4;
             Triangle triangle;
             double Angle = 30f / 180 * PI;
             double R = 0.1;
@@ -23,16 +23,16 @@ namespace Game.Figure
             double Beta = 0;
             double height = 1;
             double kat = PI / 4;
-            Vector p0 = new Vector(1, 1, 1, 1);
+            Vertex p0 = new Vertex(1, 1, 1, 1);
             List<Triangle> triangles = new List<Triangle>();
-            p1 = new Vector(0, 0, height, 1);
+            p1 = new Vertex(0, 0, height, 1);
             //p1 = new Point4D(height * Cos(kat) * Sin(Alpha), height * Sin(kat) * Cos(Alpha), height/* * Sin(Alpha)*/, 1);
             //p2 = new Point4D(height * Cos(kat) * Cos(Alpha + Angle), height * Sin(kat) * Cos(Alpha + Angle), height/* * Sin(Alpha + Angle)*/, 1);
             while (Alpha <= PI * 2)
             {
 
-                p3 = new Vector(R * Cos(Alpha), R * Sin(Alpha), 0, 1);
-                p4 = new Vector(R * Cos(Alpha+ Angle), R * Sin(Alpha + Angle), 0, 1);
+                p3 = new Vertex(R * Cos(Alpha), R * Sin(Alpha), 0, 1);
+                p4 = new Vertex(R * Cos(Alpha + Angle), R * Sin(Alpha + Angle), 0, 1);
                 //p3 = new Point4D(height * Cos(kat + Angle) * Sin(Alpha), height * Sin(kat + Angle) * Cos(Alpha), height/* * Sin(Beta)*/, 1);
                 //p4 = new Point4D(height * Cos(kat + Angle) * Cos(Alpha + Angle), height * Sin(kat + Angle) * Cos(Alpha + Angle), height /** Sin(Beta + Angle)*/, 1);
                 //triangle = new Triangle(p1, p2, p3);
@@ -43,7 +43,7 @@ namespace Game.Figure
                     int r = rand.Next(255);
                     int g = rand.Next(255);
                     int b = rand.Next(255);
-                    triangle.Color = new Lightning.Color(1.0, 1.0, 1.0);
+                    triangle.Color = new Lightning.Color(1.0,1.0,1.0);
                     triangles.Add(triangle);
                     //p2 = p3;
                     p3 = p4;
