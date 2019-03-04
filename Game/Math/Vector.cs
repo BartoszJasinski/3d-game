@@ -76,11 +76,12 @@ namespace Game.Math
 //                throw new Exception(message);
 //            }
             
-            Vector crossProduct = new DenseVector(3);
+            Vector crossProduct = new Vector();
             crossProduct.x = y * secondVector.z - z * secondVector.y;
             crossProduct.y = -x * secondVector.z + z * secondVector.x;
             crossProduct.z = x * secondVector.y - y * secondVector.x;
-
+            crossProduct.w = 1;
+            
             return crossProduct;
         }
         

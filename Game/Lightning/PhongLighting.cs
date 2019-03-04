@@ -33,8 +33,8 @@ namespace Game.Lightning
         {
 //            Color triangleColor = 
 //            return ApplyAmbientLightning(triangle);
-//            return ApplyDiffuseLightning(triangle, fragPosition);
-            return ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition);
+            return ApplyDiffuseLightning(triangle, fragPosition);
+//            return ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition);
         }
 
         private Color ApplyAmbientLightning(Triangle triangle)
@@ -66,7 +66,7 @@ namespace Game.Lightning
 //            vec3 diffuse = diff * lightColor;
             //TODO: implement DropLastValue in Game.Math.Vector
             fragPosition = new Vector(fragPosition.x, fragPosition.y, fragPosition.z);
-            Vector lightPos = new Vector(0, 0, 0);
+            Vector lightPos = new Vector(5.0, 0, 0);
             Color lightColor = new Color(1.0, 1.0, 1.0);
             //TODO think if norm should be normals[0] or normals[1] or normals[2]
             Vector norm = triangle.normals[0].Normalize(2);
@@ -82,7 +82,7 @@ namespace Game.Lightning
         }
 
         
-        public Color ApplySpecularLightning(Triangle triangle, Vector cameraPosition, Vector fragPosition)
+        private Color ApplySpecularLightning(Triangle triangle, Vector cameraPosition, Vector fragPosition)
         {
             Vector lightColor = new Vector(1, 1, 1);
 

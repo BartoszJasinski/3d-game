@@ -33,7 +33,6 @@ namespace Game
             InitializeTimer();
             startTime = DateTime.Now;
             
-            keyboard.Subscribe();
             
         }
 

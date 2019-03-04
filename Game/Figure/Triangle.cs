@@ -9,11 +9,9 @@ namespace Game.Figure
     {
         public List<Vector> vertices { get; set; } = new List<Vector>();
 
-        public List<Vector> normals { get; set; } = new List<Vector>();
-//        public Vector<double> firstVertexNormal { get; set; }
-//        public Vector<double> secondVertexNormal { get; set; }
-//        public Vector<double> thirdVertexNormal { get; set; }
-        
+        public List<Vector> normals { get; set; } = new List<Vector>(numberOfTriangleVertices);
+        public List<Vector> normals2 { get; set; } = new List<Vector>(numberOfTriangleVertices);
+
         public Color Color = new Color(0.0, 1.0, 0.0);
         private const int numberOfTriangleVertices = 3;
 
@@ -23,6 +21,12 @@ namespace Game.Figure
             vertices.Add(firstVertex);
             vertices.Add(secondVertex);
             vertices.Add(thirdVertex);
+            normals.Add(new Vector());
+            normals.Add(new Vector());
+            normals.Add(new Vector());
+            normals2.Add(new Vector());
+            normals2.Add(new Vector());
+            normals2.Add(new Vector());
             CalculateNormalVectors();
         }
 
@@ -34,6 +38,7 @@ namespace Game.Figure
             this.vertices = vertices;
         }
         
+        //TODO https://www.opengl-tutorial.org/beginners-tutorials/tutorial-8-basic-shading/#triangle-normals
         public void CalculateNormalVectors()
         {
             for (int i = 0; i < numberOfTriangleVertices; i++)
@@ -42,7 +47,7 @@ namespace Game.Figure
                 Vector secondSide = vertices[(i + 2) % numberOfTriangleVertices] - vertices[i];
                 
                 //TODO normals should have dimenson 3 
-                normals.Add(firstSide.CrossProduct(secondSide));
+                normals2[i] = firstSide.CrossProduct(secondSide);
             }
             
         }

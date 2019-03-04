@@ -133,7 +133,7 @@ namespace Game.Render
                 //TODO: fix tirangle.verticec[0] because it is not fragPosition probably
                 Vector fragPosition = model.modelMatrix * triangle.vertices[0];
 //                System.Drawing.Color triangleColor = ApplyDiffuseLightning(triangle, fragPosition).ToSystemColor();
-
+                triangle.normals[0] = model.modelMatrix * triangle.normals2[0];
                 System.Drawing.Color triangleColor = Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition).ToSystemColor();
                 
                 ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e.z);
@@ -161,7 +161,7 @@ namespace Game.Render
         
         
         
-        public class Vertex
+        private class Vertex
         {
             public Point point { get; set; }
             public int index { get; set; }
