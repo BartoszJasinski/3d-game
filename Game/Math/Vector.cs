@@ -126,7 +126,12 @@ namespace Game.Math
         {
             return new Vector(vector);
         }
-        
+
+        public static Vector operator +(Vector firstVector, Vector secondVector)
+        {
+            return firstVector.vector + secondVector.vector;
+        }
+
         
         public static Vector operator -(Vector firstVector, Vector secondVector)
         {
@@ -142,6 +147,7 @@ namespace Game.Math
         {
             return firstVector.vector * secondVector.vector;
         }
+        
         
         public Vector Normalize(double dimension)
         {

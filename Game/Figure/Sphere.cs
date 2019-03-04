@@ -1,4 +1,5 @@
-﻿using static System.Math;
+﻿using System;
+using static System.Math;
 using System.Collections.Generic;
 
 using Game.Math;
@@ -10,6 +11,7 @@ namespace Game.Figure
 
         public Sphere()
         {
+            Random rand = new Random();
             Vertex p1, p2, p3, p4;
             Triangle triangle;
             double Angle = 30f / 180 * PI;
@@ -24,8 +26,12 @@ namespace Game.Figure
                 while (Alpha <= PI * 2)
                 {
                     p3 = new Vertex(R * Cos(Alpha + Angle) * Cos(Beta), R * Sin(Alpha + Angle) * Cos(Beta), R * Sin(Beta), 1);
-                    p4 =  new Vertex(R * Cos(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Beta + Angle), 1);
+                    p4 = new Vertex(R * Cos(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Beta + Angle), 1);
                     triangle = new Triangle(p1, p2, p3);
+                    int r = rand.Next(255);
+                    int g = rand.Next(255);
+                    int b = rand.Next(255);
+                    triangle.Color = new Lightning.Color(r, g, b);
                     triangles.Add(triangle);
 //                    triangle = new Triangle(p2, p3, p4);
 //                    triangles.Add(triangle);
@@ -39,7 +45,7 @@ namespace Game.Figure
             
             Beta = 0;
             Alpha = 0;
-            
+
             while (Beta >= -PI / 2)
             {
                 while (Alpha <= PI * 2)
@@ -47,6 +53,10 @@ namespace Game.Figure
                     p3 = new Vertex(R * Cos(Alpha + Angle) * Cos(Beta), R * Sin(Alpha + Angle) * Cos(Beta), R * Sin(Beta), 1);
                     p4 = new Vertex(R * Cos(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Alpha + Angle) * Cos(Beta + Angle), R * Sin(Beta + Angle), 1);
                     triangle = new Triangle(p1, p2, p3);
+                    int r = rand.Next(255);
+                    int g = rand.Next(255);
+                    int b = rand.Next(255);
+                    triangle.Color = new Lightning.Color(r, g, b);
                     triangles.Add(triangle);
 //                    triangle = new Triangle(p2, p3, p4);
 //                    triangles.Add(triangle);

@@ -18,7 +18,7 @@ namespace Game.GameData
 
         private Camera.Camera CreateCamera()
         {
-            return new Camera.Camera(new Vector (5.0, 0.0, 0.0), new Vector (0, 0.0, 0.0), new Vector(0.0, 0.0, -1.0));
+            return new Camera.Camera(new Vector (10.0, 0.0, 0.0), new Vector (-1.0, 0.0, 0.0), new Vector(0.0, 0.0, -1.0), 1);
         }
 
         private void AddLightModelsToRenderList(GameData gameData)
@@ -51,25 +51,32 @@ namespace Game.GameData
         private List<Model> CreateModels()
         {
             List<Model> models = new List<Model> {};
-            Cone cone = CreateCone();
-            Vector modelPosition = new Vector(0, 0, 0);
-            cone.translationVector = modelPosition;
-            cone.scaleVector = new Vector(5, 5, 1.0);
-            cone.rotationVector = new Vector(0, 0, 1);
-            cone.rotationAngle = 0;
-            models.Add(cone);
+            
+            models.Add(CreateSphere());
             
             return models;
         }
 
         private Cone CreateCone()
         {
-            return new Cone();
+            Cone cone = new Cone();
+            Vector modelPosition = new Vector(0, 0, 0);
+            cone.translationVector = modelPosition;
+            cone.scaleVector = new Vector(1.0, 1.0, 1.0);
+            cone.rotationVector = new Vector(0, 0, 1);
+            cone.rotationAngle = 0;
+            return cone;
         }
         
         private Sphere CreateSphere()
         {
-            return new Sphere();
+            Sphere sphere = new Sphere();
+            Vector modelPosition = new Vector(0, 0, 0);
+            sphere.translationVector = modelPosition;
+            sphere.scaleVector = new Vector(1, 1, 1.0);
+            sphere.rotationVector = new Vector(0, 0, 1);
+            sphere.rotationAngle = 0;
+            return sphere;
         }
 
     }

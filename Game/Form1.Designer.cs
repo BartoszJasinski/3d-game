@@ -32,25 +32,28 @@
             ((System.ComponentModel.ISupportInitialize)(this.gamePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // pictureBox1
+            // gamePictureBox
             // 
             this.gamePictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gamePictureBox.Location = new System.Drawing.Point(0, 0);
             this.gamePictureBox.Name = "gamePictureBox";
-            this.gamePictureBox.Size = new System.Drawing.Size(1097, 819);
+            this.gamePictureBox.Size = new System.Drawing.Size(984, 862);
             this.gamePictureBox.TabIndex = 0;
             this.gamePictureBox.TabStop = false;
             this.gamePictureBox.Click += new System.EventHandler(this.gamePictureBox_Click);
             this.gamePictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.gamePictureBox_Paint);
+            this.gamePictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.gamePictureBox_MouseMove);
             // 
-            // Form1
+            // GameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1097, 819);
+            this.ClientSize = new System.Drawing.Size(984, 862);
             this.Controls.Add(this.gamePictureBox);
             this.Name = "GameWindow";
-            this.Text = "Form1";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
+            this.Text = "Game";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.GameWindow_KeyPress);
             ((System.ComponentModel.ISupportInitialize)(this.gamePictureBox)).EndInit();
             this.ResumeLayout(false);
 

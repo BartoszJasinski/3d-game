@@ -12,7 +12,7 @@ namespace Game.Lightning
         private List<LightSource> ambientLights { get; set; }
         private List<LightSource> diffuseLights { get; set; }
         
-        public PhongLighting() : this(new List<LightSource> {new LightSource(new Light(new Color(1.0, 1.0, 0.0), 0.1))},
+        public PhongLighting() : this(new List<LightSource> {new LightSource(new Light(new Color(1.0, 1.0, 1.0), 0.5))},
             new List<LightSource>
             {
                 new LightSource((new Light(new Color(1.0, 1.0, 1.0))),
@@ -32,9 +32,9 @@ namespace Game.Lightning
         public Color ApplyLightning(GameData.GameData gameData, Triangle triangle, Vector fragPosition, Vector triangleNormal)
         {
 //            Color triangleColor = 
-//            return ApplyAmbientLightning(triangle);
+            return ApplyAmbientLightning(triangle);
 //            return ApplyDiffuseLightning(triangle, fragPosition, triangleNormal);
-            return ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition, triangleNormal);
+//            return ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition, triangleNormal);
         }
 
         private Color ApplyAmbientLightning(Triangle triangle)
@@ -94,7 +94,7 @@ namespace Game.Lightning
 //            vec3 specular = specularStrength * spec * lightColor;  
 
             Vector lightColor = new Vector(1, 1, 1);            
-            Vector lightPos = new Vector(5.0, 0, 0);
+            Vector lightPos = new Vector(5.0, 0.0, 0.0);
             double specularStrength = 0.5;
 
             Vector viewDir = (cameraPosition - fragPosition).Normalize(2);

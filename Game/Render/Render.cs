@@ -54,7 +54,7 @@ namespace Game.Render
 //            Vector modelPosition = new Vector(0, 0, 0);
 //            Vector scaleVector = new Vector(5, 5, 0.1);
 //            Vector rotationVector = new Vector(0, 0, 1);
-            model.rotationAngle = phi;
+            model.rotationAngle = 0;
 //            Vector translationVector = modelPosition;
             model.modelMatrix = model.Transform(model.scaleVector, model.rotationVector, model.rotationAngle, model.translationVector);
 
@@ -62,7 +62,7 @@ namespace Game.Render
 //            Vector  cameraPosition = new Vector (5.0, 0.0, 0.0);
 //            Vector  cameraTarget = new Vector (0, 0.0, 0.0);
 //            Vector upAxis = new Vector(0.0, 0.0, -1.0);
-            gameData.camera.viewMatrix = gameData.camera.LookAt();
+            gameData.camera.viewMatrix = gameData.camera.LookAt(gameData.camera.cameraPosition, gameData.camera.cameraPosition + gameData.camera.cameraFront, gameData.camera.upAxis);
 
 //Stationary Tracking Camera
 //            Vector<double> cameraPosition = new DenseVector(new[] {3.0, 1.0, 1.0});

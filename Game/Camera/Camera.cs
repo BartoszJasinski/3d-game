@@ -12,25 +12,28 @@ namespace Game.Camera
     {
     
         public Vector cameraPosition { get; set; }
-        public Vector cameraTarget { get; set; }
+        public Vector cameraFront { get; set; }
         public Vector upAxis { get; set; }
         public Matrix viewMatrix { get; set; }
+        public double cameraSpeed { get; set; }
+        
 
-        public Camera() : this(new Vector(0, 0, 0), new Vector(0, 0, 0), new Vector(0, 0, -1))
+        public Camera() : this(new Vector(0, 0, 0), new Vector(0, 0, 0), new Vector(0, 0, -1), 1)
         {
             
         }
         
-        public Camera(Vector cameraPosition, Vector cameraTarget, Vector upAxis)
+        public Camera(Vector cameraPosition, Vector cameraFront, Vector upAxis, double cameraSpeed)
         {
             this.cameraPosition = cameraPosition;
-            this.cameraTarget = cameraTarget;
+            this.cameraFront = cameraFront;
             this.upAxis = upAxis;
+            this.cameraSpeed = cameraSpeed;
         }
 
         public Matrix LookAt()
         {
-            return LookAt(cameraPosition, cameraTarget, upAxis);
+            return LookAt(cameraPosition, cameraFront, upAxis);
         }
         
         public Matrix LookAt(Vector cameraPosition, Vector cameraTarget, Vector upAxis)

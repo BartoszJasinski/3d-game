@@ -71,6 +71,7 @@
       <DependentUpon>GameWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="IO\Keyboard.cs" />
+    <Compile Include="IO\Mouse.cs" />
     <Compile Include="Lightning\BlinnLighting.cs" />
     <Compile Include="Lightning\Color.cs" />
     <Compile Include="Lightning\ILightningModel.cs" />
