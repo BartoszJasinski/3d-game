@@ -260,8 +260,8 @@ namespace Game.Render
         public void MyDrawLine(PaintEventArgs e, Pen pen,Point p1, Point p2, double z)
         {
 
-            line(e, p1.X, p1.Y, p2.X, p2.Y, pen.Brush, z);
-            //graphics.DrawLine(pen, p1, p2);
+//            line(e, p1.X, p1.Y, p2.X, p2.Y, pen.Brush, z);
+            e.Graphics.DrawLine(pen, p1, p2);
         }
 
 

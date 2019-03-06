@@ -13,6 +13,8 @@ namespace Game
         GameData.GameData gameData;
         private Render.Render renderer = new Render.Render();
         private GameDataInit gameDataInit = new GameDataInit();
+
+        private Mouse mouse = new Mouse();
         Keyboard keyboard = new Keyboard();
         public GameWindow()
         {
@@ -35,9 +37,6 @@ namespace Game
             
             
         }
-
-
-        
 
        
         private void gamePictureBox_Click(object sender, EventArgs e)
@@ -68,7 +67,7 @@ namespace Game
         private void gamePictureBox_MouseMove(object sender, MouseEventArgs e)
         {
 //            gamePictureBox.BackColor = System.Drawing.Color.Yellow;
-//            e.X
+            mouse.ProcessMouseMove(gameData, e);
         }
 
         private void GameWindow_KeyPress(object sender, KeyPressEventArgs e)
