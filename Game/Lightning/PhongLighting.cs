@@ -12,7 +12,7 @@ namespace Game.Lightning
         private List<LightSource> ambientLights { get; set; }
         private List<LightSource> diffuseLights { get; set; }
         
-        public PhongLighting() : this(new List<LightSource> {new LightSource(new Light(new Color(1.0, 1.0, 1.0), 0.5))},
+        public PhongLighting() : this(new List<LightSource> {new LightSource(new Light(new Color(1.0, 1.0, 1.0), 1.0))},
             new List<LightSource>
             {
                 new LightSource((new Light(new Color(1.0, 1.0, 1.0))),
