@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-
 using Game.Figure;
+using Game.Math;
 using Game.Perspective;
-using MathNet.Numerics.LinearAlgebra;
-using Color = Game.Lightning.Color;
-using Vector = Game.Math.Vector;
 
 namespace Game.Render
 {
@@ -19,7 +16,7 @@ namespace Game.Render
         //TODO: make screenWidth and screenHeightchanging apropiate to screen size
         private const int screenWidth = 1097, screenHeight = 819;
         double[,] zBuffer = new double[screenWidth, screenHeight];
-        private double phi = 0;
+        private double phi;
         public void DepthTesting(PictureBox gamePictureBox)
         {
             for (int x = 0; x < zBuffer.GetLength(0); x++)
@@ -54,8 +51,8 @@ namespace Game.Render
 //            Vector modelPosition = new Vector(0, 0, 0);
 //            Vector scaleVector = new Vector(5, 5, 0.1);
 //            Vector rotationVector = new Vector(0, 0, 1);
-            model.rotationAngle = 0;
 //            Vector translationVector = modelPosition;
+            model.rotationAngle = phi;
             model.modelMatrix = model.Transform(model.scaleVector, model.rotationVector, model.rotationAngle, model.translationVector);
 
 //Stationary Camera
@@ -129,15 +126,15 @@ namespace Game.Render
                 p3_y_prim /= 2;
                 p3_y_prim *= gamePictureBox.Height;
 
-
+                
 //                System.Drawing.Color triangleColor = Game.Lightning.Lightning.ApplyLightning(gameData, triangle).ToSystemColor();
                 //TODO: fix tirangle.verticec[0] because it is not fragPosition probably
                 Vector fragPosition = model.modelMatrix * triangle.vertices[1].position;
 //                System.Drawing.Color triangleColor = ApplyDiffuseLightning(triangle, fragPosition).ToSystemColor();
                 Vector triangleNormal = model.modelMatrix * triangle.vertices[1].normal;
-                System.Drawing.Color triangleColor = Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition, triangleNormal).ToSystemColor();
+                Color triangleColor = Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition, triangleNormal);
                 
-                ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e.z);
+                ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e.z, triangle);
 
 //                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p2_x_prim, (float)p2_y_prim);
 //                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p3_x_prim, (float)p3_y_prim);
@@ -184,63 +181,62 @@ namespace Game.Render
             public int secondVertexIndex { get; set; }
         }
 
-        public void ScanLineFillVertexSort(double p1_x_prim, double p1_y_prim, double p2_x_prim, double p2_y_prim, double p3_x_prim, double p3_y_prim, System.Drawing.Color color, PaintEventArgs e, double z)
+        public void ScanLineFillVertexSort(double p1_x_prim, double p1_y_prim, double p2_x_prim, double p2_y_prim, double p3_x_prim, double p3_y_prim, Color color, PaintEventArgs e, double z, Triangle triangle)
         {
-            List<Vertex> polygonVertexes = new List<Vertex>();
+            List<Vertex> polygonVertices = new List<Vertex>();
             //for (int i = 0; i < 3; i++)
-                polygonVertexes.Add(new Vertex(new Point((int)p1_x_prim, (int)p1_y_prim), 0));
-                polygonVertexes.Add(new Vertex(new Point((int)p2_x_prim, (int)p2_y_prim), 1));
-                polygonVertexes.Add(new Vertex(new Point((int)p3_x_prim, (int)p3_y_prim), 2));
+                polygonVertices.Add(new Vertex(new Point((int)p1_x_prim, (int)p1_y_prim), 0));
+                polygonVertices.Add(new Vertex(new Point((int)p2_x_prim, (int)p2_y_prim), 1));
+                polygonVertices.Add(new Vertex(new Point((int)p3_x_prim, (int)p3_y_prim), 2));
 
-            polygonVertexes = polygonVertexes.OrderBy(v => v.point.Y).ToList();
-            int yMin = polygonVertexes[0].point.Y, yMax = polygonVertexes.Last().point.Y;
+            polygonVertices = polygonVertices.OrderBy(v => v.point.Y).ToList();
+            int yMin = polygonVertices[0].point.Y, yMax = polygonVertices.Last().point.Y;
 
             List<AETData> AET = new List<AETData>();
 
             for (int y = yMin + 1; y < yMax; y++)
             {
-                List<Vertex> vertexesLyingOnScanLine = polygonVertexes.FindAll(vertex => vertex.point.Y == (y - 1));
-                foreach (Vertex vertex in vertexesLyingOnScanLine)
+                List<Vertex> verticesLyingOnScanLine = polygonVertices.FindAll(vertex => vertex.point.Y == (y - 1));
+                foreach (Vertex vertex in verticesLyingOnScanLine)
                 {
-                    int previousVertexIndex = MathMod(vertex.index - 1, polygonVertexes.Count);
-                    Vertex previousVertex = polygonVertexes.Find(x => x.index == previousVertexIndex);
+                    int previousVertexIndex = MathMod(vertex.index - 1, polygonVertices.Count);
+                    Vertex previousVertex = polygonVertices.Find(x => x.index == previousVertexIndex);
                     if (previousVertex.point.Y >= vertex.point.Y)
                     {
-                        double mInverse = ((double)previousVertex.point.X - (double)vertex.point.X) / ((double)previousVertex.point.Y - (double)vertex.point.Y);
-                        //mInverse = double.IsInfinity(mInverse) ? 0 : mInverse;
+                        double mInverse = (previousVertex.point.X - (double)vertex.point.X) / (previousVertex.point.Y - (double)vertex.point.Y);
+//                        mInverse = double.IsInfinity(mInverse) ? 0 : mInverse;
                         AET.Add(new AETData { yMax = previousVertex.point.Y, x = vertex.point.X, mInverse = mInverse, firstVertexIndex = previousVertexIndex, secondVertexIndex = vertex.index });
                     }
                     else
                         AET.RemoveAll(x => (x.firstVertexIndex == vertex.index && x.secondVertexIndex == previousVertexIndex) || (x.firstVertexIndex == previousVertexIndex && x.secondVertexIndex == vertex.index));
 
-                    int nextVertexIndex = MathMod(vertex.index + 1, polygonVertexes.Count);
-                    Vertex nextVertex = polygonVertexes.Find(x => x.index == nextVertexIndex);
+                    int nextVertexIndex = MathMod(vertex.index + 1, polygonVertices.Count);
+                    Vertex nextVertex = polygonVertices.Find(x => x.index == nextVertexIndex);
                     if (nextVertex.point.Y >= vertex.point.Y)
                     {
-                        double mInverse = ((double)nextVertex.point.X - (double)vertex.point.X) / ((double)nextVertex.point.Y - (double)vertex.point.Y);
-                        //mInverse = double.IsInfinity(mInverse) ? 0 : mInverse;
+                        double mInverse = (nextVertex.point.X - (double)vertex.point.X) / (nextVertex.point.Y - (double)vertex.point.Y);
+//                        mInverse = double.IsInfinity(mInverse) ? 0 : mInverse;
                         AET.Add(new AETData { yMax = nextVertex.point.Y, x = vertex.point.X, mInverse = mInverse, firstVertexIndex = nextVertexIndex, secondVertexIndex = vertex.index });
                     }
                     else
                         AET.RemoveAll(x => (x.firstVertexIndex == vertex.index && x.secondVertexIndex == nextVertexIndex) || (x.firstVertexIndex == nextVertexIndex && x.secondVertexIndex == vertex.index));
                 }
 
-                AET.OrderBy(x => x.x);
-//                for (int i = 0; i < AET.Count / 2; i++)
-//                {
-//                    e.Graphics.DrawLine(new Pen(color), new Point((int)AET[2 * i].x, y), new Point((int)AET[2 * i + 1].x, y));
-//                }
-                for (int i = 0; i < AET.Count / 2; i++)
-                {
-                    MyDrawLine(e, new Pen(color), new Point((int)AET[2 * i].x, y), new Point((int)AET[2 * i + 1].x, y), z);
-                }
+                AET = AET.OrderBy(x => x.x).ToList();
+
 
                 foreach (var aetData in AET)
                 {
                     aetData.x += aetData.mInverse;
                     if (double.IsInfinity(aetData.mInverse))
-                        aetData.x = polygonVertexes[aetData.secondVertexIndex].point.X;
+                        aetData.x = polygonVertices[aetData.secondVertexIndex].point.X;
                 }
+                
+                for (int i = 0; i < AET.Count / 2; i++)
+                {
+                    MyDrawLine(e, new Pen(color), new Point((int)AET[2 * i].x, y), new Point((int)AET[2 * i + 1].x, y), z, triangle);
+                }
+                
 
             }
         }
@@ -257,15 +253,15 @@ namespace Game.Render
             return (System.Math.Abs(a * b) + a) % b;
         }
         
-        public void MyDrawLine(PaintEventArgs e, Pen pen,Point p1, Point p2, double z)
+        public void MyDrawLine(PaintEventArgs e, Pen pen, Point p1, Point p2, double z, Triangle triangle)
         {
 
-//            line(e, p1.X, p1.Y, p2.X, p2.Y, pen.Brush, z);
-            e.Graphics.DrawLine(pen, p1, p2);
+            MyLine(e, p1.X, p1.Y, p2.X, p2.Y, pen.Brush, z, triangle);
+//            e.Graphics.DrawLine(pen, p1, p2);
         }
 
 
-        public void line(PaintEventArgs e, int x, int y, int x2, int y2, Brush brush, double z)
+        public void MyLine(PaintEventArgs e, int x, int y, int x2, int y2, Brush brush, double z, Triangle triangle)
         {
             int w = x2 - x;
             int h = y2 - y;
@@ -285,15 +281,16 @@ namespace Game.Render
             int numerator = longest >> 1;
             for (int i = 0; i <= longest; i++)
             {
-                if (x < 0 || x > screenWidth || y < 0 || y > screenHeight)
+                if (x < 0 || x >= screenWidth || y < 0 || y >= screenHeight)
                 {
                     
                 }
                 else
                 {
+//                    double zz = InterpolateZ(x, y, triangle);
                     if (z <= zBuffer[x, y])
                     {
-                        e.Graphics.FillRectangle(brush, x, y, 1, 1);
+                        SetPixel(e, brush, new Point(x, y));
                         zBuffer[x, y] = z;
                     }
                 }
@@ -313,7 +310,50 @@ namespace Game.Render
             }
         }
 
+        /*
+               
+             void FillTriangle(triangle t)
+             {
+                 loop ...
+                     x,y = ...
+                     z = interpolate
+                     color = fragmentShader(x,y,tiangleColor)
+                     if(z < ZBuffer[x,y]
+                     {
+                         setpixel(x,y)
+                         ZBuffer[x,y] = z
+                     }
+             }
+     
+             Interpolacja z:
+             x = a*xA + b*xB +c*xC
+             y = a*yA + b*yB + c*yC
+             1 = a + b + c
+             a,b,c
+             z = azA + bzB + czC
+              */
+        //TODO remember about division by 0  
+        private double InterpolateZ(double x, double y, Triangle triangle)
+        {
 
+            double xa = triangle.firstVertex.position.x,
+                ya = triangle.firstVertex.position.y,
+                za = triangle.firstVertex.position.z,
+                xb = triangle.secondVertex.position.x,
+                yb = triangle.secondVertex.position.y,
+                zb = triangle.secondVertex.position.z,
+                xc = triangle.thirdVertex.position.x,
+                yc = triangle.thirdVertex.position.y,
+                zc = triangle.thirdVertex.position.z;
+            double yya = y - ya, xxa = x - xa, yayb = ya - yb, xbxa = xb - xa, ycya = yc - ya, xaxc = xa - xc;
+            double c = (yya + (xxa * yayb) / xbxa) * (xbxa / (ycya * xbxa - xaxc * yayb));
+            double b = (xxa + c * (xaxc)) / xbxa;
+            double a = 1 - b - c;
+
+            double z = a * za + b * zb + c * zc;
+
+            return z;
+        }
 
     }
 }

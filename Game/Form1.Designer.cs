@@ -1,4 +1,6 @@
-﻿namespace Game
+﻿using System;
+
+namespace Game
 {
     partial class GameWindow
     {
@@ -43,6 +45,12 @@
             this.gamePictureBox.Click += new System.EventHandler(this.gamePictureBox_Click);
             this.gamePictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.gamePictureBox_Paint);
             this.gamePictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.gamePictureBox_MouseMove);
+            
+            //HAND WRITEN event handlers hooks
+            //TODO FIX cursor hide and show when entering and leaveing window
+//            this.gamePictureBox.MouseEnter += new System.EventHandler(this.gamePictureBox_MouseEnter);
+//            this.gamePictureBox.MouseLeave += new System.EventHandler(this.gamePictureBox_MouseLeave);
+            
             // 
             // GameWindow
             // 

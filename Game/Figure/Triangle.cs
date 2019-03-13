@@ -8,7 +8,24 @@ namespace Game.Figure
     public class Triangle
     {
         public List<Vertex> vertices { get; set; } = new List<Vertex>();
-
+        public Vertex firstVertex
+        {
+            get => vertices[0];
+            set => vertices[0] = value;
+        }
+        
+        public Vertex secondVertex
+        {
+            get => vertices[1];
+            set => vertices[1] = value;
+        }
+        
+        public Vertex thirdVertex
+        {
+            get => vertices[2];
+            set => vertices[2] = value;
+        }
+        
 
         public Color Color = new Color(0.0, 1.0, 0.0);
         private const int numberOfTriangleVertices = 3;

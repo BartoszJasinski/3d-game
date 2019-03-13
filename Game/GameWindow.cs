@@ -29,9 +29,8 @@ namespace Game
         {
             gamePictureBox.BackColor = System.Drawing.Color.Black;
             
-            gameData = new GameData.GameData();
+            gameData = gameDataInit.InitializeGameData();
             
-            gameDataInit.InitializeGameData(gameData);
             InitializeTimer();
             startTime = DateTime.Now;
             
@@ -75,7 +74,22 @@ namespace Game
             gameData.camera.cameraPosition = keyboard.ProcessKeyPress(gameData, e);
            
         }
+        
+        //TODO prevent cursor from exiting form when in focus
+//        https://stackoverflow.com/questions/15029274/prevent-mouse-from-leaving-my-form/15029994#15029994
+        
 
+//        private void gamePictureBox_MouseEnter(object sender, System.EventArgs e)
+//        {
+//            // Hide the cursor when the mouse pointer enters the button.
+//            Cursor.Hide();
+//        }
+//
+//        private void gamePictureBox_MouseLeave(object sender, System.EventArgs e)
+//        {
+//            // Show the cursor when the mouse pointer leaves the button.
+//            Cursor.Show();
+//        }
 
 
 

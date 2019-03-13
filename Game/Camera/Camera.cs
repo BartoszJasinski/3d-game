@@ -33,7 +33,7 @@ namespace Game.Camera
 
         public Matrix LookAt()
         {
-            return LookAt(cameraPosition, cameraFront, upAxis);
+            return LookAt(cameraPosition, cameraPosition + cameraFront, upAxis);
         }
         
         public Matrix LookAt(Vector cameraPosition, Vector cameraTarget, Vector upAxis)

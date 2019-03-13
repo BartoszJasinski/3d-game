@@ -11,6 +11,7 @@ namespace Game.IO
         public static double yaw   = 0.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
         public static double pitch =  0.0f;
         //TODO check if it is bug free (strange behaviour occurs i think) 
+        //TODO make cursor disappear and hold cursor when in focus 
         public void ProcessMouseMove(GameData.GameData gameData, MouseEventArgs e)
         {
             if (firstMouse)

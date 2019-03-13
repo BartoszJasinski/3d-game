@@ -24,8 +24,7 @@ namespace Game.Lightning
 
             if (r < oldMinColorValue || r > oldMaxColorValue || g < oldMinColorValue || g > oldMaxColorValue ||
                 b < oldMinColorValue || b > oldMaxColorValue)
-                //TODO create appropiate exception
-                throw new Exception("RGB should be in range (0, 255)");
+                throw new ArgumentException("RGB should be in range (0, 255)");
             
             rgb = new Vector(ConvertRGBToRange(r, g, b, oldMinColorValue, oldMaxColorValue, newMinColorValue,newMaxColorValue));
         }
@@ -40,8 +39,7 @@ namespace Game.Lightning
 
             if (r < minColorValue || r > maxColorValue || g < minColorValue || g > maxColorValue || b < minColorValue ||
                 b > maxColorValue)
-                //TODO create appropiate exception
-                throw new Exception("RGB should be in range (0.0, 1.0)");
+                throw new ArgumentException("RGB should be in range (0.0, 1.0)");
 
             rgb = new Vector(r, g, b);
         }
@@ -51,12 +49,12 @@ namespace Game.Lightning
             this.rgb = rgb ;
         }
 
-        private double[] ConvertRGBToRange(Vector rgb, double oldMin, double oldMax, double newMin,
+        private static double[] ConvertRGBToRange(Vector rgb, double oldMin, double oldMax, double newMin,
             double newMax)
         {
             return ConvertRGBToRange(rgb[0], rgb[1], rgb[2], oldMin, oldMax, newMin, newMax);
         }
-        private double[] ConvertRGBToRange(double r, double g, double b, double oldMin, double oldMax, double newMin,
+        private static double[] ConvertRGBToRange(double r, double g, double b, double oldMin, double oldMax, double newMin,
             double newMax)
         {
             return new double[]
@@ -66,13 +64,12 @@ namespace Game.Lightning
                 Math.Math.ConvertToRange(b, oldMin, oldMax, newMin, newMax)
             };
         }
-
-        //TODO create implicit Color -> System.COlor converter
-        public System.Drawing.Color ToSystemColor()
+        
+        public static implicit operator System.Drawing.Color(Color color)
         {
             const double oldMinimalColorValue = 0.0, oldMaximalColorValue = 1.0;
             const int newMinimalColorValue = 0, newMaximalColorValue = 255;
-            double[] rgb = ConvertRGBToRange(this.rgb, oldMinimalColorValue, oldMaximalColorValue, newMinimalColorValue,
+            double[] rgb = ConvertRGBToRange(color.rgb, oldMinimalColorValue, oldMaximalColorValue, newMinimalColorValue,
                 newMaximalColorValue);
            
             return System.Drawing.Color.FromArgb((int)rgb[0], (int)rgb[1], (int)rgb[2]);
