@@ -38,7 +38,7 @@ namespace Game.Render
             
             DepthTesting(gamePictureBox);
         }
-
+//TODO implement fragShader and vertexShader
         
         void RenderModel(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData, Model model)
         {
@@ -47,7 +47,7 @@ namespace Game.Render
 
 //            Vector<double> modelPosition = new DenseVector(new double[] {Cos(phi), Sin(phi), 0});
 //            model.modelMatrix = model.Transformate(new DenseVector(new double[] {Cos(phi), Sin(phi), Cos(phi)}), modelPosition, 1, modelPosition);
-           //TODO: move all model vectors to Model class
+           //TODO: create stationary camera stationary tracing camera and moveing associated with object camera
 //            Vector modelPosition = new Vector(0, 0, 0);
 //            Vector scaleVector = new Vector(5, 5, 0.1);
 //            Vector rotationVector = new Vector(0, 0, 1);
@@ -287,11 +287,11 @@ namespace Game.Render
                 }
                 else
                 {
-//                    double zz = InterpolateZ(x, y, triangle);
-                    if (z <= zBuffer[x, y])
+                    double zz = InterpolateZ(x, y, triangle);
+                    if (zz <= zBuffer[x, y])
                     {
                         SetPixel(e, brush, new Point(x, y));
-                        zBuffer[x, y] = z;
+                        zBuffer[x, y] = zz;
                     }
                 }
                
@@ -333,27 +333,50 @@ namespace Game.Render
              z = azA + bzB + czC
               */
         //TODO remember about division by 0  
+//        private double InterpolateZ(double x, double y, Triangle triangle)
+//        {
+//
+//            double xa = triangle.firstVertex.position.x,
+//                ya = triangle.firstVertex.position.y,
+//                za = triangle.firstVertex.position.z,
+//                xb = triangle.secondVertex.position.x,
+//                yb = triangle.secondVertex.position.y,
+//                zb = triangle.secondVertex.position.z,
+//                xc = triangle.thirdVertex.position.x,
+//                yc = triangle.thirdVertex.position.y,
+//                zc = triangle.thirdVertex.position.z;
+//            double yya = y - ya, xxa = x - xa, yayb = ya - yb, xbxa = xb - xa, ycya = yc - ya, xaxc = xa - xc;
+//            double c = (yya + (xxa * yayb) / xbxa) * (xbxa / (ycya * xbxa - xaxc * yayb));
+//            double b = (xxa + c * (xaxc)) / xbxa;
+//            double a = 1 - b - c;
+//
+//            double z = a * za + b * zb + c * zc;
+//
+//            return z;
+//        }
+
+
         private double InterpolateZ(double x, double y, Triangle triangle)
         {
+            double[,] matrixElements = new double[,]
+            {
+                {triangle.firstVertex.position.x, triangle.secondVertex.position.x, triangle.thirdVertex.position.x},
+                {triangle.firstVertex.position.y, triangle.secondVertex.position.y, triangle.thirdVertex.position.y},
+                {1, 1, 1}
+            };
+            Matrix A = new Matrix(matrixElements);
+            Vector B = new Vector(x, y, 1);
 
-            double xa = triangle.firstVertex.position.x,
-                ya = triangle.firstVertex.position.y,
-                za = triangle.firstVertex.position.z,
-                xb = triangle.secondVertex.position.x,
-                yb = triangle.secondVertex.position.y,
-                zb = triangle.secondVertex.position.z,
-                xc = triangle.thirdVertex.position.x,
-                yc = triangle.thirdVertex.position.y,
-                zc = triangle.thirdVertex.position.z;
-            double yya = y - ya, xxa = x - xa, yayb = ya - yb, xbxa = xb - xa, ycya = yc - ya, xaxc = xa - xc;
-            double c = (yya + (xxa * yayb) / xbxa) * (xbxa / (ycya * xbxa - xaxc * yayb));
-            double b = (xxa + c * (xaxc)) / xbxa;
-            double a = 1 - b - c;
+            Vector coefficients = A.Inverse() * B;
 
-            double z = a * za + b * zb + c * zc;
+            double z = coefficients[0] * triangle.firstVertex.position.z +
+                       coefficients[1] * triangle.secondVertex.position.z +
+                       coefficients[2] * triangle.thirdVertex.position.z;
 
             return z;
+
         }
+        
 
     }
 }
