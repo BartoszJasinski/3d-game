@@ -66,7 +66,7 @@ namespace Game
         private void gamePictureBox_MouseMove(object sender, MouseEventArgs e)
         {
 //            gamePictureBox.BackColor = System.Drawing.Color.Yellow;
-            mouse.ProcessMouseMove(gameData, e);
+            gameData.camera.cameraFront = mouse.ProcessMouseMove(gameData, e);
         }
 
         private void GameWindow_KeyPress(object sender, KeyPressEventArgs e)

@@ -12,7 +12,7 @@ namespace Game.IO
         public static double pitch =  0.0f;
         //TODO check if it is bug free (strange behaviour occurs i think) 
         //TODO make cursor disappear and hold cursor when in focus 
-        public void ProcessMouseMove(GameData.GameData gameData, MouseEventArgs e)
+        public Vector ProcessMouseMove(GameData.GameData gameData, MouseEventArgs e)
         {
             if (firstMouse)
             {
@@ -43,7 +43,8 @@ namespace Game.IO
             front.x = System.Math.Cos(yaw) * System.Math.Cos(pitch);
             front.z = System.Math.Sin(pitch);
             front.y = System.Math.Sin(yaw) * System.Math.Cos(pitch);
-            gameData.camera.cameraFront = front.Normalize(2);
+            
+            return front.Normalize(2);
         }
     }
 }

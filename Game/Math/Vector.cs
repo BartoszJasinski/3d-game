@@ -106,7 +106,6 @@ namespace Game.Math
             return resultVector;
         }
         
-        //TODO: implement
         public Vector ResizeVectorToLength(int lengthOfNewVector)
         {
             double[] resultVectorElements = new double[lengthOfNewVector];
@@ -117,6 +116,14 @@ namespace Game.Math
             
             return resultVec;
         }
+
+        public Vector CastVectorTo3D()
+        {
+            int numberOfElementsIn3DVector = 3;
+            
+            return ResizeVectorToLength(numberOfElementsIn3DVector);
+        }
+        
         public static implicit operator Vector<double>(Vector vector)
         {
             return vector.vector;

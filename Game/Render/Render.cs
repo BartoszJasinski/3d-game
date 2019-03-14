@@ -14,7 +14,7 @@ namespace Game.Render
         
         //TODO: zBuffer trhrows System.IndexOutOfRangeException: Index was outside the bounds of the array. when outside of window
         //TODO: make screenWidth and screenHeightchanging apropiate to screen size
-        private const int screenWidth = 1097, screenHeight = 819;
+        private const int screenWidth = 300, screenHeight = 300;
         double[,] zBuffer = new double[screenWidth, screenHeight];
         private double phi;
         public void DepthTesting(PictureBox gamePictureBox)
@@ -38,8 +38,9 @@ namespace Game.Render
             
             DepthTesting(gamePictureBox);
         }
-//TODO implement fragShader and vertexShader
-        
+        //TODO: implement fragShader and vertexShader
+//        TODO: fix 
+
         void RenderModel(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData, Model model)
         {
 
@@ -365,7 +366,7 @@ namespace Game.Render
                 {1, 1, 1}
             };
             Matrix A = new Matrix(matrixElements);
-            Vector B = new Vector(x, y, 1);
+            Vector B = new Vector(x, y, 1).CastVectorTo3D();
 
             Vector coefficients = A.Inverse() * B;
 
