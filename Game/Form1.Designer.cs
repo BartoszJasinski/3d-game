@@ -39,7 +39,7 @@ namespace Game
             this.gamePictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gamePictureBox.Location = new System.Drawing.Point(0, 0);
             this.gamePictureBox.Name = "gamePictureBox";
-            this.gamePictureBox.Size = new System.Drawing.Size(300, 300);
+            this.gamePictureBox.Size = new System.Drawing.Size(800, 800);
             this.gamePictureBox.TabIndex = 0;
             this.gamePictureBox.TabStop = false;
             this.gamePictureBox.Click += new System.EventHandler(this.gamePictureBox_Click);
@@ -56,7 +56,7 @@ namespace Game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 300);
+            this.ClientSize = new System.Drawing.Size(800, 800);
             this.Controls.Add(this.gamePictureBox);
             this.Name = "GameWindow";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;

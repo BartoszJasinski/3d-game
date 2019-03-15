@@ -14,7 +14,7 @@ namespace Game.Render
         
         //TODO: zBuffer trhrows System.IndexOutOfRangeException: Index was outside the bounds of the array. when outside of window
         //TODO: make screenWidth and screenHeightchanging apropiate to screen size
-        private const int screenWidth = 300, screenHeight = 300;
+        private const int screenWidth = 800, screenHeight = 800;
         double[,] zBuffer = new double[screenWidth, screenHeight];
         private double phi;
         public void DepthTesting(PictureBox gamePictureBox)
@@ -135,7 +135,7 @@ namespace Game.Render
                 Vector triangleNormal = model.modelMatrix * triangle.vertices[1].normal;
                 Color triangleColor = Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition, triangleNormal);
                 
-                ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e.z, triangle);
+                ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e.z, triangle, p1e.x, p1e.y, p1e.z, p2e.x, p2e.y, p2e.z, p3e.x, p3e.y, p3e.z);
 
 //                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p2_x_prim, (float)p2_y_prim);
 //                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p3_x_prim, (float)p3_y_prim);
@@ -182,7 +182,7 @@ namespace Game.Render
             public int secondVertexIndex { get; set; }
         }
 
-        public void ScanLineFillVertexSort(double p1_x_prim, double p1_y_prim, double p2_x_prim, double p2_y_prim, double p3_x_prim, double p3_y_prim, Color color, PaintEventArgs e, double z, Triangle triangle)
+        public void ScanLineFillVertexSort(double p1_x_prim, double p1_y_prim, double p2_x_prim, double p2_y_prim, double p3_x_prim, double p3_y_prim, Color color, PaintEventArgs e, double z, Triangle triangle, double xa, double ya,  double za, double xb, double yb, double zb, double xc, double yc, double zc)
         {
             List<Vertex> polygonVertices = new List<Vertex>();
             //for (int i = 0; i < 3; i++)
@@ -235,7 +235,7 @@ namespace Game.Render
                 
                 for (int i = 0; i < AET.Count / 2; i++)
                 {
-                    MyDrawLine(e, new Pen(color), new Point((int)AET[2 * i].x, y), new Point((int)AET[2 * i + 1].x, y), z, triangle);
+                    MyDrawLine(e, new Pen(color), new Point((int)AET[2 * i].x, y), new Point((int)AET[2 * i + 1].x, y), z, triangle, xa, ya,  za, xb, yb, zb, xc, yc, zc);
                 }
                 
 
@@ -254,15 +254,15 @@ namespace Game.Render
             return (System.Math.Abs(a * b) + a) % b;
         }
         
-        public void MyDrawLine(PaintEventArgs e, Pen pen, Point p1, Point p2, double z, Triangle triangle)
+        public void MyDrawLine(PaintEventArgs e, Pen pen, Point p1, Point p2, double z, Triangle triangle, double xa, double ya,  double za, double xb, double yb, double zb, double xc, double yc, double zc)
         {
 
-            MyLine(e, p1.X, p1.Y, p2.X, p2.Y, pen.Brush, z, triangle);
+            MyLine(e, p1.X, p1.Y, p2.X, p2.Y, pen.Brush, z, triangle, xa, ya,  za, xb, yb, zb, xc, yc, zc);
 //            e.Graphics.DrawLine(pen, p1, p2);
         }
 
 
-        public void MyLine(PaintEventArgs e, int x, int y, int x2, int y2, Brush brush, double z, Triangle triangle)
+        public void MyLine(PaintEventArgs e, int x, int y, int x2, int y2, Brush brush, double z, Triangle triangle, double xa, double ya,  double za, double xb, double yb, double zb, double xc, double yc, double zc)
         {
             int w = x2 - x;
             int h = y2 - y;
@@ -288,11 +288,12 @@ namespace Game.Render
                 }
                 else
                 {
-                    double zz = InterpolateZ(x, y, triangle);
-                    if (zz <= zBuffer[x, y])
+                    double zz = InterpolateZ(x, y, xa, ya,  za, xb, yb, zb, xc, yc, zc);
+//                    double zz = InterpolateZ(x, y, triangle);
+                    if (z <= zBuffer[x, y])
                     {
                         SetPixel(e, brush, new Point(x, y));
-                        zBuffer[x, y] = zz;
+                        zBuffer[x, y] = z;
                     }
                 }
                
@@ -357,27 +358,49 @@ namespace Game.Render
 //        }
 
 
-        private double InterpolateZ(double x, double y, Triangle triangle)
+//        private double InterpolateZ(double x, double y, Triangle triangle)
+//        {
+//            double[,] matrixElements = new double[,]
+//            {
+//                {triangle.firstVertex.position.x, triangle.secondVertex.position.x, triangle.thirdVertex.position.x},
+//                {triangle.firstVertex.position.y, triangle.secondVertex.position.y, triangle.thirdVertex.position.y},
+//                {1, 1, 1}
+//            };
+//            Matrix A = new Matrix(matrixElements);
+//            Vector B = new Vector(x, y, 1).CastVectorTo3D();
+//
+//            Vector coefficients = A.Inverse() * B;
+//
+//            double z = coefficients[0] * triangle.firstVertex.position.z +
+//                       coefficients[1] * triangle.secondVertex.position.z +
+//                       coefficients[2] * triangle.thirdVertex.position.z;
+//
+//            return z;
+//
+//        }
+        
+
+        private double InterpolateZ(double x, double y, double xa, double ya,  double za, double xb, double yb, double zb, double xc, double yc, double zc)
         {
             double[,] matrixElements = new double[,]
             {
-                {triangle.firstVertex.position.x, triangle.secondVertex.position.x, triangle.thirdVertex.position.x},
-                {triangle.firstVertex.position.y, triangle.secondVertex.position.y, triangle.thirdVertex.position.y},
-                {1, 1, 1}
+                { xa, xb, xc },
+                { ya, yb, yc },
+                { 1, 1, 1 }
             };
             Matrix A = new Matrix(matrixElements);
             Vector B = new Vector(x, y, 1).CastVectorTo3D();
 
             Vector coefficients = A.Inverse() * B;
 
-            double z = coefficients[0] * triangle.firstVertex.position.z +
-                       coefficients[1] * triangle.secondVertex.position.z +
-                       coefficients[2] * triangle.thirdVertex.position.z;
+            double z = coefficients[0] * za +
+                       coefficients[1] * zb +
+                       coefficients[2] * zc;
 
             return z;
 
         }
-        
+
 
     }
 }
