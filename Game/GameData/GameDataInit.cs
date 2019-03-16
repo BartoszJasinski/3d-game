@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Game.Camera;
 using Game.Figure;
 using Game.Lightning;
 using Game.Math;
@@ -10,41 +11,9 @@ namespace Game.GameData
         
         public GameData InitializeGameData()
         {
-            GameData gameData = new GameData(CreateModels(), CreateCamera(), CreateIllumination(), new PhongLighting());
+            GameData gameData = new GameData(CreateModels(), CreateCamera(), CreateCameras(), CreateIllumination(), new PhongLighting());
            
             return gameData;
-        }
-
-        private Camera.Camera CreateCamera()
-        {
-            return new Camera.Camera(new Vector (10.0, 0.0, 0.0), new Vector (-1.0, 0.0, 0.0), new Vector(0.0, 0.0, 1.0), 1);
-        }
-
-        private void AddLightModelsToRenderList(GameData gameData)
-        {
-            foreach (var lightSource in gameData.lightSources)
-            {
-//                lightSource.model
-            }
-        }
-
-
-        private List<LightSource> CreateIllumination()
-        {
-            List<LightSource> lightSources = new List<LightSource> { CreateLamp() };
-
-            return lightSources;
-        }
-        
-        
-        private Lamp CreateLamp()
-        {
-            return new Lamp(new Cone(), new LightSource(new Light(new Color(1.0, 1.0, 1.0))));
-        }
-        
-        private LightSource CreateLightSource()
-        {
-            return new LightSource(new Light(new Color(1.0, 1.0, 1.0)));
         }
         
         private List<Model> CreateModels()
@@ -79,6 +48,46 @@ namespace Game.GameData
             return sphere;
         }
 
+      
+        private Camera.Camera CreateCamera()
+        {
+            return new Camera.Camera(new Vector (10.0, 0.0, 0.0), new Vector (-1.0, 0.0, 0.0), new Vector(0.0, 0.0, 1.0), 1);
+        }
+        
+        private Cameras CreateCameras()
+        {
+            return new Cameras();
+        }
+
+
+        private void AddLightModelsToRenderList(GameData gameData)
+        {
+            foreach (var lightSource in gameData.lightSources)
+            {
+//                lightSource.model
+            }
+        }
+
+
+        private List<LightSource> CreateIllumination()
+        {
+            List<LightSource> lightSources = new List<LightSource> { CreateLamp() };
+
+            return lightSources;
+        }
+        
+        
+        private Lamp CreateLamp()
+        {
+            return new Lamp(new Cone(), new LightSource(new Light(new Color(1.0, 1.0, 1.0))));
+        }
+        
+        private LightSource CreateLightSource()
+        {
+            return new LightSource(new Light(new Color(1.0, 1.0, 1.0)));
+        }
+        
+   
         
         
 

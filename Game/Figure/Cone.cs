@@ -43,7 +43,7 @@ namespace Game.Figure
                     int r = rand.Next(255);
                     int g = rand.Next(255);
                     int b = rand.Next(255);
-                    triangle.Color = new Lightning.Color(r,g,b);
+                    triangle.color = new Lightning.Color(r,g,b);
                     triangles.Add(triangle);
                     //p2 = p3;
                     p3 = p4;

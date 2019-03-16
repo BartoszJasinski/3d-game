@@ -23,6 +23,13 @@ namespace Game.Camera
             
         }
         
+        public Camera(Vector cameraPosition, Vector cameraFront, Vector upAxis) : this(cameraPosition, cameraFront, upAxis, 1)
+        {
+            this.cameraPosition = cameraPosition;
+            this.cameraFront = cameraFront;
+            this.upAxis = upAxis;
+        }
+        
         public Camera(Vector cameraPosition, Vector cameraFront, Vector upAxis, double cameraSpeed)
         {
             this.cameraPosition = cameraPosition;

@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-
-using Game.Math;
+﻿using System;
+using System.Collections.Generic;
 using Game.Lightning;
+using Game.Math;
 
 namespace Game.Figure
 {
     public class Triangle
     {
-        public List<Vertex> vertices { get; set; } = new List<Vertex>();
+        public List<Vertex> vertices { get; set; } = new List<Vertex>(NumberOfTriangleVertices);
         public Vertex firstVertex
         {
             get => vertices[0];
@@ -26,9 +26,9 @@ namespace Game.Figure
             set => vertices[2] = value;
         }
         
-
-        public Color Color = new Color(0.0, 1.0, 0.0);
-        private const int numberOfTriangleVertices = 3;
+        public Color color { get; set; } = new Color(0.0, 1.0, 0.0);
+        
+        private const int NumberOfTriangleVertices = 3;
 
         public Triangle(Vertex firstVertex, Vertex secondVertex, Vertex thirdVertex)
         {
@@ -41,8 +41,8 @@ namespace Game.Figure
 
         public Triangle(List<Vertex> vertices) 
         {
-            if(vertices.Count != numberOfTriangleVertices)
-                throw new ListException("Triangle should have three vertices");
+            if(vertices.Count != NumberOfTriangleVertices)
+                throw new ArgumentException("Triangle should have three vertices");
             
             this.vertices = vertices;
             CalculateNormalVectors();
@@ -51,10 +51,10 @@ namespace Game.Figure
         //TODO https://www.opengl-tutorial.org/beginners-tutorials/tutorial-8-basic-shading/#triangle-normals
         public void CalculateNormalVectors()
         {
-            for (int i = 0; i < numberOfTriangleVertices; i++)
+            for (int i = 0; i < NumberOfTriangleVertices; i++)
             {
-                Vector firstSide = vertices[(i + 1) % numberOfTriangleVertices].position - vertices[i].position;
-                Vector secondSide = vertices[(i + 2) % numberOfTriangleVertices].position - vertices[i].position;
+                Vector firstSide = vertices[(i + 1) % NumberOfTriangleVertices].position - vertices[i].position;
+                Vector secondSide = vertices[(i + 2) % NumberOfTriangleVertices].position - vertices[i].position;
                 
                 //TODO normals should have dimenson 3 
                 vertices[i].normal = firstSide.CrossProduct(secondSide);

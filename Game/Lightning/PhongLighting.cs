@@ -48,7 +48,7 @@ namespace Game.Lightning
             foreach (var ambientLight in ambientLights)
             {
                 Vector ambient = ambientLight.light.lightStrength * ambientLight.light.lightColor.rgb;
-                Vector colorVector = ambient.PointwiseMultiply(new Vector(triangle.Color.R, triangle.Color.G, triangle.Color.B));
+                Vector colorVector = ambient.PointwiseMultiply(new Vector(triangle.color.R, triangle.color.G, triangle.color.B));
 
                finalColorVector = finalColorVector.Add(colorVector);
             }
@@ -75,7 +75,7 @@ namespace Game.Lightning
             double dot = norm.DotProduct(lightDir);
             double diff = System.Math.Max(dot, 0.0);
             Color diffuse = diff * lightColor;
-            Vector col = diffuse.rgb.PointwiseMultiply(triangle.Color.rgb);
+            Vector col = diffuse.rgb.PointwiseMultiply(triangle.color.rgb);
             
             return new Color(col[0], col[1], col[2]);
 
