@@ -135,7 +135,8 @@ namespace Game.Render
                 Vector triangleNormal = model.modelMatrix * triangle.vertices[1].normal;
                 Color triangleColor = Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition, triangleNormal);
                 
-                ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e.z, triangle, p1e.x, p1e.y, p1e.z, p2e.x, p2e.y, p2e.z, p3e.x, p3e.y, p3e.z);
+//                ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e.z, triangle, p1e.x, p1e.y, p1e.z, p2e.x, p2e.y, p2e.z, p3e.x, p3e.y, p3e.z);
+                ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e.z, triangle, p1_x_prim, p1_y_prim, p1e.z, p2_x_prim, p2_y_prim, p2e.z, p3_x_prim, p3_y_prim, p3e.z);
 
 //                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p2_x_prim, (float)p2_y_prim);
 //                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p3_x_prim, (float)p3_y_prim);
@@ -290,10 +291,10 @@ namespace Game.Render
                 {
                     double zz = InterpolateZ(x, y, xa, ya,  za, xb, yb, zb, xc, yc, zc);
 //                    double zz = InterpolateZ(x, y, triangle);
-                    if (z <= zBuffer[x, y])
+                    if (zz <= zBuffer[x, y])
                     {
                         SetPixel(e, brush, new Point(x, y));
-                        zBuffer[x, y] = z;
+                        zBuffer[x, y] = zz;
                     }
                 }
                
