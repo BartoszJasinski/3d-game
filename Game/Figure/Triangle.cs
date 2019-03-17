@@ -57,6 +57,7 @@ namespace Game.Figure
                 Vector secondSide = vertices[(i + 2) % NumberOfTriangleVertices].position - vertices[i].position;
                 
                 //TODO normals should have dimenson 3 
+                //TODO: check if normal calculating is correct
                 vertices[i].normal = firstSide.CrossProduct(secondSide);
             }
             

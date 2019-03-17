@@ -145,6 +145,11 @@ namespace Game.Math
             return firstVector.vector - secondVector.vector;
         }
         
+        public static Vector operator - (Vector vector)
+        {
+            return new Vector(-vector.vector);
+        }
+        
         public static Vector operator *(double multipliedNumber, Vector secondVector)
         {
             return multipliedNumber * secondVector.vector;

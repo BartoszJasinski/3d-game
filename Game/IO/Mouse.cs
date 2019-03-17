@@ -12,7 +12,7 @@ namespace Game.IO
         public static double pitch =  0.0f;
         //TODO check if it is bug free (strange behaviour occurs i think) 
         //TODO make cursor disappear and hold cursor when in focus 
-        //TODO: when there is first mouse movement model changes direction of displaying models, models gets displayed upside down 
+        //TODO: when there is first mouse movement model changes direction of displaying models, models gets displayed upside down, diffuse lightnign in phong shading changes
         public Vector ProcessMouseMove(GameData.GameData gameData, MouseEventArgs e)
         {
             if (firstMouse)

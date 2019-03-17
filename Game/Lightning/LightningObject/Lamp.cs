@@ -1,17 +1,17 @@
 using Game.Figure;
+using Game.Lightning.LightningModel;
 
-namespace Game.Lightning
+namespace Game.Lightning.LightningObject
 {
-    public class Lamp: LightSource
+    public class Lamp : ILightningObject
     {
-        public Model model { get; set; }
 
-        public Lamp(): base()
+        public Lamp() : base()
         {
             this.model = new Cone();
         }
 
-        public Lamp(Model model): base()
+        public Lamp(Model model) : base()
         {
             this.model = model;
         }

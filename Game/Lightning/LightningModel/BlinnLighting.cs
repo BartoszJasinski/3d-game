@@ -1,4 +1,4 @@
-namespace Game.Lightning
+namespace Game.Lightning.LightningModel
 {
     public class BlinnLighting
     {

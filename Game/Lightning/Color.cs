@@ -80,6 +80,11 @@ namespace Game.Lightning
             return new Color(multipliedNumber * color.rgb);
         }
         
+        public static Color operator +(Color firstColor, Color secondColor)
+        {
+            return new Color(firstColor.rgb + secondColor.rgb);
+        }
+        
         
     }
 }

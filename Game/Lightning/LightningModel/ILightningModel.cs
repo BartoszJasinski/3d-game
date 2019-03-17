@@ -1,7 +1,7 @@
 using Game.Figure;
 using Game.Math;
 
-namespace Game.Lightning
+namespace Game.Lightning.LightningModel
 {
     public interface ILightningModel
     {

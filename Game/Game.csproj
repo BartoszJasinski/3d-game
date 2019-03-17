@@ -72,14 +72,15 @@
     </Compile>
     <Compile Include="IO\Keyboard.cs" />
     <Compile Include="IO\Mouse.cs" />
-    <Compile Include="Lightning\BlinnLighting.cs" />
     <Compile Include="Lightning\Color.cs" />
-    <Compile Include="Lightning\ILightningModel.cs" />
-    <Compile Include="Lightning\Lamp.cs" />
     <Compile Include="Lightning\Light.cs" />
     <Compile Include="Lightning\Lightning.cs" />
+    <Compile Include="Lightning\LightningModel\BlinnLighting.cs" />
+    <Compile Include="Lightning\LightningModel\ILightningModel.cs" />
+    <Compile Include="Lightning\LightningModel\PhongLighting.cs" />
+    <Compile Include="Lightning\LightningObject\ILightningObject.cs" />
+    <Compile Include="Lightning\LightningObject\Lamp.cs" />
     <Compile Include="Lightning\LightSource.cs" />
-    <Compile Include="Lightning\PhongLighting.cs" />
     <Compile Include="Math\Math.cs" />
     <Compile Include="Math\Matrix.cs" />
     <Compile Include="Math\Vector.cs" />
@@ -115,9 +116,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Lightning\LightningObjects" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
