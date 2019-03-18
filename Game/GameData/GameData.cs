@@ -28,10 +28,10 @@ namespace Game.GameData
             this.cameras = cameras;
         }
 
-        public GameData(): this(new List<Model>(), new Camera.Camera(), new Cameras(), new List<ILightningObject>(), new PhongLighting())
-        {
-                
-        }
+//        public GameData(): this(new List<Model>(), new Camera.Camera(), new Cameras(), new List<ILightningObject>(), new PhongLighting())
+//        {
+//                
+//        }
 
 
   

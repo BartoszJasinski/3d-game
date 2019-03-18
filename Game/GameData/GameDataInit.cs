@@ -14,9 +14,9 @@ namespace Game.GameData
         
         public GameData InitializeGameData()
         {
-            GameData gameData = new GameData(CreateModels(), CreateCamera(), CreateCameras(), CreateIllumination(), new PhongLighting());
+            GameData gameData = new GameData(CreateModels(), CreateCamera(), CreateCameras(), CreateIllumination(), CreateLightningModel());
 
-            AddLightModelsToRenderList(gameData);
+//            AddLightModelsToRenderList(gameData);
 
             return gameData;
         }
@@ -104,13 +104,49 @@ namespace Game.GameData
             return new Lamp(cone, new LightSource(new Light(new Color(1.0, 1.0, 1.0))));
         }
         
-        private LightSource CreateLightSource()
+        private ILightningModel CreateLightningModel()
         {
-            return new LightSource(new Light(new Color(1.0, 1.0, 1.0)));
+            List<LightSource> ambientLights = CreateAmbientLights();
+            List<LightSource> diffuseLights = CreateDiffuseLights();
+            List<LightSource> specularLights = CreateSpecularLights();
+
+            return new PhongLighting(ambientLights, diffuseLights, specularLights);
+        }
+
+        private List<LightSource> CreateAmbientLights()
+        {
+            List<LightSource> ambientLights = new List<LightSource>();
+            ambientLights.Add(CreateAmbientLight());
+
+            return ambientLights;
+        }
+
+        private LightSource CreateAmbientLight()
+        {
+            Light light = new Light(new Color(1.0, 1.0, 1.0), 1.0);
+            Vector position = new Vector(5, 0, 0);
+            LightSource ambientLight = new LightSource(light, position);
+
+            return ambientLight;
         }
         
-   
         
+        private List<LightSource> CreateDiffuseLights()
+        {
+            List<LightSource> diffuseLights = new List<LightSource>();
+            diffuseLights.Add(new LightSource(new Light(new Color(1.0, 1.0, 1.0)), new Vector(0.0, 0.0, 0.0)));
+
+            return diffuseLights;
+        }
+
+
+        private List<LightSource> CreateSpecularLights()
+        {
+            List<LightSource> specularLights = new List<LightSource>();
+            specularLights.Add(new LightSource(new Light(new Color(1.0, 1.0, 1.0)), new Vector(0.0, 0.0, 0.0)));
+
+            return specularLights;
+        }
         
 
 

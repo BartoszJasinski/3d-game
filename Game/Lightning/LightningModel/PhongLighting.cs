@@ -11,13 +11,13 @@ namespace Game.Lightning.LightningModel
         private List<LightSource> diffuseLights { get; set; }
         private List<LightSource> specularLights { get; set; }
         
-        public PhongLighting() : this(
-            new List<LightSource> {new LightSource(new Light(new Color(1.0, 1.0, 1.0), 1.0))},
-            new List<LightSource> {new LightSource(new Light(new Color(1.0, 1.0, 1.0)), new Vector(0.0, 0.0, 0.0))},
-            new List<LightSource> {new LightSource(new Light(new Color(1.0, 1.0, 1.0)), new Vector(0.0, 0.0, 0.0))})
-        {
-            
-        }
+//        public PhongLighting() : this(
+//            new List<LightSource> {new LightSource(new Light(new Color(1.0, 1.0, 1.0), 1.0))},
+//            new List<LightSource> {new LightSource(new Light(new Color(1.0, 1.0, 1.0)), new Vector(0.0, 0.0, 0.0))},
+//            new List<LightSource> {new LightSource(new Light(new Color(1.0, 1.0, 1.0)), new Vector(0.0, 0.0, 0.0))})
+//        {
+//            
+//        }
 
         public PhongLighting(List<LightSource> ambientLights, List<LightSource> diffuseLights, List<LightSource> specularLights)
         {
@@ -46,18 +46,41 @@ namespace Game.Lightning.LightningModel
             Vector finalColorVector = new Vector(0, 0, 0);
             foreach (var ambientLight in ambientLights)
             {
-                Vector ambient = ambientLight.light.lightStrength * ambientLight.light.lightColor.rgb;
-                Vector colorVector = ambient.PointwiseMultiply(new Vector(triangle.color.R, triangle.color.G, triangle.color.B));
-
-               finalColorVector = finalColorVector.Add(colorVector);
+                Vector colorVector = ApplyAmbientLight(triangle, ambientLight);
+                finalColorVector = finalColorVector.Add(colorVector);
             }
             
             return new Color(finalColorVector);
         }
 
+        private Vector ApplyAmbientLight(Triangle triangle, LightSource ambientLight)
+        {
+            
+            Vector ambient = ambientLight.light.lightStrength * ambientLight.light.lightColor.rgb;
+            
+            return ambient.PointwiseMultiply(new Vector(triangle.color.R, triangle.color.G, triangle.color.B));
+        }
+        
 
 
         private Color ApplyDiffuseLightning(Triangle triangle, Vector fragPosition, Vector triangleNormal)
+        {
+            //        float ambientStrength = 0.1;
+//        vec3 ambient = ambientStrength * lightColor;
+
+//        vec3 result = ambient * objectColor;
+//        FragColor = vec4(result, 1.0);
+            Vector finalColorVector = new Vector(0, 0, 0);
+            foreach (var diffuseLight in diffuseLights)
+            {
+                Vector colorVector = ApplyDiffuseLight(triangle, fragPosition, triangleNormal, diffuseLight);
+                finalColorVector = finalColorVector.Add(colorVector);
+            }
+            
+            return new Color(finalColorVector);
+        }
+        
+        private Vector ApplyDiffuseLight(Triangle triangle, Vector fragPosition, Vector triangleNormal, LightSource diffuseLight)
         {
 //            vec3 norm = normalize(Normal);
 //            vec3 lightDir = normalize(lightPos - FragPos);
@@ -77,7 +100,7 @@ namespace Game.Lightning.LightningModel
             Color diffuse = 10 * diff * lightColor;
             Vector col = diffuse.rgb.PointwiseMultiply(triangle.color.rgb);
             
-            return new Color(col);
+            return col;
 
         }
 

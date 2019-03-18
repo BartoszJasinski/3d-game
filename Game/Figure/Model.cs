@@ -24,7 +24,8 @@ namespace Game.Figure
             {0, 0, 1, 0},
             {0, 0, 0, 1}
         });
-
+        
+        //TODO: maybe delete color propertie
         public Color color { get; set; }
 
 
@@ -117,13 +118,20 @@ namespace Game.Figure
 //            return translatedModelMatrix;
 //        }
 
-        public Matrix Transform(Vector scaleVector, Vector rotationVector, 
-            double rotationAngle, Vector translationVector)
+        public Matrix Transform()
         {
             
             
-            return modelMatrix = Translate(translationVector) * Rotate(rotationVector, rotationAngle) *
-                                 Scale(scaleVector);
+            return Transform(scaleVector, rotationVector, rotationAngle, translationVector);
+            
+        }
+
+        public Matrix Transform(Vector scaleVector, Vector rotationVector, double rotationAngle,
+            Vector translationVector)
+        {
+            
+            
+            return Translate(translationVector) * Rotate(rotationVector, rotationAngle) * Scale(scaleVector);
             
         }
     }

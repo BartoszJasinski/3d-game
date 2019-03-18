@@ -21,31 +21,29 @@ namespace Game.Render
             
             algorithms.DepthTesting(gamePictureBox);
         }
-        //TODO: implement fragShader and vertexShader
 
         void RenderModel(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData, Model model)
         {
             phi += 0.1;
 
             model.rotationAngle = phi;
-//            model.translationVector = new Vector(-phi, phi, phi);;
-            model.modelMatrix = model.Transform(model.scaleVector, model.rotationVector, model.rotationAngle, model.translationVector);
+            model.modelMatrix = model.Transform();
 
             gameData.camera.viewMatrix = gameData.cameras.GetCamera(gameData.camera);
 
-     
             DrawModelTriangles(e, gamePictureBox, gameData, model);
 
         }
 
+        //TODO: implement fragShader and vertexShader
         void DrawModelTriangles(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData, Model model)
         {
-            
             foreach(Triangle triangle in model.triangles)
             {
                 Vector p1e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.firstVertex.position;
                 Vector p2e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.secondVertex.position;
                 Vector p3e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.thirdVertex.position;
+                
                 Algorithms.ProjectedTriangle projectedTriangle = new Algorithms.ProjectedTriangle(p1e, p2e, p3e);
                 projectedTriangle = projectedTriangle.ProjectTriangle(gamePictureBox.Width, gamePictureBox.Height);
                 
