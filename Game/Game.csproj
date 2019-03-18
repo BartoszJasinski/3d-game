@@ -78,9 +78,8 @@
     <Compile Include="Lightning\LightningModel\BlinnLighting.cs" />
     <Compile Include="Lightning\LightningModel\ILightningModel.cs" />
     <Compile Include="Lightning\LightningModel\PhongLighting.cs" />
-    <Compile Include="Lightning\LightningObject\ILightningObject.cs" />
     <Compile Include="Lightning\LightningObject\Lamp.cs" />
-    <Compile Include="Lightning\LightSource.cs" />
+    <Compile Include="Lightning\LightningObject\LightSource.cs" />
     <Compile Include="Math\Math.cs" />
     <Compile Include="Math\Matrix.cs" />
     <Compile Include="Math\Vector.cs" />

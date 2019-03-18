@@ -3,23 +3,28 @@ using Game.Lightning.LightningModel;
 
 namespace Game.Lightning.LightningObject
 {
-    public class Lamp : ILightningObject
+    public class Lamp : LightSource
     {
 
-        public Lamp() : base()
+        public Lamp()
         {
-            this.model = new Cone();
+            
         }
 
-        public Lamp(Model model) : base()
+        public Lamp(Model model) : base(model)
         {
-            this.model = model;
+            
         }
-
-        public Lamp(Model model, LightSource lightSource)
+        
+        public Lamp(Model model, Light ambientLight, Light diffuseLight, Light specularLight) : base(model,
+            ambientLight, diffuseLight, specularLight)
         {
-            this.model = model;
-            this.light = lightSource.light;
         }
+        
+        public Lamp(LightSource lightSource) : base(lightSource.model, lightSource.ambientLight,
+            lightSource.diffuseLight, lightSource.specularLight)
+        {
+        }
+        
     }
 }

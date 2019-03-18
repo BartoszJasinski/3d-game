@@ -77,22 +77,22 @@ namespace Game.GameData
             return new Cameras();
         }
 
-        private List<ILightningObject> CreateIllumination()
+        private List<LightSource> CreateIllumination()
         {
-            List<ILightningObject> lightSources = new List<ILightningObject> { CreateLamp() };
+            List<LightSource> lightSources = new List<LightSource> { CreateLamp() };
             
             return lightSources;
         }
         
         private void AddLightModelsToRenderList(GameData gameData)
         {
-            foreach (var lightObject in gameData.lightObjects)
+            foreach (var lightObject in gameData.lightSources)
             {
                 gameData.models.Add(lightObject.model);
             }
         }
 
-        private ILightningObject CreateLamp()
+        private LightSource CreateLamp()
         {
             Vector translationVector = new Vector(5.0, 0.0, 0.0);
             Vector scaleVector = new Vector(1.0, 1.0, 1.0);
@@ -100,8 +100,11 @@ namespace Game.GameData
             double rotationAngle = 0.0;
             
             Cone cone = CreateCone(new Color(1.0, 1.0, 1.0), translationVector, scaleVector, rotationVector, rotationAngle);
+            Light ambientLight = CreateAmbientLight();
+            Light diffuseLight = CreateDiffuseLight();
+            Light specularLight = CreateSpecularLight();
             
-            return new Lamp(cone, new LightSource(new Light(new Color(1.0, 1.0, 1.0))));
+            return new Lamp(cone, ambientLight, diffuseLight, specularLight);
         }
         
         private ILightningModel CreateLightningModel()
@@ -110,44 +113,55 @@ namespace Game.GameData
             List<LightSource> diffuseLights = CreateDiffuseLights();
             List<LightSource> specularLights = CreateSpecularLights();
 
-            return new PhongLighting(ambientLights, diffuseLights, specularLights);
+            return new PhongLighting();
         }
 
+        //TODO: delete maybe 
         private List<LightSource> CreateAmbientLights()
         {
             List<LightSource> ambientLights = new List<LightSource>();
-            ambientLights.Add(CreateAmbientLight());
+//            ambientLights.Add(CreateAmbientLight());
 
             return ambientLights;
         }
 
-        private LightSource CreateAmbientLight()
+        private Light CreateAmbientLight()
         {
-            Light light = new Light(new Color(1.0, 1.0, 1.0), 1.0);
-            Vector position = new Vector(5, 0, 0);
-            LightSource ambientLight = new LightSource(light, position);
+            Light ambientLight = new Light(new Color(1.0, 1.0, 1.0), 1.0);
 
             return ambientLight;
         }
         
-        
+        //TODO: delete maybe 
         private List<LightSource> CreateDiffuseLights()
         {
             List<LightSource> diffuseLights = new List<LightSource>();
-            diffuseLights.Add(new LightSource(new Light(new Color(1.0, 1.0, 1.0)), new Vector(0.0, 0.0, 0.0)));
+//            diffuseLights.Add(new LightSource(new Light(new Color(1.0, 1.0, 1.0)), new Vector(0.0, 0.0, 0.0)));
 
             return diffuseLights;
         }
 
+        private Light CreateDiffuseLight()
+        {
+            Light diffuseLight = new Light(new Color(1.0, 1.0, 1.0), 1.0);
+            return diffuseLight;
+        }
 
+        //TODO: delete maybe 
         private List<LightSource> CreateSpecularLights()
         {
             List<LightSource> specularLights = new List<LightSource>();
-            specularLights.Add(new LightSource(new Light(new Color(1.0, 1.0, 1.0)), new Vector(0.0, 0.0, 0.0)));
+//            specularLights.Add(new LightSource(new Light(new Color(1.0, 1.0, 1.0)), new Vector(0.0, 0.0, 0.0)));
 
             return specularLights;
         }
         
+        private Light CreateSpecularLight()
+        {
+            Light specularLight = new Light(new Color(1.0, 1.0, 1.0), 1.0);
+            return specularLight;
+        }
+
 
 
     }

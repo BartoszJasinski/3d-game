@@ -66,6 +66,7 @@ namespace Game.Render
                 this.vertices = vertices;
             }
 
+            //TODO: refactor
             public ProjectedTriangle ProjectTriangle(int gamePictureBoxWidth, int gamePictureBoxHeight)
             {
                 ProjectedTriangle projectedTriangle = this;

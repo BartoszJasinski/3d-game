@@ -1,42 +1,47 @@
 using System.Collections.Generic;
 using Game.Figure;
+using Game.Lightning.LightningObject;
 using Game.Math;
 
 namespace Game.Lightning.LightningModel
 {
     public class PhongLighting : ILightningModel
     {
-        
-        private List<LightSource> ambientLights { get; set; }
-        private List<LightSource> diffuseLights { get; set; }
-        private List<LightSource> specularLights { get; set; }
-        
-//        public PhongLighting() : this(
-//            new List<LightSource> {new LightSource(new Light(new Color(1.0, 1.0, 1.0), 1.0))},
-//            new List<LightSource> {new LightSource(new Light(new Color(1.0, 1.0, 1.0)), new Vector(0.0, 0.0, 0.0))},
-//            new List<LightSource> {new LightSource(new Light(new Color(1.0, 1.0, 1.0)), new Vector(0.0, 0.0, 0.0))})
-//        {
-//            
-//        }
-
-        public PhongLighting(List<LightSource> ambientLights, List<LightSource> diffuseLights, List<LightSource> specularLights)
+        public PhongLighting()
         {
-            this.ambientLights = ambientLights;
-            this.diffuseLights = diffuseLights;
-            this.specularLights = specularLights;
+            
         }
+
+//        public PhongLighting(List<LightSource> ambientLights, List<LightSource> diffuseLights, List<LightSource> specularLights)
+//        {
+//            this.ambientLights = ambientLights;
+//            this.diffuseLights = diffuseLights;
+//            this.specularLights = specularLights;
+//        }
 
         //TODO write function which applies(renders) phong lighining on scene
         //TODO: check if whole triangle face is fragment or only single pixels, because it is important in specular lightning, probably one pixel is fragment
+
         public Color ApplyLightning(GameData.GameData gameData, Triangle triangle, Vector fragPosition, Vector triangleNormal)
         {
-            return new Color((ApplyAmbientLightning(triangle) /*+
-                              ApplyDiffuseLightning(triangle, fragPosition, triangleNormal) +*/
-                              /*ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition,
+            Vector triangleAfterLightningColor = new Vector(0, 0, 0);
+            foreach (var lightSource in gameData.lightSources)
+            {
+                triangleAfterLightningColor += ApplyLightning(gameData, triangle, fragPosition, triangleNormal, lightSource).rgb;
+            }
+            
+            return new Color(triangleAfterLightningColor);
+        }
+        //TODO: delete this function probably
+        private Color ApplyLightning(GameData.GameData gameData, Triangle triangle, Vector fragPosition, Vector triangleNormal, LightSource lightSource)
+        {
+            return new Color((/*ApplyAmbientLightning(triangle, lightSource) +*/
+                              ApplyDiffuseLightning(triangle, fragPosition, triangleNormal, lightSource)/* +
+                              ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition,
                                   triangleNormal)*/).rgb/*.Normalize(2)*/);
         }
 
-        private Color ApplyAmbientLightning(Triangle triangle)
+        private Color ApplyAmbientLightning(Triangle triangle, LightSource lightSource)
         {
             //        float ambientStrength = 0.1;
 //        vec3 ambient = ambientStrength * lightColor;
@@ -44,26 +49,24 @@ namespace Game.Lightning.LightningModel
 //        vec3 result = ambient * objectColor;
 //        FragColor = vec4(result, 1.0);
             Vector finalColorVector = new Vector(0, 0, 0);
-            foreach (var ambientLight in ambientLights)
-            {
-                Vector colorVector = ApplyAmbientLight(triangle, ambientLight);
-                finalColorVector = finalColorVector.Add(colorVector);
-            }
+            Vector colorVector = ApplyAmbientLight(triangle, lightSource.ambientLight);
+            finalColorVector = finalColorVector.Add(colorVector);
             
             return new Color(finalColorVector);
         }
-
-        private Vector ApplyAmbientLight(Triangle triangle, LightSource ambientLight)
+        
+        //TODO: delete this function probably
+        private Vector ApplyAmbientLight(Triangle triangle, Light ambientLight)
         {
             
-            Vector ambient = ambientLight.light.lightStrength * ambientLight.light.lightColor.rgb;
+            Vector ambient = ambientLight.lightStrength * ambientLight.lightColor.rgb;
             
-            return ambient.PointwiseMultiply(new Vector(triangle.color.R, triangle.color.G, triangle.color.B));
+            return ambient.PointwiseMultiply(triangle.color.rgb);
         }
         
+        //TODO fix diffuse lightning when mouse are in focus of the window
 
-
-        private Color ApplyDiffuseLightning(Triangle triangle, Vector fragPosition, Vector triangleNormal)
+        private Color ApplyDiffuseLightning(Triangle triangle, Vector fragPosition, Vector triangleNormal, LightSource lightSource)
         {
             //        float ambientStrength = 0.1;
 //        vec3 ambient = ambientStrength * lightColor;
@@ -71,16 +74,13 @@ namespace Game.Lightning.LightningModel
 //        vec3 result = ambient * objectColor;
 //        FragColor = vec4(result, 1.0);
             Vector finalColorVector = new Vector(0, 0, 0);
-            foreach (var diffuseLight in diffuseLights)
-            {
-                Vector colorVector = ApplyDiffuseLight(triangle, fragPosition, triangleNormal, diffuseLight);
-                finalColorVector = finalColorVector.Add(colorVector);
-            }
+            Vector colorVector = ApplyDiffuseLight(triangle, fragPosition, triangleNormal, lightSource.diffuseLight);
+            finalColorVector = finalColorVector.Add(colorVector);
             
             return new Color(finalColorVector);
         }
         
-        private Vector ApplyDiffuseLight(Triangle triangle, Vector fragPosition, Vector triangleNormal, LightSource diffuseLight)
+        private Vector ApplyDiffuseLight(Triangle triangle, Vector fragPosition, Vector triangleNormal, Light diffuseLight)
         {
 //            vec3 norm = normalize(Normal);
 //            vec3 lightDir = normalize(lightPos - FragPos);
@@ -106,7 +106,18 @@ namespace Game.Lightning.LightningModel
 
         
         private Color ApplySpecularLightning(Triangle triangle, Vector cameraPosition, Vector fragPosition,
-            Vector triangleNormal)
+            Vector triangleNormal, LightSource lightSource)
+        {
+            Vector finalColorVector = new Vector(0, 0, 0);
+            Vector colorVector = ApplySpecularLight(triangle, cameraPosition, fragPosition, triangleNormal, lightSource.specularLight);
+            finalColorVector = finalColorVector.Add(colorVector);
+            
+            return new Color(finalColorVector);
+        }
+        
+        
+        private Vector ApplySpecularLight(Triangle triangle, Vector cameraPosition, Vector fragPosition,
+            Vector triangleNormal, Light specularLight)
         {
             
 //            float specularStrength = 0.5;
@@ -126,10 +137,8 @@ namespace Game.Lightning.LightningModel
             double dot = (viewDir/*.ResizeVectorToLength(3)*/).DotProduct(reflectDir);
             double spec = System.Math.Pow(System.Math.Max(dot, 0.0), 32);
 
-            Color specular = new Color(specularStrength * spec * lightColor);
-            return specular;
+            return specularStrength * spec * lightColor;
         }
-        
 
     }
 }

@@ -13,17 +13,17 @@ namespace Game.GameData
         //TODO change camera to ICamera
         public Camera.Camera camera { get; set; }
         public Camera.Cameras cameras { get; set; }
-        public List<ILightningObject> lightObjects { get; set; }
+        public List<LightSource> lightSources { get; set; }
         public ILightningModel lightningModel { get; set; }
         //TODO move ligths list from Phong to GameData
 
         
-        public GameData(List<Model> models, Camera.Camera camera, Cameras cameras, List<ILightningObject> lightObjects,
+        public GameData(List<Model> models, Camera.Camera camera, Cameras cameras, List<LightSource> lightSources,
             ILightningModel lightningModel)
         {
             this.models = models;
             this.camera = camera;
-            this.lightObjects = lightObjects;
+            this.lightSources = lightSources;
             this.lightningModel = lightningModel;
             this.cameras = cameras;
         }
