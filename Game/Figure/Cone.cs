@@ -6,10 +6,11 @@ using static System.Math;
 
 
 namespace Game.Figure
-{
+{    
+    //TODO: refactor both Cone() functions
     public class Cone : Model, IModel
     {
-
+    
         public Cone()
         {
              Random rand = new Random();
@@ -17,7 +18,7 @@ namespace Game.Figure
             Vertex p1, p2, p3, p4;
             Triangle triangle;
             double Angle = 30f / 180 * PI;
-            double R = 0.1;
+            double R = 0.5;
             double Alpha = 0;
             double Beta = 0;
             double height = 1;
@@ -38,15 +39,15 @@ namespace Game.Figure
                 //triangles.Add(triangle);
 
                 
-                    triangle = new Triangle(p1, p3, p4);
-                    int r = rand.Next(255);
-                    int g = rand.Next(255);
-                    int b = rand.Next(255);
-                    triangle.color = new Lightning.Color(r,g,b);
-                    triangles.Add(triangle);
-                    //p2 = p3;
-                    p3 = p4;
-                    Alpha += Angle;
+                triangle = new Triangle(p1, p3, p4);
+                int r = rand.Next(255);
+                int g = rand.Next(255);
+                int b = rand.Next(255);
+                triangle.color = new Lightning.Color(r,g,b);
+                triangles.Add(triangle);
+                //p2 = p3;
+                p3 = p4;
+                Alpha += Angle;
             }
             Beta += Angle;
             Alpha = 0;
@@ -86,7 +87,7 @@ namespace Game.Figure
             Vertex p1, p2, p3, p4;
             Triangle triangle;
             double Angle = 30f / 180 * PI;
-            double R = 0.1;
+            double R = 0.5;
             double Alpha = 0;
             double Beta = 0;
             double height = 1;

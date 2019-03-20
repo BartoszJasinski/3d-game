@@ -58,7 +58,8 @@ namespace Game.Figure
                 
                 //TODO normals should have dimenson 3 
                 //TODO: check if normal calculating is correct
-                vertices[i].normal = firstSide.CrossProduct(secondSide);
+                //TODO: (unit vector)normalize normal
+                vertices[i].normal = /*-*/(firstSide.CrossProduct(secondSide))/*.Normalize(2)*/;
             }
             
         }

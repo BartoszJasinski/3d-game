@@ -14,6 +14,7 @@ namespace Game.Render
         private const int screenWidth = 800, screenHeight = 800;
         double[,] zBuffer = new double[screenWidth, screenHeight];
         
+        //TODO: maybe rename function 
         public void DepthTesting(PictureBox gamePictureBox)
         {
             for (int x = 0; x < zBuffer.GetLength(0); x++)

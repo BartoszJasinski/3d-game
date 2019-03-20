@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Game.GameData;
 using Game.IO;
+using Game.Math;
 
 
 namespace Game
@@ -18,6 +19,12 @@ namespace Game
         Keyboard keyboard = new Keyboard();
         public GameWindow()
         {
+//            Camera.Camera testCam = new Camera.Camera();
+//            Vector cameraPosition = new Vector(-1, 0, 0);
+//            Vector direcotion = new Vector(-1, 0, 0);
+//            Vector upVector = new Vector(0, 0, 1);
+//            testCam.LookAt(cameraPosition, cameraPosition + direcotion, upVector);
+
             InitializeComponent();
             
             Init();
@@ -65,8 +72,7 @@ namespace Game
 
         private void gamePictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-//            gamePictureBox.BackColor = System.Drawing.Color.Yellow;
-            gameData.camera.cameraFront = mouse.ProcessMouseMove(gameData, e);
+            gameData.camera.cameraFront = mouse.ProcessMouseMove(e);
         }
 
         private void GameWindow_KeyPress(object sender, KeyPressEventArgs e)

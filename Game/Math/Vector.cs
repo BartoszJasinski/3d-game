@@ -67,7 +67,7 @@ namespace Game.Math
         }
 
 
-        
+        //TODO thing about checking if vectors should be only 3D (this requires refactoring in other parts of code)
         public Vector CrossProduct(Vector secondVector)
         {
 //            if ((firstVector.Count != 3 || secondVector.Count != 3))
@@ -78,7 +78,7 @@ namespace Game.Math
             
             Vector crossProduct = new Vector();
             crossProduct.x = y * secondVector.z - z * secondVector.y;
-            crossProduct.y = -x * secondVector.z + z * secondVector.x;
+            crossProduct.y = z * secondVector.x - x * secondVector.z;
             crossProduct.z = x * secondVector.y - y * secondVector.x;
             crossProduct.w = 1;
             

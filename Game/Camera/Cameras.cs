@@ -5,7 +5,7 @@ using Game.Math;
 
 namespace Game.Camera
 {
-    
+    //TODO: implement and test other cameras
     //TODO: create way of choosing different cameras like (keyboard shortucts or smth else) and nice API to choose cameras 
     //TODO: fix displaying because, in StationaryCamera top of the cone is the highest point, and in StationaryTrackingModelCamera and MovingAssociated with object is the lowest point
     public class Cameras

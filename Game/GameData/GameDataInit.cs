@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 
+using Game.Lightning.LightningObject;
+using Game.Lightning.LightningModel;
+using Game.Lightning;
 using Game.Camera;
 using Game.Figure;
-using Game.Lightning;
-using Game.Lightning.LightningModel;
-using Game.Lightning.LightningObject;
 using Game.Math;
 
 namespace Game.GameData
@@ -16,7 +16,7 @@ namespace Game.GameData
         {
             GameData gameData = new GameData(CreateModels(), CreateCamera(), CreateCameras(), CreateIllumination(), CreateLightningModel());
 
-//            AddLightModelsToRenderList(gameData);
+            AddLightModelsToRenderList(gameData);
 
             return gameData;
         }
@@ -30,13 +30,12 @@ namespace Game.GameData
             
             return models;
         }
-
+        
         private Cone CreateCone()
         {
             Cone cone = new Cone();
-            Vector modelPosition = new Vector(0, 0, 0);
-            cone.translationVector = modelPosition;
-            cone.scaleVector = new Vector(2.0, 2.0, 1.0);
+            cone.translationVector = new Vector(0, 0, 0);
+            cone.scaleVector = new Vector(1.0, 1.0, 1.0);
             cone.rotationVector = new Vector(0, 1, 0);
             cone.rotationAngle = 0;
             
@@ -65,8 +64,8 @@ namespace Game.GameData
             
             return sphere;
         }
-
-      
+        
+        
         private Camera.Camera CreateCamera()
         {
             return new Camera.Camera(new Vector (10.0, 0.0, 0.0), new Vector (-1.0, 0.0, 0.0), new Vector(0.0, 0.0, 1.0), 1);
@@ -76,7 +75,7 @@ namespace Game.GameData
         {
             return new Cameras();
         }
-
+        
         private List<LightSource> CreateIllumination()
         {
             List<LightSource> lightSources = new List<LightSource> { CreateLamp() };
@@ -94,8 +93,10 @@ namespace Game.GameData
 
         private LightSource CreateLamp()
         {
-            Vector translationVector = new Vector(5.0, 0.0, 0.0);
-            Vector scaleVector = new Vector(1.0, 1.0, 1.0);
+            //TODO when you change x coordinate zBuffer is being drawn wrongly
+            //TODO fix, when cube is located near camera like (9.9, 0, 0) game freezes/ have exception or just simply take long to draw one frame
+            Vector translationVector = new Vector(5.0, 1.0, 0.0);
+            Vector scaleVector = new Vector(1.0, 1.0, -1.0);
             Vector rotationVector = new Vector(0.0, 0.0, 1.0);;
             double rotationAngle = 0.0;
             
@@ -106,24 +107,6 @@ namespace Game.GameData
             
             return new Lamp(cone, ambientLight, diffuseLight, specularLight);
         }
-        
-        private ILightningModel CreateLightningModel()
-        {
-            List<LightSource> ambientLights = CreateAmbientLights();
-            List<LightSource> diffuseLights = CreateDiffuseLights();
-            List<LightSource> specularLights = CreateSpecularLights();
-
-            return new PhongLighting();
-        }
-
-        //TODO: delete maybe 
-        private List<LightSource> CreateAmbientLights()
-        {
-            List<LightSource> ambientLights = new List<LightSource>();
-//            ambientLights.Add(CreateAmbientLight());
-
-            return ambientLights;
-        }
 
         private Light CreateAmbientLight()
         {
@@ -132,37 +115,22 @@ namespace Game.GameData
             return ambientLight;
         }
         
-        //TODO: delete maybe 
-        private List<LightSource> CreateDiffuseLights()
-        {
-            List<LightSource> diffuseLights = new List<LightSource>();
-//            diffuseLights.Add(new LightSource(new Light(new Color(1.0, 1.0, 1.0)), new Vector(0.0, 0.0, 0.0)));
-
-            return diffuseLights;
-        }
-
         private Light CreateDiffuseLight()
         {
             Light diffuseLight = new Light(new Color(1.0, 1.0, 1.0), 1.0);
             return diffuseLight;
         }
 
-        //TODO: delete maybe 
-        private List<LightSource> CreateSpecularLights()
-        {
-            List<LightSource> specularLights = new List<LightSource>();
-//            specularLights.Add(new LightSource(new Light(new Color(1.0, 1.0, 1.0)), new Vector(0.0, 0.0, 0.0)));
-
-            return specularLights;
-        }
-        
         private Light CreateSpecularLight()
         {
             Light specularLight = new Light(new Color(1.0, 1.0, 1.0), 1.0);
             return specularLight;
         }
 
-
+        private ILightningModel CreateLightningModel()
+        {
+            return new PhongLighting();
+        }
 
     }
 }

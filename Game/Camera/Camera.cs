@@ -43,6 +43,7 @@ namespace Game.Camera
             return LookAt(cameraPosition, cameraPosition + cameraFront, upAxis);
         }
         
+        //TODO: probably bug in this function (when camera passes (0, 0, 0) camera )
         public Matrix LookAt(Vector cameraPosition, Vector cameraTarget, Vector upAxis)
         {
             Vector direction = (cameraPosition - cameraTarget).Normalize(2);
@@ -73,11 +74,11 @@ namespace Game.Camera
 //            });
 
 
-
-            Vector upVector = upAxis.Normalize(2);
-            Vector zAxis = (cameraPosition - cameraTarget).Normalize(2);
-            Vector xAxis = upVector.CrossProduct(zAxis).Normalize(2);
-            Vector yAxis = zAxis.CrossProduct(xAxis).Normalize(2);
+            //TODO: refactor (maybe delete all CastVectorTo3D() (vectors should have as many coordinates as initialized in constructor))
+            Vector upVector = (upAxis.CastVectorTo3D()).Normalize(2);
+            Vector zAxis = ((cameraPosition - cameraTarget).CastVectorTo3D()).Normalize(2);
+            Vector xAxis = ((upVector.CrossProduct(zAxis)).CastVectorTo3D()).Normalize(2);
+            Vector yAxis = ((zAxis.CrossProduct(xAxis)).CastVectorTo3D()).Normalize(2);
             
             Matrix ViewMatrix = new Matrix(new double[,]
             {
@@ -88,6 +89,7 @@ namespace Game.Camera
             });
 
             ViewMatrix = ViewMatrix.Inverse();
+            
             return ViewMatrix;
 
         }

@@ -16,10 +16,12 @@ namespace Game.Render
 
         public void RenderModels(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData)
         {
+
             foreach(Model model in gameData.models)
                 RenderModel(e, gamePictureBox, gameData, model);
-            
+
             algorithms.DepthTesting(gamePictureBox);
+
         }
 
         void RenderModel(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData, Model model)
@@ -47,11 +49,10 @@ namespace Game.Render
                 Algorithms.ProjectedTriangle projectedTriangle = new Algorithms.ProjectedTriangle(p1e, p2e, p3e);
                 projectedTriangle = projectedTriangle.ProjectTriangle(gamePictureBox.Width, gamePictureBox.Height);
                 
-//                System.Drawing.Color triangleColor = Game.Lightning.Lightning.ApplyLightning(gameData, triangle).ToSystemColor();
                 //TODO: fix tirangle.verticec[0] because it is not fragPosition probably
                 Vector fragPosition = model.modelMatrix * triangle.vertices[1].position;
-//                System.Drawing.Color triangleColor = ApplyDiffuseLightning(triangle, fragPosition).ToSystemColor();
                 Vector triangleNormal = model.modelMatrix * triangle.vertices[1].normal;
+//                Color triangleColor = Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition, triangleNormal);
                 Color triangleColor = Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition, triangleNormal);
                 
 //                ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e.z, triangle, p1e.x, p1e.y, p1e.z, p2e.x, p2e.y, p2e.z, p3e.x, p3e.y, p3e.z);
