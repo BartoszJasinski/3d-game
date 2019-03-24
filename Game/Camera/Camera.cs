@@ -46,12 +46,12 @@ namespace Game.Camera
         //TODO: probably bug in this function (when camera passes (0, 0, 0) camera )
         public Matrix LookAt(Vector cameraPosition, Vector cameraTarget, Vector upAxis)
         {
-            Vector direction = (cameraPosition - cameraTarget).Normalize(2);
+//            Vector direction = (cameraPosition - cameraTarget).Normalize(2);
 //            direction.Normalize(2);
 //            Vector<double> up = upAxis.Normalize(2);
             
-            Vector left = direction.CrossProduct(upAxis).Normalize(2);
-            Vector up = left.CrossProduct(direction);
+//            Vector left = direction.CrossProduct(upAxis).Normalize(2);
+//            Vector up = left.CrossProduct(direction);
             
 //            Matrix<double> ViewMatrix = DenseMatrix.OfArray(new double[,] {
 //                {right[0], right[1], right[2], 0},

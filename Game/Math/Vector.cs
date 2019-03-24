@@ -86,7 +86,7 @@ namespace Game.Math
         }
         
 
-        
+        //TODO: maybe it should check if vectors are the same size (this requires refactoring in other parts of code PROBABLY)
         public Vector PointwiseMultiply(Vector secondVector)
         {
 //            if (Count != secondVector.Count)
@@ -99,6 +99,7 @@ namespace Game.Math
 
             return resultVector;
         }
+        
         public Vector  ReflectVector(Vector reflectionVector)
         {
             Vector resultVector = this - 2 * (this * reflectionVector) * reflectionVector;
@@ -174,6 +175,12 @@ namespace Game.Math
         public double DotProduct(Vector secondVector)
         {
             return vector.DotProduct(secondVector);
+        }
+        
+        public override string ToString()
+        {
+            return "(" + x + ", " + y + ", " + z + ")";
+
         }
     }
 }

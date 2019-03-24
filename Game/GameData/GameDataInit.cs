@@ -16,7 +16,7 @@ namespace Game.GameData
         {
             GameData gameData = new GameData(CreateModels(), CreateCamera(), CreateCameras(), CreateIllumination(), CreateLightningModel());
 
-            AddLightModelsToRenderList(gameData);
+//            AddLightModelsToRenderList(gameData);
 
             return gameData;
         }
@@ -68,7 +68,7 @@ namespace Game.GameData
         
         private Camera.Camera CreateCamera()
         {
-            return new Camera.Camera(new Vector (10.0, 0.0, 0.0), new Vector (-1.0, 0.0, 0.0), new Vector(0.0, 0.0, 1.0), 1);
+            return new Camera.Camera(new Vector (10.0, 0.0, 0.0), new Vector (-1.0, 0.0, 0.0), new Vector(0.0, 0.0, -1.0), 1);
         }
         
         private Cameras CreateCameras()
@@ -95,8 +95,8 @@ namespace Game.GameData
         {
             //TODO when you change x coordinate zBuffer is being drawn wrongly
             //TODO fix, when cube is located near camera like (9.9, 0, 0) game freezes/ have exception or just simply take long to draw one frame
-            Vector translationVector = new Vector(5.0, 1.0, 0.0);
-            Vector scaleVector = new Vector(1.0, 1.0, -1.0);
+            Vector translationVector = new Vector(5.0, 0.0, 0.0);
+            Vector scaleVector = new Vector(1.0, 1.0, 1.0);
             Vector rotationVector = new Vector(0.0, 0.0, 1.0);;
             double rotationAngle = 0.0;
             

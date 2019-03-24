@@ -54,6 +54,7 @@
     <Compile Include="Camera\CameraMode.cs" />
     <Compile Include="Camera\Cameras.cs" />
     <Compile Include="Camera\ICamera.cs" />
+    <Compile Include="GameDebug\Debug.cs" />
     <Compile Include="Figure\Board.cs" />
     <Compile Include="Figure\Cone.cs" />
     <Compile Include="Figure\IModel.cs" />

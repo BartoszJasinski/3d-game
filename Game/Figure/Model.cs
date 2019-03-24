@@ -129,10 +129,10 @@ namespace Game.Figure
         public Matrix Transform(Vector scaleVector, Vector rotationVector, double rotationAngle,
             Vector translationVector)
         {
-            
-            
             return Translate(translationVector) * Rotate(rotationVector, rotationAngle) * Scale(scaleVector);
             
         }
+
+
     }
 }

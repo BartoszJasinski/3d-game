@@ -26,7 +26,7 @@ namespace Game.Render
 
         void RenderModel(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData, Model model)
         {
-            phi += 0.1;
+            phi += 0.0;
 
             model.rotationAngle = phi;
             model.modelMatrix = model.Transform();
@@ -34,10 +34,14 @@ namespace Game.Render
             gameData.camera.viewMatrix = gameData.cameras.GetCamera(gameData.camera);
 
             DrawModelTriangles(e, gamePictureBox, gameData, model);
-
+            
+            Debug.Debug.PrintDebugGameData(e.Graphics, gameData);
         }
+        
+ 
 
         //TODO: implement fragShader and vertexShader
+        //TODO: bug with rendering is probably here (because when model is behind it should not be drawn)
         void DrawModelTriangles(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData, Model model)
         {
             foreach(Triangle triangle in model.triangles)
@@ -56,7 +60,9 @@ namespace Game.Render
                 Color triangleColor = Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition, triangleNormal);
                 
 //                ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e.z, triangle, p1e.x, p1e.y, p1e.z, p2e.x, p2e.y, p2e.z, p3e.x, p3e.y, p3e.z);
-                algorithms.ScanLineFillVertexSort(e, triangleColor, projectedTriangle);
+                //Backface Culling
+                if((fragPosition - gameData.camera.cameraPosition).DotProduct(triangleNormal) > 0)
+                    algorithms.ScanLineFillVertexSort(e, triangleColor, projectedTriangle);
 
 //                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p2_x_prim, (float)p2_y_prim);
 //                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p3_x_prim, (float)p3_y_prim);
