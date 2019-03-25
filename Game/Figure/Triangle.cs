@@ -53,8 +53,8 @@ namespace Game.Figure
         {
             for (int i = 0; i < NumberOfTriangleVertices; i++)
             {
-                Vector firstSide = vertices[(i + 1) % NumberOfTriangleVertices].position - vertices[i].position;
-                Vector secondSide = vertices[(i + 2) % NumberOfTriangleVertices].position - vertices[i].position;
+                Vector firstSide = (vertices[(i + 1) % NumberOfTriangleVertices].position - vertices[i].position).CastVectorTo3D();
+                Vector secondSide = (vertices[(i + 2) % NumberOfTriangleVertices].position - vertices[i].position).CastVectorTo3D();
                 
                 //TODO normals should have dimenson 3 
                 //TODO: check if normal calculating is correct

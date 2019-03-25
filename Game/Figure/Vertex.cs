@@ -8,16 +8,18 @@ namespace Game.Figure
         public Vector position { get; set; }
         public Vector normal { get; set; }
 
-        public Vertex(Vector position) : this(position, new Vector())
-        {
-            
-        }
-        
-        public Vertex(Vector position, Vector normal)
-        {
-            this.position = position;
-            this.normal = normal;
-        }
+        //TODO: maybe delete this constructor (it is not used)
+//        public Vertex(Vector position) : this(position, new Vector())
+//        {
+//            
+//        }
+
+        //TODO: maybe delete this constructor (it is not used)
+//        public Vertex(Vector position, Vector normal)
+//        {
+//            this.position = position;
+//            this.normal = normal;
+//        }
 
         public Vertex(double x, double y, double z) : this(x, y, z, 1)
         {

@@ -81,16 +81,16 @@ namespace Game.Camera
             return camera.LookAt(modelPosition + cameraOffset, modelPosition, upAxis);
         }
         
-        Dictionary<CameraMode, List<Vector>> CamerasList = new Dictionary<CameraMode, List<Vector>>
-        {
-            {CameraMode.StationaryCamera, new List<Vector> {new Vector(0.0, 0.0, 0.0), 
-                new Vector(0.0, 0.0, 0.0),new Vector(0.0, 1.0, 0.0)}},
-            
-            {CameraMode.StationaryTrackingObjectCamera, new List<Vector>{new Vector(0.0, 0.0, 0.0), 
-                new Vector(0.0, 0.0, 0.0),new Vector(0.0, 1.0, 0.0)}},
-
-            {CameraMode.MovingAssociatedWithObjectCamera, new List<Vector> {new Vector(0.0, 0.0, 0.0), 
-                new Vector(0.0, 0.0, 0.0),new Vector(0.0, 1.0, 0.0)}}
-        };
+//        Dictionary<CameraMode, List<Vector>> CamerasList = new Dictionary<CameraMode, List<Vector>>
+//        {
+//            {CameraMode.StationaryCamera, new List<Vector> {new Vector(0.0, 0.0, 0.0), 
+//                new Vector(0.0, 0.0, 0.0),new Vector(0.0, 1.0, 0.0)}},
+//            
+//            {CameraMode.StationaryTrackingObjectCamera, new List<Vector>{new Vector(0.0, 0.0, 0.0), 
+//                new Vector(0.0, 0.0, 0.0),new Vector(0.0, 1.0, 0.0)}},
+//
+//            {CameraMode.MovingAssociatedWithObjectCamera, new List<Vector> {new Vector(0.0, 0.0, 0.0), 
+//                new Vector(0.0, 0.0, 0.0),new Vector(0.0, 1.0, 0.0)}}
+//        };
     }
 }

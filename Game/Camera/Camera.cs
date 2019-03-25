@@ -17,11 +17,11 @@ namespace Game.Camera
         public Matrix viewMatrix { get; set; }
         public double cameraSpeed { get; set; }
         
-
-        public Camera() : this(new Vector(0, 0, 0), new Vector(0, 0, 0), new Vector(0, 0, -1), 1)
-        {
-            
-        }
+        //TODO: maybe delete this constructor (it is not used)
+//        public Camera() : this(new Vector(0, 0, 0), new Vector(0, 0, 0), new Vector(0, 0, -1), 1)
+//        {
+//            
+//        }
         
         public Camera(Vector cameraPosition, Vector cameraFront, Vector upAxis) : this(cameraPosition, cameraFront, upAxis, 1)
         {

@@ -41,11 +41,12 @@ namespace Game.IO
                 pitch = 89.0f;
             if (pitch < -89.0f)
                 pitch = -89.0f;
+            
+            double x = System.Math.Cos(yaw) * System.Math.Cos(pitch);
+            double z = System.Math.Sin(pitch);
+            double y = System.Math.Sin(yaw) * System.Math.Cos(pitch);
 
-            Vector front = new Vector();
-            front.x = System.Math.Cos(yaw) * System.Math.Cos(pitch);
-            front.z = System.Math.Sin(pitch);
-            front.y = System.Math.Sin(yaw) * System.Math.Cos(pitch);
+            Vector front = new Vector(x, y, z);
             
             return front.Normalize(2);
         }

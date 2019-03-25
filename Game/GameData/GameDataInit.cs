@@ -16,7 +16,7 @@ namespace Game.GameData
         {
             GameData gameData = new GameData(CreateModels(), CreateCamera(), CreateCameras(), CreateIllumination(), CreateLightningModel());
 
-//            AddLightModelsToRenderList(gameData);
+            AddLightModelsToRenderList(gameData);
 
             return gameData;
         }
@@ -34,7 +34,7 @@ namespace Game.GameData
         private Cone CreateCone()
         {
             Cone cone = new Cone();
-            cone.translationVector = new Vector(0, 0, 0);
+            cone.translationVector = new Vector(0, 0, 0, 1);
             cone.scaleVector = new Vector(1.0, 1.0, 1.0);
             cone.rotationVector = new Vector(0, 1, 0);
             cone.rotationAngle = 0;
@@ -56,8 +56,7 @@ namespace Game.GameData
         private Sphere CreateSphere()
         {
             Sphere sphere = new Sphere();
-            Vector modelPosition = new Vector(0, 0, 0);
-            sphere.translationVector = modelPosition;
+            sphere.translationVector = new Vector(0, 0, 0, 1);;
             sphere.scaleVector = new Vector(1, 1, 1.0);
             sphere.rotationVector = new Vector(0, 0, 1);
             sphere.rotationAngle = 0;
@@ -68,7 +67,7 @@ namespace Game.GameData
         
         private Camera.Camera CreateCamera()
         {
-            return new Camera.Camera(new Vector (10.0, 0.0, 0.0), new Vector (-1.0, 0.0, 0.0), new Vector(0.0, 0.0, -1.0), 1);
+            return new Camera.Camera(new Vector(45.0, 0.0, 0.0), new Vector(-1.0, 0.0, 0.0), new Vector(0.0, 0.0, -1.0), 1);
         }
         
         private Cameras CreateCameras()
@@ -95,9 +94,9 @@ namespace Game.GameData
         {
             //TODO when you change x coordinate zBuffer is being drawn wrongly
             //TODO fix, when cube is located near camera like (9.9, 0, 0) game freezes/ have exception or just simply take long to draw one frame
-            Vector translationVector = new Vector(5.0, 0.0, 0.0);
+            Vector translationVector = new Vector(20.0, 0.0, 0.0, 1);
             Vector scaleVector = new Vector(1.0, 1.0, 1.0);
-            Vector rotationVector = new Vector(0.0, 0.0, 1.0);;
+            Vector rotationVector = new Vector(0, 1, 0);
             double rotationAngle = 0.0;
             
             Cone cone = CreateCone(new Color(1.0, 1.0, 1.0), translationVector, scaleVector, rotationVector, rotationAngle);

@@ -273,7 +273,7 @@ namespace Game.Render
                 { 1, 1, 1 }
             };
             Matrix A = new Matrix(matrixElements);
-            Vector B = new Vector(x, y, 1).CastVectorTo3D();
+            Vector B = new Vector(x, y, 1);
 
             Vector coefficients = A.Inverse() * B;
 

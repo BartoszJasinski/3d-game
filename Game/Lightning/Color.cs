@@ -12,6 +12,7 @@ namespace Game.Lightning
         public double G => rgb[1];
         public double B => rgb[2];
 
+        //TODO: maybe add A to RGB, so it will become RGBA
 
         // 
         /// <summary>

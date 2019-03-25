@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace Game.Math
 {
+    //TODO: refactor to use 3 elements vectors when constructor is  invoeks with 3 elements
     public class Vector
     {
         public int Count => vector.Count;
@@ -32,23 +34,30 @@ namespace Game.Math
             get => vector[3];
             set => vector[3] = value;
         }
-
-        public Vector(): this(new DenseVector(new double[] { 0.0, 0.0, 0.0, 0.0 }))
+                
+        public double this[int i]
         {
-            
+            get => vector[i];
+            set => vector[i] = value;
         }
+
+        //TODO: maybe delete this constructor (it is not used)
+//        public Vector(): this(new DenseVector(new double[] { 0.0, 0.0, 0.0, 0.0 }))
+//        {
+//            
+//        }
 
         public Vector(double[] vectorElements) : this(DenseVector.OfArray(vectorElements))
         {
         }
             
 
-        public Vector(double x, double y, double z): this(new DenseVector(new double[] {x, y, z, 1}))
+        public Vector(double x, double y, double z): this(new DenseVector(new double[] { x, y, z }))
         {
             
         }
-        
-        public Vector(double x, double y, double z, double w): this(new DenseVector(new double[] {x, y, z, w}))
+
+        public Vector(double x, double y, double z, double w): this(new DenseVector(new double[] { x, y, z, w }))
         {
             
         }
@@ -57,45 +66,37 @@ namespace Game.Math
         {
             this.vector = vector;
         }
-        
-        
-        
-        public double this[int i]
-        {
-            get => vector[i];
-            set => vector[i] = value;
-        }
 
-
-        //TODO thing about checking if vectors should be only 3D (this requires refactoring in other parts of code)
         public Vector CrossProduct(Vector secondVector)
         {
-//            if ((firstVector.Count != 3 || secondVector.Count != 3))
-//            {
-//                string message = "Vectors must have a length of 3.";
-//                throw new Exception(message);
-//            }
+            const int numberOfElementsIn3DVector = 3;
+            if ((Count != numberOfElementsIn3DVector || secondVector.Count != numberOfElementsIn3DVector ))
+            {
+                string message = "Vectors must have a length of 3";
+                throw new ArgumentException(message);
+            }
             
-            Vector crossProduct = new Vector();
-            crossProduct.x = y * secondVector.z - z * secondVector.y;
-            crossProduct.y = z * secondVector.x - x * secondVector.z;
-            crossProduct.z = x * secondVector.y - y * secondVector.x;
-            crossProduct.w = 1;
+            double xCoordinate = y * secondVector.z - z * secondVector.y;
+            double yCoordinate = z * secondVector.x - x * secondVector.z;
+            double zCoordinate = x * secondVector.y - y * secondVector.x;
+            
+            Vector crossProduct = new Vector(xCoordinate, yCoordinate, zCoordinate);
             
             return crossProduct;
         }
         
-
-        //TODO: maybe it should check if vectors are the same size (this requires refactoring in other parts of code PROBABLY)
         public Vector PointwiseMultiply(Vector secondVector)
         {
-//            if (Count != secondVector.Count)
-//                throw new ArgumentException("Vectors should have the same number of elements");
+            if (Count != secondVector.Count)
+                throw new ArgumentException("Vectors should have the same number of elements");
 
-            Vector resultVector = new Vector();
             int resultVectorSize = System.Math.Min(Count, secondVector.Count);
+            double[] resultVectorElementsArray = new double[resultVectorSize];
+            Vector resultVector = new Vector(0, 0, 0);
+
             for (int i = 0; i < resultVectorSize; i++)
                 resultVector[i] = vector[i] * secondVector[i];
+
 
             return resultVector;
         }
@@ -120,9 +121,17 @@ namespace Game.Math
 
         public Vector CastVectorTo3D()
         {
-            int numberOfElementsIn3DVector = 3;
+            const int numberOfElementsIn3DVector = 3;
             
             return ResizeVectorToLength(numberOfElementsIn3DVector);
+        }
+
+        public Vector Cast3DVectorTo4D(double w = 1)
+        {
+            if(vector.Count != 3)
+                throw new ArgumentException("Vector is not 3D vector");
+            
+            return new Vector(x, y, z, w);
         }
         
         public static implicit operator Vector<double>(Vector vector)

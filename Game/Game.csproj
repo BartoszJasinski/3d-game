@@ -58,7 +58,6 @@
     <Compile Include="Figure\Board.cs" />
     <Compile Include="Figure\Cone.cs" />
     <Compile Include="Figure\IModel.cs" />
-    <Compile Include="Figure\ListException.cs" />
     <Compile Include="Figure\Model.cs" />
     <Compile Include="Figure\Sphere.cs" />
     <Compile Include="Figure\Triangle.cs" />

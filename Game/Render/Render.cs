@@ -46,23 +46,30 @@ namespace Game.Render
         {
             foreach(Triangle triangle in model.triangles)
             {
-                Vector p1e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.firstVertex.position;
-                Vector p2e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.secondVertex.position;
-                Vector p3e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix * triangle.thirdVertex.position;
-                
-                Algorithms.ProjectedTriangle projectedTriangle = new Algorithms.ProjectedTriangle(p1e, p2e, p3e);
-                projectedTriangle = projectedTriangle.ProjectTriangle(gamePictureBox.Width, gamePictureBox.Height);
-                
                 //TODO: fix tirangle.verticec[0] because it is not fragPosition probably
+                //TODO: maybe fragposiotion should be 3D vector
                 Vector fragPosition = model.modelMatrix * triangle.vertices[1].position;
-                Vector triangleNormal = model.modelMatrix * triangle.vertices[1].normal;
-//                Color triangleColor = Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition, triangleNormal);
-                Color triangleColor = Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition, triangleNormal);
-                
-//                ScanLineFillVertexSort(p1_x_prim, p1_y_prim, p2_x_prim, p2_y_prim, p3_x_prim, p3_y_prim, triangleColor, e, p3e.z, triangle, p1e.x, p1e.y, p1e.z, p2e.x, p2e.y, p2e.z, p3e.x, p3e.y, p3e.z);
+                Vector triangleNormal = model.modelMatrix * triangle.vertices[1].normal.Cast3DVectorTo4D();
                 //Backface Culling
-                if((fragPosition - gameData.camera.cameraPosition).DotProduct(triangleNormal) > 0)
+                //TODO: refactor backface Culling into another function
+                if(((fragPosition.CastVectorTo3D() - gameData.camera.cameraPosition).CastVectorTo3D()).DotProduct(triangleNormal.CastVectorTo3D()) < 0)
+                {
+                    Vector p1e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix *
+                                 triangle.firstVertex.position;
+                    Vector p2e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix *
+                                 triangle.secondVertex.position;
+                    Vector p3e = Projection.ProjectionMatrix * gameData.camera.viewMatrix * model.modelMatrix *
+                                 triangle.thirdVertex.position;
+
+                    Algorithms.ProjectedTriangle projectedTriangle = new Algorithms.ProjectedTriangle(p1e, p2e, p3e);
+                    projectedTriangle = projectedTriangle.ProjectTriangle(gamePictureBox.Width, gamePictureBox.Height);
+
+
+                    Color triangleColor =
+                        Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition, triangleNormal);
+
                     algorithms.ScanLineFillVertexSort(e, triangleColor, projectedTriangle);
+                }
 
 //                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p2_x_prim, (float)p2_y_prim);
 //                e.Graphics.DrawLine(Pens.Black, (float)p1_x_prim, (float)p1_y_prim, (float)p3_x_prim, (float)p3_y_prim);
