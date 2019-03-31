@@ -16,7 +16,7 @@ namespace Game.GameData
         {
             GameData gameData = new GameData(CreateModels(), CreateCamera(), CreateCameras(), CreateIllumination(), CreateLightningModel());
 
-            AddLightModelsToRenderList(gameData);
+//            AddLightModelsToRenderList(gameData);
 
             return gameData;
         }
@@ -34,7 +34,7 @@ namespace Game.GameData
         private Cone CreateCone()
         {
             Cone cone = new Cone();
-            cone.translationVector = new Vector(0, 0, 0, 1);
+            cone.translationVector = new Vector(-5, 0, 0, 1);
             cone.scaleVector = new Vector(1.0, 1.0, 1.0);
             cone.rotationVector = new Vector(0, 1, 0);
             cone.rotationAngle = 0;
@@ -67,7 +67,7 @@ namespace Game.GameData
         
         private Camera.Camera CreateCamera()
         {
-            return new Camera.Camera(new Vector(45.0, 0.0, 0.0), new Vector(-1.0, 0.0, 0.0), new Vector(0.0, 0.0, -1.0), 1);
+            return new Camera.Camera(new Vector(5.0, 0.0, 0.0), new Vector(-1.0, 0.0, 0.0), new Vector(0.0, 0.0, -1.0), 1);
         }
         
         private Cameras CreateCameras()
