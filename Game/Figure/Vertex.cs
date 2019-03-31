@@ -21,12 +21,7 @@ namespace Game.Figure
 //            this.normal = normal;
 //        }
 
-        public Vertex(double x, double y, double z) : this(x, y, z, 1)
-        {
-            
-        }
-        
-        public Vertex(double x, double y, double z, double w)
+        public Vertex(double x, double y, double z, double w = 1)
         {
             position = new Vector(x, y, z, w);
         }

@@ -48,7 +48,7 @@ namespace Game.IO
 
             Vector front = new Vector(x, y, z);
             
-            return front.Normalize(2);
+            return front.Normalize();
         }
     }
 }

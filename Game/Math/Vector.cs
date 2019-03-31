@@ -5,7 +5,6 @@ using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace Game.Math
 {
-    //TODO: refactor to use 3 elements vectors when constructor is  invoeks with 3 elements
     public class Vector
     {
         public int Count => vector.Count;
@@ -52,12 +51,12 @@ namespace Game.Math
         }
             
 
-        public Vector(double x, double y, double z): this(new DenseVector(new double[] { x, y, z }))
+        public Vector(double x, double y, double z): this(new DenseVector(new[] { x, y, z }))
         {
             
         }
 
-        public Vector(double x, double y, double z, double w): this(new DenseVector(new double[] { x, y, z, w }))
+        public Vector(double x, double y, double z, double w): this(new DenseVector(new[] { x, y, z, w }))
         {
             
         }
@@ -171,7 +170,7 @@ namespace Game.Math
         }
         
         
-        public Vector Normalize(double dimension)
+        public Vector Normalize(double dimension = 2)
         {
             return new Vector(vector.Normalize(dimension));
         }

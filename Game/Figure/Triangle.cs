@@ -26,8 +26,7 @@ namespace Game.Figure
             set => vertices[2] = value;
         }
         
-        public Color color { get; set; } = new Color(0.0, 1.0, 0.0);
-        
+        public Color color { get; set; }
         private const int NumberOfTriangleVertices = 3;
 
         public Triangle(Vertex firstVertex, Vertex secondVertex, Vertex thirdVertex)

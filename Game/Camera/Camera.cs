@@ -1,10 +1,4 @@
-using System;
-
-using Game.Figure;
 using Game.Math;
-using Math = Game.Math.Math;
-using Vector = Game.Math.Vector;
-
 
 namespace Game.Camera
 {
@@ -75,12 +69,12 @@ namespace Game.Camera
 
 
             //TODO: refactor (maybe delete all CastVectorTo3D() (vectors should have as many coordinates as initialized in constructor))
-            Vector upVector = (upAxis.CastVectorTo3D()).Normalize(2);
-            Vector zAxis = ((cameraPosition - cameraTarget).CastVectorTo3D()).Normalize(2);
-            Vector xAxis = ((upVector.CrossProduct(zAxis)).CastVectorTo3D()).Normalize(2);
-            Vector yAxis = ((zAxis.CrossProduct(xAxis)).CastVectorTo3D()).Normalize(2);
+            Vector upVector = (upAxis.CastVectorTo3D()).Normalize();
+            Vector zAxis = ((cameraPosition - cameraTarget).CastVectorTo3D()).Normalize();
+            Vector xAxis = ((upVector.CrossProduct(zAxis)).CastVectorTo3D()).Normalize();
+            Vector yAxis = ((zAxis.CrossProduct(xAxis)).CastVectorTo3D()).Normalize();
             
-            Matrix ViewMatrix = new Matrix(new double[,]
+            Matrix ViewMatrix = new Matrix(new[,]
             {
                 {xAxis.x, yAxis.x, zAxis.x, cameraPosition.x},
                 {xAxis.y, yAxis.y, zAxis.y, cameraPosition.y},

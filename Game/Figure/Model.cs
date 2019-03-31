@@ -24,9 +24,7 @@ namespace Game.Figure
             {0, 0, 1, 0},
             {0, 0, 0, 1}
         });
-        
-        //TODO: maybe delete color propertie
-        public Color color { get; set; }
+
 
 
         public Matrix Scale(Vector scalingVector)

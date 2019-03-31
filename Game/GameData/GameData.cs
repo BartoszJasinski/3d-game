@@ -11,7 +11,6 @@ namespace Game.GameData
     public class GameData
     {
         public List<Model> models { get; set; }
-        //TODO change camera to ICamera
         public Camera.Camera camera { get; set; }
         public Camera.Cameras cameras { get; set; }
         public List<LightSource> lightSources { get; set; }

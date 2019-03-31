@@ -7,7 +7,7 @@ namespace Game.Lightning
     public Color lightColor { get; set; }
     public double lightStrength { get; set; }
 
-    public Light() : this(new Color(1.0, 1.0, 1.0), 1.0)
+    public Light() : this(new Color(1.0, 1.0, 1.0))
     {
       
     }

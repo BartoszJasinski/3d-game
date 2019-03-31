@@ -109,20 +109,20 @@ namespace Game.GameData
 
         private Light CreateAmbientLight()
         {
-            Light ambientLight = new Light(new Color(1.0, 1.0, 1.0), 1.0);
+            Light ambientLight = new Light(new Color(1.0, 1.0, 1.0));
 
             return ambientLight;
         }
         
         private Light CreateDiffuseLight()
         {
-            Light diffuseLight = new Light(new Color(1.0, 1.0, 1.0), 1.0);
+            Light diffuseLight = new Light(new Color(1.0, 1.0, 1.0));
             return diffuseLight;
         }
 
         private Light CreateSpecularLight()
         {
-            Light specularLight = new Light(new Color(1.0, 1.0, 1.0), 1.0);
+            Light specularLight = new Light(new Color(1.0, 1.0, 1.0));
             return specularLight;
         }
 

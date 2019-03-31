@@ -20,12 +20,12 @@ namespace Game.IO
             else if (e.KeyChar == 'a')
             {
                 return gameData.camera.cameraPosition - gameData.camera.cameraSpeed *
-                       gameData.camera.cameraFront.CrossProduct(gameData.camera.upAxis).Normalize(2);
+                       gameData.camera.cameraFront.CrossProduct(gameData.camera.upAxis).Normalize();
             }
             else if (e.KeyChar == 'd')
             {
                 return gameData.camera.cameraPosition + gameData.camera.cameraSpeed *
-                       gameData.camera.cameraFront.CrossProduct(gameData.camera.upAxis).Normalize(2);
+                       gameData.camera.cameraFront.CrossProduct(gameData.camera.upAxis).Normalize();
             }
 
             return gameData.camera.cameraPosition;

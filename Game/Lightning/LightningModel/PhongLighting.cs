@@ -7,18 +7,6 @@ namespace Game.Lightning.LightningModel
 {
     public class PhongLighting : ILightningModel
     {
-        public PhongLighting()
-        {
-            
-        }
-
-//        public PhongLighting(List<LightSource> ambientLights, List<LightSource> diffuseLights, List<LightSource> specularLights)
-//        {
-//            this.ambientLights = ambientLights;
-//            this.diffuseLights = diffuseLights;
-//            this.specularLights = specularLights;
-//        }
-
         //TODO write function which applies(renders) phong lighining on scene
         //TODO: check if whole triangle face is fragment or only single pixels, because it is important in specular lightning, probably one pixel is fragment
         public Color ApplyLightning(GameData.GameData gameData, Triangle triangle, Vector fragPosition, Vector triangleNormal)
@@ -85,13 +73,12 @@ namespace Game.Lightning.LightningModel
 //            vec3 lightDir = normalize(lightPos - FragPos);
 //            float diff = max(dot(norm, lightDir), 0.0);
 //            vec3 diffuse = diff * lightColor;
-            //TODO: implement DropLastValue in Game.Math.Vector
 //            fragPosition = new Vector(fragPosition.x, fragPosition.y, fragPosition.z);
 
             //TODO think if norm should be normals[0] or normals[1] or normals[2]
-            Vector norm = triangleNormal.Normalize(2);
+            Vector norm = triangleNormal.Normalize();
 //            norm = new Vector(norm.x, norm.y, norm.z);
-            Vector lightDir = (lightSource.model.translationVector - fragPosition).Normalize(2);
+            Vector lightDir = (lightSource.model.translationVector - fragPosition).Normalize();
             double dot = norm.DotProduct(lightDir);
             double diff = System.Math.Max(dot, 0.0);
             Color diffuse = diff * lightSource.diffuseLight.lightStrength * lightSource.diffuseLight.lightColor;
@@ -128,8 +115,8 @@ namespace Game.Lightning.LightningModel
             Vector lightPos = new Vector(5.0, 0.0, 0.0);
             double specularStrength = 0.5;
 
-            Vector viewDir = (cameraPosition - fragPosition).Normalize(2);
-            Vector lightDir = (lightPos - fragPosition).Normalize(2);
+            Vector viewDir = (cameraPosition - fragPosition).Normalize();
+            Vector lightDir = (lightPos - fragPosition).Normalize();
             Vector reflectDir = (lightDir/*.ResizeVectorToLength(3)*/).ReflectVector(triangleNormal);
             double dot = (viewDir/*.ResizeVectorToLength(3)*/).DotProduct(reflectDir);
             double spec = System.Math.Pow(System.Math.Max(dot, 0.0), 32);
