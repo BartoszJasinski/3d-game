@@ -4,6 +4,8 @@ using System.Windows.Forms;
 
 using Game.Math;
 using Game.Figure;
+using Game.GameDebug;
+using Game.IO;
 using Game.Perspective;
 
 namespace Game.Render
@@ -15,17 +17,17 @@ namespace Game.Render
   
         private double phi;
 
-        public void RenderModels(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData)
+        public void RenderModels(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData/*, Mouse mouse*/) //DEBUG mouse DELETE mouse arguement after dubugging
         {
 
             foreach(Model model in gameData.models)
-                RenderModel(e, gamePictureBox, gameData, model);
+                RenderModel(e, gamePictureBox, gameData, model/*, mouse*/);
 
             algorithms.DepthTesting(gamePictureBox);
 
         }
 
-        void RenderModel(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData, Model model)
+        void RenderModel(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData, Model model/*, Mouse mouse*/) //DEBUG mouse DELETE mouse arguement after dubugging
         {
             phi += 0.0;
 
@@ -36,7 +38,7 @@ namespace Game.Render
 
             DrawModelTriangles(e, gamePictureBox, gameData, model);
             
-            Debug.Debug.PrintDebugGameData(e.Graphics, gameData);
+            Debug.PrintDebugGameData(e.Graphics, gameData/*, mouse*/);
         }
 
         //TODO: implement FPS METER
@@ -71,9 +73,11 @@ namespace Game.Render
 //                    Algorithms.ProjectedTriangle projectedTriangle = new Algorithms.ProjectedTriangle(p1e, p2e, p3e);
 //                    projectedTriangle = projectedTriangle.ProjectTriangle(gamePictureBox.Width, gamePictureBox.Height);
                     Algorithms.ProjectedTriangle projectedTriangle = new Algorithms.ProjectedTriangle(p1e, p2e, p3e);
+                    //TODO: refactor
                     Tuple<Algorithms.ProjectedTriangle, bool> returnedValue = projectedTriangle.ProjectTriangle(gamePictureBox.Width, gamePictureBox.Height);
                     projectedTriangle = returnedValue.Item1;
-
+                    
+                    //TODO: refactor
                     if (returnedValue.Item2)
                     {
                         Color triangleColor =

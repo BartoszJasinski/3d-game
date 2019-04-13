@@ -14,6 +14,11 @@ namespace Game.Math
             double newValue = (((oldValue - oldMin) * newRange) / oldRange) + newMin;
             return newValue;
         }
+        
+        public static double ConvertDegreesToRadians(double degrees)
+        {
+            return degrees * (System.Math.PI / 180);
+        }
 
         
         

@@ -5,6 +5,7 @@ using Game.Lightning.LightningModel;
 using Game.Lightning;
 using Game.Camera;
 using Game.Figure;
+using Game.IO;
 using Game.Math;
 
 namespace Game.GameData
@@ -19,6 +20,20 @@ namespace Game.GameData
 //            AddLightModelsToRenderList(gameData);
 
             return gameData;
+        }
+        
+        public Mouse InitializeMouse()
+        {
+            Mouse initializedMouse = new Mouse();
+            initializedMouse.yaw = 180.0f;
+            initializedMouse.pitch = 0.0f;
+
+            return initializedMouse;
+        }
+        
+        public Keyboard InitializeKeyboard()
+        {
+            return new Keyboard();
         }
         
         private List<Model> CreateModels()
@@ -130,6 +145,7 @@ namespace Game.GameData
         {
             return new PhongLighting();
         }
+
 
     }
 }

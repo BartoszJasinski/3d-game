@@ -10,25 +10,17 @@ namespace Game
     public partial class GameWindow : Form
     {
 
-        DateTime startTime = DateTime.Now;
         GameData.GameData gameData;
         private Render.Render renderer = new Render.Render();
-        private GameDataInit gameDataInit = new GameDataInit();
+        private GameDataInit gameStateInitializer = new GameDataInit();
 
-        private Mouse mouse = new Mouse();
-        Keyboard keyboard = new Keyboard();
+        private Mouse mouse;
+        Keyboard keyboard;
         public GameWindow()
         {
-//            Camera.Camera testCam = new Camera.Camera();
-//            Vector cameraPosition = new Vector(-1, 0, 0);
-//            Vector direcotion = new Vector(-1, 0, 0);
-//            Vector upVector = new Vector(0, 0, 1);
-//            testCam.LookAt(cameraPosition, cameraPosition + direcotion, upVector);
-
             InitializeComponent();
             
             Init();
-            
             
         }
 
@@ -36,30 +28,26 @@ namespace Game
         {
             gamePictureBox.BackColor = System.Drawing.Color.Black;
             
-            gameData = gameDataInit.InitializeGameData();
+            gameData = gameStateInitializer.InitializeGameData();
+            mouse = gameStateInitializer.InitializeMouse();
+            keyboard = gameStateInitializer.InitializeKeyboard();
             
             InitializeTimer();
-            startTime = DateTime.Now;
-            
-            
+
         }
 
-       
-        private void gamePictureBox_Click(object sender, EventArgs e)
-        {
 
-            gamePictureBox.Invalidate();
-        }
 
         private void InitializeTimer()
         {
-            Timer tm = new Timer {Interval = 1};
-            tm.Tick += timerTick;
+            Timer timer = new Timer {Interval = 10};
+            timer.Tick += timerTick;
             gamePictureBox.Invalidate();
-            tm.Enabled = true;
-            tm.Start();
+            timer.Enabled = true;
+            timer.Start();
         }
-
+       
+     
         private void timerTick(object sender, EventArgs e)
         {
             gamePictureBox.Invalidate();
@@ -67,7 +55,7 @@ namespace Game
 
         private void gamePictureBox_Paint(object sender, PaintEventArgs e)
         {
-            renderer.RenderModels(e, gamePictureBox, gameData);
+            renderer.RenderModels(e, gamePictureBox, gameData/*, mouse*/); //DEBUG mouse DELETE mouse arguement after dubugging
         }
 
         private void gamePictureBox_MouseMove(object sender, MouseEventArgs e)
@@ -80,6 +68,12 @@ namespace Game
             gameData.camera.cameraPosition = keyboard.ProcessKeyPress(gameData, e);
            
         }
+        
+        private void gamePictureBox_Click(object sender, EventArgs e)
+        {
+            gamePictureBox.Invalidate();
+        }
+
         
         //TODO prevent cursor from exiting form when in focus
 //        https://stackoverflow.com/questions/15029274/prevent-mouse-from-leaving-my-form/15029994#15029994

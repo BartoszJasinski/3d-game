@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
+using Game.IO;
 
-namespace Game.Debug
+namespace Game.GameDebug
 {
     public class Debug
     {       
@@ -11,9 +11,9 @@ namespace Game.Debug
         private static Point startingPoint = new Point(2, 2);
         private static int spacingBetweenDebugStrings = 4;
         private static List<Point> debugStringPlacementPoints = GetNewPointsListForDebugStringPlacement();
-
+        private static string NoDataMessage = "No Data";
         private static DateTime startTime = DateTime.Now;
-        public static void PrintDebugGameData(Graphics graphics, GameData.GameData gameData)
+        public static void PrintDebugGameData(Graphics graphics, GameData.GameData gameData/*, Mouse mouse*/)
         {
             using (Font myFont = new Font("Arial", fontSize))
             {
@@ -24,8 +24,10 @@ namespace Game.Debug
                 graphics.DrawString("Camera Position " + gameData.camera.cameraPosition, myFont, Brushes.Green, debugStringPlacementPoints[3]);
                 graphics.DrawString("Camera Front" + gameData.camera.cameraFront, myFont, Brushes.Teal, debugStringPlacementPoints[4]);
                 graphics.DrawString("Camera Up Axis" + gameData.camera.upAxis, myFont, Brushes.White, debugStringPlacementPoints[5]);
+                graphics.DrawString("Camera Yaw = " + NoDataMessage/*mouse.yaw*/, myFont, Brushes.Lime, debugStringPlacementPoints[6]);
+                graphics.DrawString("Camera Pitch = " + NoDataMessage/*mouse.pitch*/, myFont, Brushes.Cyan, debugStringPlacementPoints[7]);
                 
-                PrintFPS(graphics, gameData, myFont);
+                PrintFps(graphics, gameData, myFont);
                 
             }
         }
@@ -50,14 +52,14 @@ namespace Game.Debug
             return debugPoint;
         }
 
-        private static void PrintFPS(Graphics graphics, GameData.GameData gameData, Font myFont )
+        private static void PrintFps(Graphics graphics, GameData.GameData gameData, Font myFont )
         {
-            double fps = CalculateFPS();
-            graphics.DrawString("FPS = " + fps, myFont, Brushes.Goldenrod, debugStringPlacementPoints[6]);
+            double fps = CalculateFps();
+            graphics.DrawString("FPS = " + fps, myFont, Brushes.Goldenrod, debugStringPlacementPoints[8]);
 
         }
 
-        private static double CalculateFPS()
+        private static double CalculateFps()
         {
             double oneSecond = 1000;
             double fps = oneSecond / (DateTime.Now - startTime).Milliseconds;
