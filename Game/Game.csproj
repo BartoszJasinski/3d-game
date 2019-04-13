@@ -62,7 +62,7 @@
     <Compile Include="Figure\Triangle.cs" />
     <Compile Include="Figure\Vertex.cs" />
     <Compile Include="GameData\GameData.cs" />
-    <Compile Include="GameData\GameDataInit.cs" />
+    <Compile Include="GameData\GameStateInit.cs" />
     <Compile Include="GameWindow.cs">
       <SubType>Form</SubType>
     </Compile>

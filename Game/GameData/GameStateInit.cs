@@ -10,7 +10,7 @@ using Game.Math;
 
 namespace Game.GameData
 {
-    public class GameDataInit
+    public class GameStateInit
     {
         
         public GameData InitializeGameData()
@@ -87,7 +87,7 @@ namespace Game.GameData
         
         private Cameras CreateCameras()
         {
-            return new Cameras();
+            return new Cameras(CameraMode.StationaryCamera);
         }
         
         private List<LightSource> CreateIllumination()

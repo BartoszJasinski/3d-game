@@ -29,19 +29,19 @@ namespace Game.Render
 
         void RenderModel(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData, Model model/*, Mouse mouse*/) //DEBUG mouse DELETE mouse arguement after dubugging
         {
-            phi += 0.0;
+            phi += 0.1;
 
-            model.rotationAngle = phi;
+//            model.rotationAngle = phi;
+            model.translationVector.z = phi;
             model.modelMatrix = model.Transform();
 
-            gameData.camera.viewMatrix = gameData.cameras.GetCamera(gameData.camera);
+            gameData.camera.viewMatrix = gameData.cameras.GetCamera(gameData);
 
             DrawModelTriangles(e, gamePictureBox, gameData, model);
             
             Debug.PrintDebugGameData(e.Graphics, gameData/*, mouse*/);
         }
 
-        //TODO: implement FPS METER
         //TODO: maybe implement oclussion culling
         //TODO: check later if it is correct (normal vectors may have bad ornientation) and uncomment
         public bool BackfaceCulling(Vector fragPosition, Vector cameraPosition, Vector triangleNormal)

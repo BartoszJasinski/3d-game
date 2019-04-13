@@ -70,7 +70,7 @@ namespace Game.Camera
 
             //TODO: refactor (maybe delete all CastVectorTo3D() (vectors should have as many coordinates as initialized in constructor))
             Vector upVector = (upAxis.CastVectorTo3D()).Normalize();
-            Vector zAxis = ((cameraPosition - cameraTarget).CastVectorTo3D()).Normalize();
+            Vector zAxis = ((cameraPosition.CastVectorTo3D() - cameraTarget.CastVectorTo3D()).CastVectorTo3D()).Normalize();
             Vector xAxis = ((upVector.CrossProduct(zAxis)).CastVectorTo3D()).Normalize();
             Vector yAxis = ((zAxis.CrossProduct(xAxis)).CastVectorTo3D()).Normalize();
             

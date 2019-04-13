@@ -12,7 +12,7 @@ namespace Game.GameData
     {
         public List<Model> models { get; set; }
         public Camera.Camera camera { get; set; }
-        public Camera.Cameras cameras { get; set; }
+        public Cameras cameras { get; set; }
         public List<LightSource> lightSources { get; set; }
         public ILightningModel lightningModel { get; set; }
 

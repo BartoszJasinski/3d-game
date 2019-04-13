@@ -15,7 +15,6 @@ namespace Game.IO
         //TODO make cursor disappear and hold cursor when in focus 
         //TODO: when there is first mouse movement model changes direction of displaying models, models gets displayed upside down, diffuse lightnign in phong shading changes
         //TODO: refactor value of lastX and lastY
-        //TODO: mouse is currently on invert. Change this
         public Vector ProcessMouseMove(MouseEventArgs e)
         {
             if (firstMouse)

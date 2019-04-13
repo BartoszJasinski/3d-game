@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Game.Math;
 
 namespace Game.Camera
@@ -10,6 +10,12 @@ namespace Game.Camera
     //TODO: fix displaying because, in StationaryCamera top of the cone is the highest point, and in StationaryTrackingModelCamera and MovingAssociated with object is the lowest point
     public class Cameras
     {
+        public CameraMode cameraMode { get; set; }
+
+        public Cameras(CameraMode cameraMode)
+        {
+            this.cameraMode = cameraMode;
+        }
         Matrix ViewMatrix(CameraMode cameraMode, Camera camera/*,  cameraPosition, cameraTarget,upAxis */)
         {
 //            camera.cameraPosition = cameraPosition ?? new DenseVector(new[] {0.0, 0.0, 0.0});
@@ -20,9 +26,29 @@ namespace Game.Camera
 
         }
 
-        public Matrix GetCamera(Camera camera)
+        //TODO: maybe refactor to use List
+        public Matrix GetCamera(GameData.GameData gameData)
         {
-            return StationaryCamera(camera);
+            if (cameraMode == CameraMode.StationaryCamera)
+            {
+                return StationaryCamera(gameData.camera);
+            }
+
+            if (cameraMode == CameraMode.StationaryTrackingObjectCamera)
+            {
+                //TODO: refactor First()
+                return StationaryTrackingModelCamera(gameData.camera, gameData.models.First().translationVector);
+            }
+
+            if(cameraMode == CameraMode.MovingAssociatedWithObjectCamera)
+            {
+                //TODO: refactor First()
+                Vector cameraOffset = new Vector(10, 0, 0);
+                return MovingAssociatedWithObjectCamera(gameData.camera, gameData.models.First().translationVector,
+                    cameraOffset);
+            }
+
+            return StationaryCamera(gameData.camera);
 //            gameData.camera.viewMatrix = gameData.cameras.StationaryTrackingModelCamera(gameData.camera, model.translationVector);
 //            Vector cameraOffset = new Vector(10, 0, 0);
 //            gameData.camera.viewMatrix =
@@ -30,7 +56,12 @@ namespace Game.Camera
 //                    cameraOffset);
 
         }
-        
+
+//        public void ChangeCameraMode(CameraMode cameraMode)
+//        {
+//            if(cameraMode == CameraMode.StationaryCamera)
+//                return StationaryCamera()
+//        }
         public Matrix GetCameraWithSpecifiedMode(CameraMode cameraMode)
         {
             //TODO: implement
@@ -78,7 +109,7 @@ namespace Game.Camera
 //            Vector<double> cameraTarget = modelPosition;
 //            Vector<double> upAxis = new DenseVector(new[] {0.0, 0.0, 1.0});
 //            Vector<double> cameraOffset = new DenseVector(new [] {10.0, 0.0, 0.0});
-            return camera.LookAt(modelPosition + cameraOffset, modelPosition, upAxis);
+            return camera.LookAt(modelPosition.CastVectorTo3D() + cameraOffset, modelPosition, upAxis);
         }
         
 //        Dictionary<CameraMode, List<Vector>> CamerasList = new Dictionary<CameraMode, List<Vector>>

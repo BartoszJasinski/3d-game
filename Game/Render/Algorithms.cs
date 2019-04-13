@@ -11,6 +11,7 @@ namespace Game.Render
     {
         //TODO: zBuffer trhrows System.IndexOutOfRangeException: Index was outside the bounds of the array. when outside of window
         //TODO: make screenWidth and screenHeightchanging apropiate to screen size
+        //TODO: refactor
         private const int screenWidth = 800, screenHeight = 800;
         double[,] zBuffer = new double[screenWidth, screenHeight];
         

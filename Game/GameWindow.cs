@@ -12,7 +12,7 @@ namespace Game
 
         GameData.GameData gameData;
         private Render.Render renderer = new Render.Render();
-        private GameDataInit gameStateInitializer = new GameDataInit();
+        private GameStateInit gameStateInitializer = new GameStateInit();
 
         private Mouse mouse;
         Keyboard keyboard;
@@ -65,7 +65,7 @@ namespace Game
 
         private void GameWindow_KeyPress(object sender, KeyPressEventArgs e)
         {
-            gameData.camera.cameraPosition = keyboard.ProcessKeyPress(gameData, e);
+            gameData = keyboard.ProcessKeyPress(gameData, e);
            
         }
         
@@ -81,6 +81,7 @@ namespace Game
 
 //        private void gamePictureBox_MouseEnter(object sender, System.EventArgs e)
 //        {
+//            Cursor.Clip = this.Bounds;
 //            // Hide the cursor when the mouse pointer enters the button.
 //            Cursor.Hide();
 //        }
