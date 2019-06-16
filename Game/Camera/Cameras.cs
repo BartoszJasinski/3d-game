@@ -91,7 +91,7 @@ namespace Game.Camera
 //            Vector<double> upAxis = new DenseVector(new[] {0.0, 0.0, 1.0});
             return camera.LookAt(cameraPosition, modelPosition, upAxis);
         }
-
+        
         public Matrix MovingAssociatedWithObjectCamera(Camera camera, Vector modelPosition, Vector cameraOffset)
         {
             //Moving Associated With Object Camera

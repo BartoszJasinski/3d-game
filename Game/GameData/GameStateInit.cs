@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using System.Linq;
 using Game.Lightning.LightningObject;
 using Game.Lightning.LightningModel;
 using Game.Lightning;
@@ -15,8 +15,8 @@ namespace Game.GameData
         
         public GameData InitializeGameData()
         {
-            GameData gameData = new GameData(CreateModels(), CreateCamera(), CreateCameras(), CreateIllumination(), CreateLightningModel());
-
+            GameData gameData = new GameData(CreateModels(), CreateCamera(), CreateCameras(), CreateIllumination(), CreateLightningModel(), CreatePlayer());
+//            gameData.player = gameData.models.First();
 //            AddLightModelsToRenderList(gameData);
 
             return gameData;
@@ -35,13 +35,18 @@ namespace Game.GameData
         {
             return new Keyboard();
         }
+
+        private Model CreatePlayer()
+        {
+            return CreateCone();
+        }
         
         private List<Model> CreateModels()
         {
             List<Model> models = new List<Model> {};
             
 //            models.Add(CreateSphere());
-            models.Add(CreateCone());
+//            models.Add(CreateCone());
             
             return models;
         }

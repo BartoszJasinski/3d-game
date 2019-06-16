@@ -32,7 +32,8 @@ namespace Game.Render
             phi += 0.1;
 
 //            model.rotationAngle = phi;
-            model.translationVector.z = phi;
+//            model.translationVector.z = phi;
+//            gameData.player.translationVector.z = phi;
             model.modelMatrix = model.Transform();
 
             gameData.camera.viewMatrix = gameData.cameras.GetCamera(gameData);
@@ -42,12 +43,11 @@ namespace Game.Render
             Debug.PrintDebugGameData(e.Graphics, gameData/*, mouse*/);
         }
 
-        //TODO: maybe implement oclussion culling
         //TODO: check later if it is correct (normal vectors may have bad ornientation) and uncomment
         public bool BackfaceCulling(Vector fragPosition, Vector cameraPosition, Vector triangleNormal)
         {
-//            return (fragPosition.CastVectorTo3D() - cameraPosition).CastVectorTo3D().DotProduct(triangleNormal.CastVectorTo3D()) > 0;
-            return true;
+            return (fragPosition.CastVectorTo3D() - cameraPosition).CastVectorTo3D().DotProduct(triangleNormal.CastVectorTo3D()) > 0;
+//            return true;
         }
         
         //TODO: implement fragShader and vertexShader

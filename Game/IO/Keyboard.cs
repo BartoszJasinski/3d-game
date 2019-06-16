@@ -12,7 +12,9 @@ namespace Game.IO
             GameData.GameData processedGameData = gameData;
             if (e.KeyChar == 'w')
             {
-                processedGameData.camera.cameraPosition = gameData.camera.cameraPosition + gameData.camera.cameraSpeed * gameData.camera.cameraFront;
+//                processedGameData.camera.cameraPosition = gameData.camera.cameraPosition + gameData.camera.cameraSpeed * gameData.camera.cameraFront;
+                processedGameData.player.translationVector =
+                    gameData.player.translationVector + 0.1 * new Vector(-1,0,0,1);
             }
             else if (e.KeyChar == 's')
             {

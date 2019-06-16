@@ -15,16 +15,19 @@ namespace Game.GameData
         public Cameras cameras { get; set; }
         public List<LightSource> lightSources { get; set; }
         public ILightningModel lightningModel { get; set; }
-
+        public Model player { get; set; }
         
         public GameData(List<Model> models, Camera.Camera camera, Cameras cameras, List<LightSource> lightSources,
-            ILightningModel lightningModel)
+            ILightningModel lightningModel, Model player)
         {
             this.models = models;
             this.camera = camera;
             this.lightSources = lightSources;
             this.lightningModel = lightningModel;
             this.cameras = cameras;
+            this.player = player;
+            
+            models.Add(player);
         }
 
 //        public GameData(): this(new List<Model>(), new Camera.Camera(), new Cameras(), new List<ILightningObject>(), new PhongLighting())

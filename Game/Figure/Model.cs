@@ -118,10 +118,8 @@ namespace Game.Figure
 
         public Matrix Transform()
         {
-            
-            
+
             return Transform(scaleVector, rotationVector, rotationAngle, translationVector);
-            
         }
 
         public Matrix Transform(Vector scaleVector, Vector rotationVector, double rotationAngle,
