@@ -9,53 +9,51 @@ namespace Game
 {
     public partial class GameWindow : Form
     {
-
         GameData.GameData gameData;
-        private Render.Render renderer = new Render.Render();
-        private GameStateInit gameStateInitializer = new GameStateInit();
+        private readonly Render.Render renderer = new Render.Render();
+        private readonly GameStateInit gameStateInitializer = new GameStateInit();
 
         private Mouse mouse;
         Keyboard keyboard;
+
         public GameWindow()
         {
             InitializeComponent();
-            
+
             Init();
-            
         }
 
         private void Init()
         {
             gamePictureBox.BackColor = System.Drawing.Color.Black;
-            
+
             gameData = gameStateInitializer.InitializeGameData();
             mouse = gameStateInitializer.InitializeMouse();
             keyboard = gameStateInitializer.InitializeKeyboard();
-            
+
             InitializeTimer();
-
         }
-
 
 
         private void InitializeTimer()
         {
-            Timer timer = new Timer {Interval = 10};
-            timer.Tick += timerTick;
+            var timer = new Timer {Interval = 10};
+            timer.Tick += TimerTick;
             gamePictureBox.Invalidate();
             timer.Enabled = true;
             timer.Start();
         }
-       
-     
-        private void timerTick(object sender, EventArgs e)
+
+
+        private void TimerTick(object sender, EventArgs e)
         {
             gamePictureBox.Invalidate();
         }
 
         private void gamePictureBox_Paint(object sender, PaintEventArgs e)
         {
-            renderer.RenderModels(e, gamePictureBox, gameData/*, mouse*/); //DEBUG mouse DELETE mouse arguement after dubugging
+            renderer.RenderModels(e, gamePictureBox,
+                gameData /*, mouse*/); //DEBUG mouse DELETE mouse arguement after dubugging
         }
 
         private void gamePictureBox_MouseMove(object sender, MouseEventArgs e)
@@ -65,19 +63,18 @@ namespace Game
 
         private void GameWindow_KeyPress(object sender, KeyPressEventArgs e)
         {
-            gameData = keyboard.ProcessKeyPress(gameData, e);
-           
+            gameData = Keyboard.ProcessKeyPress(gameData, e);
         }
-        
+
         private void gamePictureBox_Click(object sender, EventArgs e)
         {
             gamePictureBox.Invalidate();
         }
 
-        
+
         //TODO prevent cursor from exiting form when in focus
 //        https://stackoverflow.com/questions/15029274/prevent-mouse-from-leaving-my-form/15029994#15029994
-        
+
 
 //        private void gamePictureBox_MouseEnter(object sender, System.EventArgs e)
 //        {
@@ -91,11 +88,6 @@ namespace Game
 //            // Show the cursor when the mouse pointer leaves the button.
 //            Cursor.Show();
 //        }
-
-
-
-
-
 
 
         //        List<Triangle> GetSpherePoints()
@@ -166,11 +158,5 @@ namespace Game
         //
         //            return triangles;
         //        }
-
-
-
-
-
-
     }
 }

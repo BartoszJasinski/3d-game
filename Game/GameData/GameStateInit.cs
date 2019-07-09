@@ -25,8 +25,8 @@ namespace Game.GameData
         public Mouse InitializeMouse()
         {
             Mouse initializedMouse = new Mouse();
-            initializedMouse.yaw = 180.0f;
-            initializedMouse.pitch = 0.0f;
+            initializedMouse.Yaw = 180.0f;
+            initializedMouse.Pitch = 0.0f;
 
             return initializedMouse;
         }

@@ -7,14 +7,14 @@ namespace Game.IO
 {
     public class Keyboard
     {
-        public GameData.GameData ProcessKeyPress(GameData.GameData gameData, KeyPressEventArgs e)
+        public static GameData.GameData ProcessKeyPress(GameData.GameData gameData, KeyPressEventArgs e)
         {
             GameData.GameData processedGameData = gameData;
             if (e.KeyChar == 'w')
             {
-//                processedGameData.camera.cameraPosition = gameData.camera.cameraPosition + gameData.camera.cameraSpeed * gameData.camera.cameraFront;
-                processedGameData.player.translationVector =
-                    gameData.player.translationVector + 0.1 * new Vector(-1,0,0,1);
+                processedGameData.camera.cameraPosition = gameData.camera.cameraPosition + gameData.camera.cameraSpeed * gameData.camera.cameraFront;
+//                processedGameData.player.translationVector =
+//                    gameData.player.translationVector + 0.1 * new Vector(-1,0,0,1);
             }
             else if (e.KeyChar == 's')
             {
