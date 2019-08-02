@@ -43,7 +43,15 @@ namespace Game.IO
             {
                 gameData.cameras.cameraMode = CameraMode.MovingAssociatedWithObjectCamera;
             }
-
+            else if (e.KeyChar == 'p')
+            {
+                //TODO Phong shading or lightning here    
+            }
+            else if (e.KeyChar == 'g')
+            {
+                //TODO Gourand shading here
+            }
+            
             return processedGameData;
 //            return gameData.camera.cameraPosition;
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using Game.GameData;
 using Game.IO;
@@ -9,12 +10,12 @@ namespace Game
 {
     public partial class GameWindow : Form
     {
-        GameData.GameData gameData;
-        private readonly Render.Render renderer = new Render.Render();
-        private readonly GameStateInit gameStateInitializer = new GameStateInit();
+        GameData.GameData _gameData;
+        private readonly Render.Render _renderer = new Render.Render();
+        private readonly GameStateInit _gameStateInitializer = new GameStateInit();
 
-        private Mouse mouse;
-        Keyboard keyboard;
+        private Mouse _mouse;
+        Keyboard _keyboard;
 
         public GameWindow()
         {
@@ -25,11 +26,11 @@ namespace Game
 
         private void Init()
         {
-            gamePictureBox.BackColor = System.Drawing.Color.Black;
+            gamePictureBox.BackColor = Color.Black;
 
-            gameData = gameStateInitializer.InitializeGameData();
-            mouse = gameStateInitializer.InitializeMouse();
-            keyboard = gameStateInitializer.InitializeKeyboard();
+            _gameData = _gameStateInitializer.InitializeGameData();
+            _mouse = _gameStateInitializer.InitializeMouse();
+            _keyboard = _gameStateInitializer.InitializeKeyboard();
 
             InitializeTimer();
         }
@@ -52,18 +53,18 @@ namespace Game
 
         private void gamePictureBox_Paint(object sender, PaintEventArgs e)
         {
-            renderer.RenderModels(e, gamePictureBox,
-                gameData /*, mouse*/); //DEBUG mouse DELETE mouse arguement after dubugging
+            _renderer.RenderModels(e, gamePictureBox,
+                _gameData /*, mouse*/); //DEBUG mouse DELETE mouse arguement after dubugging
         }
 
         private void gamePictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            gameData.camera.cameraFront = mouse.ProcessMouseMove(e);
+            _gameData.camera.cameraFront = _mouse.ProcessMouseMove(e);
         }
 
         private void GameWindow_KeyPress(object sender, KeyPressEventArgs e)
         {
-            gameData = Keyboard.ProcessKeyPress(gameData, e);
+            _gameData = Keyboard.ProcessKeyPress(_gameData, e);
         }
 
         private void gamePictureBox_Click(object sender, EventArgs e)
@@ -72,7 +73,11 @@ namespace Game
             
         }
 
-
+        public Rectangle GetScreen()
+        {
+            return Screen.FromControl(this).Bounds;
+        }
+        
         //TODO prevent cursor from exiting form when in focus
 //        https://stackoverflow.com/questions/15029274/prevent-mouse-from-leaving-my-form/15029994#15029994
 

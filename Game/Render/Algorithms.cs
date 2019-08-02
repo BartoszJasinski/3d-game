@@ -10,12 +10,11 @@ namespace Game.Render
     public class Algorithms
     {
         //TODO: zBuffer trhrows System.IndexOutOfRangeException: Index was outside the bounds of the array. when outside of window
-        //TODO: make screenWidth and screenHeightchanging apropiate to screen size
+        //TODO: make screenWidth and screenHeightchanging apropiate to screen size https://stackoverflow.com/questions/7970262/disable-resizing-of-a-windows-forms-form
         //TODO: refactor
-        private const int screenWidth = 800, screenHeight = 800;
+        public const int screenWidth = 900, screenHeight = 900;
         double[,] zBuffer = new double[screenWidth, screenHeight];
-        
-        //TODO: maybe rename function 
+
         public void DepthTesting(PictureBox gamePictureBox)
         {
             for (int x = 0; x < zBuffer.GetLength(0); x++)
@@ -23,54 +22,54 @@ namespace Game.Render
                 for (int y = 0; y < zBuffer.GetLength(1); y++)
                 {
                     zBuffer[x, y] = Double.MaxValue;
-                }                
+                }
             }
-            
         }
 
         public class ProjectedTriangle
         {
             public bool draw = true;
             public List<Vector> vertices { get; set; } = new List<Vector>(NumberOfTriangleVertices);
+
             public Vector firstVertex
             {
                 get => vertices[0];
                 set => vertices[0] = value;
             }
-        
+
             public Vector secondVertex
             {
                 get => vertices[1];
                 set => vertices[1] = value;
             }
-        
+
             public Vector thirdVertex
             {
                 get => vertices[2];
                 set => vertices[2] = value;
             }
-        
+
 
             private const int NumberOfTriangleVertices = 3;
 
             public ProjectedTriangle(Vector firstVertex, Vector secondVertex, Vector thirdVertex)
             {
-            
                 vertices.Add(firstVertex);
                 vertices.Add(secondVertex);
                 vertices.Add(thirdVertex);
             }
 
-            public ProjectedTriangle(List<Vector> vertices) 
+            public ProjectedTriangle(List<Vector> vertices)
             {
-                if(vertices.Count != NumberOfTriangleVertices)
+                if (vertices.Count != NumberOfTriangleVertices)
                     throw new ArgumentException("Triangle should have three vertices");
-            
+
                 this.vertices = vertices;
             }
 
             //TODO: maybe you should implement near plane far plane in Frustum Culling
-            public bool FrustumCulling(double fVx, double fVy, double fVz, double sVx, double sVy, double sVz, double tVx, double tVy, double tVz)
+            public bool FrustumCulling(double fVx, double fVy, double fVz, double sVx, double sVy, double sVz,
+                double tVx, double tVy, double tVz)
             {
                 if (((fVx > 1 || fVx < -1) || (fVy > 1 || fVy < -1) || (fVz > 1 || fVz < -1)) &&
                     ((sVx > 1 || sVx < -1) || (sVy > 1 || sVy < -1) || (sVz > 1 || sVz < -1)) &&
@@ -81,22 +80,22 @@ namespace Game.Render
 
                 return true;
             }
-            
-            
+
+
             //TODO: refactor
             public Tuple<ProjectedTriangle, bool> ProjectTriangle(int gamePictureBoxWidth, int gamePictureBoxHeight)
             {
                 double fVx, fVy, fVz, sVx, sVy, sVz, tVx, tVy, tVz;
                 ProjectedTriangle projectedTriangle = this;
-                
+
                 projectedTriangle.firstVertex.x /= projectedTriangle.firstVertex.w;
                 projectedTriangle.firstVertex.y /= projectedTriangle.firstVertex.w;
                 projectedTriangle.firstVertex.z /= projectedTriangle.firstVertex.w;
-                
+
                 projectedTriangle.secondVertex.x /= projectedTriangle.secondVertex.w;
                 projectedTriangle.secondVertex.y /= projectedTriangle.secondVertex.w;
                 projectedTriangle.secondVertex.z /= projectedTriangle.secondVertex.w;
-                
+
                 projectedTriangle.thirdVertex.x /= projectedTriangle.thirdVertex.w;
                 projectedTriangle.thirdVertex.y /= projectedTriangle.thirdVertex.w;
                 projectedTriangle.thirdVertex.z /= projectedTriangle.thirdVertex.w;
@@ -145,8 +144,8 @@ namespace Game.Render
                 return new Tuple<ProjectedTriangle, bool>(projectedTriangle, draw);
             }
         }
-        
-        
+
+
 //        public ProjectedTriangle ProjectTriangle(int gamePictureBoxWidth, int gamePictureBoxHeight)
 //        {
 //            ProjectedTriangle projectedTriangle = this;
@@ -185,8 +184,7 @@ namespace Game.Render
 //        }
 //    }
 
-        
-        
+
         private class Vertex
         {
             public Point point { get; set; }
@@ -197,7 +195,6 @@ namespace Game.Render
                 this.point = point;
                 this.index = index;
             }
-
         }
 
         private class AETData
@@ -213,9 +210,12 @@ namespace Game.Render
         {
             List<Vertex> polygonVertices = new List<Vertex>();
             //for (int i = 0; i < 3; i++)
-                polygonVertices.Add(new Vertex(new Point((int)projectedTriangle.firstVertex.x, (int)projectedTriangle.firstVertex.y), 0));
-                polygonVertices.Add(new Vertex(new Point((int)projectedTriangle.secondVertex.x, (int)projectedTriangle.secondVertex.y), 1));
-                polygonVertices.Add(new Vertex(new Point((int)projectedTriangle.thirdVertex.x, (int)projectedTriangle.thirdVertex.y), 2));
+            polygonVertices.Add(
+                new Vertex(new Point((int) projectedTriangle.firstVertex.x, (int) projectedTriangle.firstVertex.y), 0));
+            polygonVertices.Add(new Vertex(
+                new Point((int) projectedTriangle.secondVertex.x, (int) projectedTriangle.secondVertex.y), 1));
+            polygonVertices.Add(
+                new Vertex(new Point((int) projectedTriangle.thirdVertex.x, (int) projectedTriangle.thirdVertex.y), 2));
 
             polygonVertices = polygonVertices.OrderBy(v => v.point.Y).ToList();
             int yMin = polygonVertices[0].point.Y, yMax = polygonVertices.Last().point.Y;
@@ -231,23 +231,37 @@ namespace Game.Render
                     Vertex previousVertex = polygonVertices.Find(x => x.index == previousVertexIndex);
                     if (previousVertex.point.Y >= vertex.point.Y)
                     {
-                        double mInverse = (previousVertex.point.X - (double)vertex.point.X) / (previousVertex.point.Y - (double)vertex.point.Y);
+                        double mInverse = (previousVertex.point.X - (double) vertex.point.X) /
+                                          (previousVertex.point.Y - (double) vertex.point.Y);
 //                        mInverse = double.IsInfinity(mInverse) ? 0 : mInverse;
-                        AET.Add(new AETData { yMax = previousVertex.point.Y, x = vertex.point.X, mInverse = mInverse, firstVertexIndex = previousVertexIndex, secondVertexIndex = vertex.index });
+                        AET.Add(new AETData
+                        {
+                            yMax = previousVertex.point.Y, x = vertex.point.X, mInverse = mInverse,
+                            firstVertexIndex = previousVertexIndex, secondVertexIndex = vertex.index
+                        });
                     }
                     else
-                        AET.RemoveAll(x => (x.firstVertexIndex == vertex.index && x.secondVertexIndex == previousVertexIndex) || (x.firstVertexIndex == previousVertexIndex && x.secondVertexIndex == vertex.index));
+                        AET.RemoveAll(x =>
+                            (x.firstVertexIndex == vertex.index && x.secondVertexIndex == previousVertexIndex) ||
+                            (x.firstVertexIndex == previousVertexIndex && x.secondVertexIndex == vertex.index));
 
                     int nextVertexIndex = MathMod(vertex.index + 1, polygonVertices.Count);
                     Vertex nextVertex = polygonVertices.Find(x => x.index == nextVertexIndex);
                     if (nextVertex.point.Y >= vertex.point.Y)
                     {
-                        double mInverse = (nextVertex.point.X - (double)vertex.point.X) / (nextVertex.point.Y - (double)vertex.point.Y);
+                        double mInverse = (nextVertex.point.X - (double) vertex.point.X) /
+                                          (nextVertex.point.Y - (double) vertex.point.Y);
 //                        mInverse = double.IsInfinity(mInverse) ? 0 : mInverse;
-                        AET.Add(new AETData { yMax = nextVertex.point.Y, x = vertex.point.X, mInverse = mInverse, firstVertexIndex = nextVertexIndex, secondVertexIndex = vertex.index });
+                        AET.Add(new AETData
+                        {
+                            yMax = nextVertex.point.Y, x = vertex.point.X, mInverse = mInverse,
+                            firstVertexIndex = nextVertexIndex, secondVertexIndex = vertex.index
+                        });
                     }
                     else
-                        AET.RemoveAll(x => (x.firstVertexIndex == vertex.index && x.secondVertexIndex == nextVertexIndex) || (x.firstVertexIndex == nextVertexIndex && x.secondVertexIndex == vertex.index));
+                        AET.RemoveAll(x =>
+                            (x.firstVertexIndex == vertex.index && x.secondVertexIndex == nextVertexIndex) ||
+                            (x.firstVertexIndex == nextVertexIndex && x.secondVertexIndex == vertex.index));
                 }
 
                 AET = AET.OrderBy(x => x.x).ToList();
@@ -259,17 +273,15 @@ namespace Game.Render
                     if (double.IsInfinity(aetData.mInverse))
                         aetData.x = polygonVertices[aetData.secondVertexIndex].point.X;
                 }
-                
+
                 for (int i = 0; i < AET.Count / 2; i++)
                 {
-                    MyDrawLine(e, new Pen(color), new Point((int)AET[2 * i].x, y), new Point((int)AET[2 * i + 1].x, y), projectedTriangle);
+                    MyDrawLine(e, new Pen(color), new Point((int) AET[2 * i].x, y),
+                        new Point((int) AET[2 * i + 1].x, y), projectedTriangle);
                 }
-                
-
             }
         }
 
-      
 
         private static void SetPixel(PaintEventArgs e, Brush brush, Point point)
         {
@@ -280,10 +292,9 @@ namespace Game.Render
         {
             return (System.Math.Abs(a * b) + a) % b;
         }
-        
+
         public void MyDrawLine(PaintEventArgs e, Pen pen, Point p1, Point p2, ProjectedTriangle projectedTriangle)
         {
-
             MyLine(e, p1.X, p1.Y, p2.X, p2.Y, pen.Brush, projectedTriangle);
 //            e.Graphics.DrawLine(pen, p1, p2);
         }
@@ -317,7 +328,6 @@ namespace Game.Render
             {
                 if (x < 0 || x >= screenWidth || y < 0 || y >= screenHeight)
                 {
-
                 }
                 else
                 {
@@ -348,9 +358,9 @@ namespace Game.Render
         {
             double[,] matrixElements = new double[,]
             {
-                { projectedTriangle.firstVertex.x, projectedTriangle.secondVertex.x, projectedTriangle.thirdVertex.x },
-                { projectedTriangle.firstVertex.y, projectedTriangle.secondVertex.y, projectedTriangle.thirdVertex.y },
-                { 1, 1, 1 }
+                {projectedTriangle.firstVertex.x, projectedTriangle.secondVertex.x, projectedTriangle.thirdVertex.x},
+                {projectedTriangle.firstVertex.y, projectedTriangle.secondVertex.y, projectedTriangle.thirdVertex.y},
+                {1, 1, 1}
             };
             Matrix A = new Matrix(matrixElements);
             Vector B = new Vector(x, y, 1);
@@ -362,7 +372,6 @@ namespace Game.Render
                        coefficients[2] * projectedTriangle.thirdVertex.z;
 
             return z;
-
         }
     }
 }
