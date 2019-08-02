@@ -69,6 +69,7 @@ namespace Game
         private void gamePictureBox_Click(object sender, EventArgs e)
         {
             gamePictureBox.Invalidate();
+            
         }
 
 
