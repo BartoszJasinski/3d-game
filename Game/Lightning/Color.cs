@@ -50,6 +50,11 @@ namespace Game.Lightning
             this.rgb = rgb;
         }
 
+        public Color(Color color)
+        {
+            this.rgb = color.rgb;
+        }
+
         private static double[] ConvertRGBToRange(Vector rgb, double oldMin, double oldMax, double newMin,
             double newMax)
         {

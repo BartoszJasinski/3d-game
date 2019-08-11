@@ -5,6 +5,8 @@ using System.Linq;
 using System.Windows.Forms;
 using Game.Math;
 
+using static System.Math;
+
 namespace Game.Render
 {
     public class Algorithms
@@ -71,6 +73,7 @@ namespace Game.Render
             public bool FrustumCulling(double fVx, double fVy, double fVz, double sVx, double sVy, double sVz,
                 double tVx, double tVy, double tVz)
             {
+                return true;
                 if (((fVx > 1 || fVx < -1) || (fVy > 1 || fVy < -1) || (fVz > 1 || fVz < -1)) &&
                     ((sVx > 1 || sVx < -1) || (sVy > 1 || sVy < -1) || (sVz > 1 || sVz < -1)) &&
                     ((tVx > 1 || tVx < -1) || (tVy > 1 || tVy < -1) || (tVz > 1 || tVz < -1)))
@@ -139,7 +142,7 @@ namespace Game.Render
                 tVz = projectedTriangle.thirdVertex.z;
                 projectedTriangle.thirdVertex.z *= gamePictureBoxHeight;
 
-                bool draw = FrustumCulling(fVx, fVy, fVz, sVx, sVy, sVz, tVx, tVy, tVz);
+                var draw = FrustumCulling(fVx, fVy, fVz, sVx, sVy, sVz, tVx, tVy, tVz);
 
                 return new Tuple<ProjectedTriangle, bool>(projectedTriangle, draw);
             }
@@ -290,7 +293,7 @@ namespace Game.Render
 
         static int MathMod(int a, int b)
         {
-            return (System.Math.Abs(a * b) + a) % b;
+            return (Abs(a * b) + a) % b;
         }
 
         public void MyDrawLine(PaintEventArgs e, Pen pen, Point p1, Point p2, ProjectedTriangle projectedTriangle)
@@ -312,12 +315,12 @@ namespace Game.Render
             else if (h > 0) dy1 = 1;
             if (w < 0) dx2 = -1;
             else if (w > 0) dx2 = 1;
-            int longest = System.Math.Abs(w);
-            int shortest = System.Math.Abs(h);
+            int longest = Abs(w);
+            int shortest = Abs(h);
             if (!(longest > shortest))
             {
-                longest = System.Math.Abs(h);
-                shortest = System.Math.Abs(w);
+                longest = Abs(h);
+                shortest = Abs(w);
                 if (h < 0) dy2 = -1;
                 else if (h > 0) dy2 = 1;
                 dx2 = 0;

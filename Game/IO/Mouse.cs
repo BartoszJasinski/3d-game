@@ -1,6 +1,8 @@
 using System.Windows.Forms;
 using Game.Math;
 
+using static System.Math;
+
 namespace Game.IO
 {
     public class Mouse
@@ -50,9 +52,9 @@ namespace Game.IO
 //            front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
 
             double radYaw = Math.Math.ConvertDegreesToRadians(Yaw), radPitch = Math.Math.ConvertDegreesToRadians(Pitch);
-            double x = System.Math.Cos(radYaw) * System.Math.Cos(radPitch);
-            double y = System.Math.Sin(radYaw) * System.Math.Cos(radPitch);
-            double z = System.Math.Sin(radPitch);
+            double x = Cos(radYaw) * Cos(radPitch);
+            double y = Sin(radYaw) * Cos(radPitch);
+            double z = Sin(radPitch);
 
             
             Vector front = new Vector(x, y, z);

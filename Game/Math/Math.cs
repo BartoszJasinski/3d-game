@@ -1,6 +1,4 @@
-using System;
-using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
+using static System.Math;
 
 namespace Game.Math
 {
@@ -17,7 +15,7 @@ namespace Game.Math
         
         public static double ConvertDegreesToRadians(double degrees)
         {
-            return degrees * (System.Math.PI / 180);
+            return degrees * (PI / 180);
         }
 
         

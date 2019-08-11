@@ -1,20 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-
 using static System.Math;
 
 
 namespace Game.Figure
-{    
+{
     //TODO: refactor both Cone() functions
     public class Cone : Model, IModel
     {
-    
         public Cone()
         {
-             Random rand = new Random();
-
             Vertex firstVertex, secondVertex, thirdVertex;
             Triangle triangle;
             double Angle = 30f / 180 * PI;
@@ -25,18 +21,14 @@ namespace Game.Figure
             double kat = PI / 4;
             List<Triangle> triangles = new List<Triangle>();
             firstVertex = new Vertex(0, 0, height);
-            
+
             while (Alpha <= PI * 2)
             {
-
                 secondVertex = new Vertex(R * Cos(Alpha), R * Sin(Alpha), 0);
                 thirdVertex = new Vertex(R * Cos(Alpha + Angle), R * Sin(Alpha + Angle), 0);
-                
+
                 triangle = new Triangle(firstVertex, secondVertex, thirdVertex);
-                int r = rand.Next(255);
-                int g = rand.Next(255);
-                int b = rand.Next(255);
-                triangle.color = new Lightning.Color(r,g,b);
+                triangle.color = Lightning.Color.RandomColor();
                 triangles.Add(triangle);
                 secondVertex = thirdVertex;
                 Alpha += Angle;
@@ -44,7 +36,7 @@ namespace Game.Figure
 
             this.triangles = triangles;
         }
-        
+
         public Cone(Lightning.Color color)
         {
             Vertex firstVertex, secondVertex, thirdVertex;
@@ -57,10 +49,9 @@ namespace Game.Figure
             double kat = PI / 4;
             List<Triangle> triangles = new List<Triangle>();
             firstVertex = new Vertex(0, 0, height);
-            
+
             while (Alpha <= PI * 2)
             {
-
                 secondVertex = new Vertex(R * Cos(Alpha), R * Sin(Alpha), 0);
                 thirdVertex = new Vertex(R * Cos(Alpha + Angle), R * Sin(Alpha + Angle), 0);
                 triangle = new Triangle(firstVertex, secondVertex, thirdVertex);
@@ -72,6 +63,5 @@ namespace Game.Figure
 
             this.triangles = triangles;
         }
-
     }
 }

@@ -38,7 +38,9 @@ namespace Game.GameData
 
         private Model CreatePlayer()
         {
-            return CreateSphere();
+            return CreateCone();
+//            return CreateSphere();
+
         }
         
         private List<Model> CreateModels()

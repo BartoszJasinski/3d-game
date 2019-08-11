@@ -46,8 +46,8 @@ namespace Game.Render
         //TODO: check later if it is correct (normal vectors may have bad ornientation) and uncomment
         public bool BackfaceCulling(Vector fragPosition, Vector cameraPosition, Vector triangleNormal)
         {
-            return (fragPosition.CastVectorTo3D() - cameraPosition).CastVectorTo3D().DotProduct(triangleNormal.CastVectorTo3D()) > 0;
-//            return true;
+//            return (fragPosition.CastVectorTo3D() - cameraPosition).CastVectorTo3D().DotProduct(triangleNormal.CastVectorTo3D()) > 0;
+            return true;
         }
         
         //TODO: implement fragShader and vertexShader
@@ -80,8 +80,11 @@ namespace Game.Render
                     //TODO: refactor
                     if (returnedValue.Item2)
                     {
-                        Color triangleColor =
+//                        Color triangleColor =
+//                            Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition, triangleNormal);
+                        var col =
                             Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition, triangleNormal);
+                        Color triangleColor = col;
 
                         algorithms.ScanLineFillVertexSort(e, triangleColor, projectedTriangle);
                     }
