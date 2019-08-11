@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Game.Figure;
 using Game.Lightning.LightningObject;
 using Game.Math;
@@ -32,7 +31,7 @@ namespace Game.Lightning.LightningModel
 //                ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition,
 //                    triangleNormal)*/).rgb /*.Normalize(2)*/);
 
-            return new Color((ApplyAmbientLightning(triangle, lightSource) +
+            return new Color((//ApplyAmbientLightning(triangle, lightSource) +
                               ApplyDiffuseLightning(triangle, fragPosition, triangleNormal, lightSource) +
                               ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition,
                                   triangleNormal, lightSource)).rgb.Normalize());

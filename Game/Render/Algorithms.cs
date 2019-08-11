@@ -19,9 +19,9 @@ namespace Game.Render
 
         public void DepthTesting(PictureBox gamePictureBox)
         {
-            for (int x = 0; x < zBuffer.GetLength(0); x++)
+            for (var x = 0; x < zBuffer.GetLength(0); x++)
             {
-                for (int y = 0; y < zBuffer.GetLength(1); y++)
+                for (var y = 0; y < zBuffer.GetLength(1); y++)
                 {
                     zBuffer[x, y] = Double.MaxValue;
                 }
@@ -73,7 +73,7 @@ namespace Game.Render
             public bool FrustumCulling(double fVx, double fVy, double fVz, double sVx, double sVy, double sVz,
                 double tVx, double tVy, double tVz)
             {
-                return true;
+//                return true;
                 if (((fVx > 1 || fVx < -1) || (fVy > 1 || fVy < -1) || (fVz > 1 || fVz < -1)) &&
                     ((sVx > 1 || sVx < -1) || (sVy > 1 || sVy < -1) || (sVz > 1 || sVz < -1)) &&
                     ((tVx > 1 || tVx < -1) || (tVy > 1 || tVy < -1) || (tVz > 1 || tVz < -1)))
@@ -298,8 +298,8 @@ namespace Game.Render
 
         public void MyDrawLine(PaintEventArgs e, Pen pen, Point p1, Point p2, ProjectedTriangle projectedTriangle)
         {
-            MyLine(e, p1.X, p1.Y, p2.X, p2.Y, pen.Brush, projectedTriangle);
-//            e.Graphics.DrawLine(pen, p1, p2);
+//            MyLine(e, p1.X, p1.Y, p2.X, p2.Y, pen.Brush, projectedTriangle);
+            e.Graphics.DrawLine(pen, p1, p2);
         }
 
 

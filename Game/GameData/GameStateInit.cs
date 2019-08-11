@@ -131,7 +131,7 @@ namespace Game.GameData
 
         private Light CreateAmbientLight()
         {
-            Light ambientLight = new Light(new Color(1.0, 1.0, 1.0));
+            Light ambientLight = new Light(new Color(1.0, 1.0, 1.0), 0.1);
 
             return ambientLight;
         }

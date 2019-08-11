@@ -31,7 +31,8 @@ namespace Game.Render
         {
             phi += 0.1;
 
-//            model.rotationAngle = phi;
+            model.rotationAngle = phi;
+            model.rotationVector = new Vector(1, 0, 0);
 //            model.translationVector.z = phi;
 //            gameData.player.translationVector.z = phi;
             model.modelMatrix = model.Transform();
@@ -46,8 +47,8 @@ namespace Game.Render
         //TODO: check later if it is correct (normal vectors may have bad ornientation) and uncomment
         public bool BackfaceCulling(Vector fragPosition, Vector cameraPosition, Vector triangleNormal)
         {
-//            return (fragPosition.CastVectorTo3D() - cameraPosition).CastVectorTo3D().DotProduct(triangleNormal.CastVectorTo3D()) > 0;
-            return true;
+            return (fragPosition.CastVectorTo3D() - cameraPosition).CastVectorTo3D().DotProduct(triangleNormal.CastVectorTo3D()) > 0;
+//            return true;
         }
         
         //TODO: implement fragShader and vertexShader
