@@ -27,6 +27,8 @@ namespace Game.Figure
             set => vertices[2] = value;
         }
 
+        public Vector normal { get; set; }
+
         public Color color { get; set; }
         private const int NumberOfTriangleVertices = 3;
 
@@ -35,6 +37,7 @@ namespace Game.Figure
             vertices.Add(firstVertex);
             vertices.Add(secondVertex);
             vertices.Add(thirdVertex);
+            CalculateNormal();
             CalculateNormalVectors();
         }
 
@@ -46,6 +49,7 @@ namespace Game.Figure
             }
 
             this.vertices = vertices;
+            CalculateNormal();
             CalculateNormalVectors();
         }
 
@@ -64,6 +68,17 @@ namespace Game.Figure
                 //TODO: (unit vector)normalize normal
                 vertices[i].normal = /*-*/(firstSide.CrossProduct(secondSide)).Normalize();
             }
+        }
+
+        private void CalculateNormal()
+        {
+//            triangle ( v1, v2, v3 )
+//            edge1 = v2-v1
+//            edge2 = v3-v1
+//            triangle.normal = cross(edge1, edge2).normalize()
+            var firstEdge = (secondVertex - firstVertex).CastVectorTo3D();
+            var secondEdge = (thirdVertex - firstVertex).CastVectorTo3D();
+            normal = firstEdge.CrossProduct(secondEdge).Normalize();
         }
     }
 }

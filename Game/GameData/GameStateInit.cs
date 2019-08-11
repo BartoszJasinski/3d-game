@@ -17,7 +17,7 @@ namespace Game.GameData
         {
             GameData gameData = new GameData(CreateModels(), CreateCamera(), CreateCameras(), CreateIllumination(), CreateLightningModel(), CreatePlayer());
 //            gameData.player = gameData.models.First();
-//            AddLightModelsToRenderList(gameData);
+            AddLightModelsToRenderList(gameData);
 
             return gameData;
         }
@@ -55,11 +55,22 @@ namespace Game.GameData
         
         private Cone CreateCone()
         {
+            Cone cone = CreateCone(new Vector(-5, 0, 0, 1), new Vector(1.0, 1.0, 1.0), new Vector(0, 1, 0), 0);
+//            cone.translationVector = ;
+//            cone.scaleVector = ;
+//            cone.rotationVector = ;
+//            cone.rotationAngle = 0;
+            
+            return cone;
+        }
+        
+        private Cone CreateCone(Vector translationVector, Vector scaleVector, Vector rotationVector, double rotationAngle)
+        {
             Cone cone = new Cone();
-            cone.translationVector = new Vector(-5, 0, 0, 1);
-            cone.scaleVector = new Vector(1.0, 1.0, 1.0);
-            cone.rotationVector = new Vector(0, 1, 0);
-            cone.rotationAngle = 0;
+            cone.translationVector = translationVector;
+            cone.scaleVector = scaleVector;
+            cone.rotationVector = rotationVector;
+            cone.rotationAngle = rotationAngle;
             
             return cone;
         }
@@ -116,12 +127,13 @@ namespace Game.GameData
         {
             //TODO when you change x coordinate zBuffer is being drawn wrongly
             //TODO fix, when cube is located near camera like (9.9, 0, 0) game freezes/ have exception or just simply take long to draw one frame
-            Vector translationVector = new Vector(20.0, 0.0, 0.0, 1);
+            Vector translationVector = new Vector(2.0, 2.0, 2.0, 1);
             Vector scaleVector = new Vector(1.0, 1.0, 1.0);
             Vector rotationVector = new Vector(0, 1, 0);
             double rotationAngle = 0.0;
             
-            Cone cone = CreateCone(new Color(1.0, 1.0, 1.0), translationVector, scaleVector, rotationVector, rotationAngle);
+//            Cone cone = CreateCone(new Color(1.0, 1.0, 1.0), translationVector, scaleVector, rotationVector, rotationAngle);
+            Cone cone = CreateCone(translationVector, scaleVector, rotationVector, rotationAngle);
             Light ambientLight = CreateAmbientLight();
             Light diffuseLight = CreateDiffuseLight();
             Light specularLight = CreateSpecularLight();

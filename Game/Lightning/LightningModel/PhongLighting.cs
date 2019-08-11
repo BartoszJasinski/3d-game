@@ -31,16 +31,16 @@ namespace Game.Lightning.LightningModel
 //                ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition,
 //                    triangleNormal)*/).rgb /*.Normalize(2)*/);
 
-            return new Color((//ApplyAmbientLightning(triangle, lightSource) +
+            return new Color((ApplyAmbientLightning(triangle, lightSource) +
                               ApplyDiffuseLightning(triangle, fragPosition, triangleNormal, lightSource) +
                               ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition,
                                   triangleNormal, lightSource)).rgb.Normalize());
 
 
 //            return new Color((ApplyAmbientLightning(triangle, lightSource)));
-//            return new Color(ApplyDiffuseLightning(triangle, fragPosition, triangleNormal, lightSource));
-            return new Color(ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition,
-                triangleNormal, lightSource));
+            return new Color(ApplyDiffuseLightning(triangle, fragPosition, triangleNormal, lightSource));
+//            return new Color(ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition,
+//                triangleNormal, lightSource));
         }
 
         private Color ApplyAmbientLightning(Triangle triangle, LightSource lightSource)
@@ -133,9 +133,9 @@ namespace Game.Lightning.LightningModel
             Vector lightDir = (lightPos - fragPosition).Normalize();
             Vector reflectDir = (-lightDir /*.ResizeVectorToLength(3)*/).ReflectVector(triangleNormal);
             double dot = (viewDir /*.ResizeVectorToLength(3)*/).DotProduct(reflectDir);
-            double spec = Pow(Max(dot, 0.0), 2);
+            double spec = Pow(Max(dot, 0.0), 32);
 
-            return (specularStrength * spec * lightColor).Normalize();
+            return (specularStrength * spec * lightColor);
 //            double r = Clamp(specularStrength * spec * lightColor.x, 0, 255);
 //            double g = Clamp(specularStrength * spec * lightColor.y, 0, 255);
 //            double b = Clamp(specularStrength * spec * lightColor.z, 0, 255);

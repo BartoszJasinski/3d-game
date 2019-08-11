@@ -27,5 +27,10 @@ namespace Game.Figure
         }
 
         
+        public static Vector operator -(Vertex firstVertex, Vertex secondVertex)
+        {
+            return firstVertex.position - secondVertex.position;
+        }
+        
     }
 }
