@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Game.Math;
-
 using static System.Math;
 
 namespace Game.Render
@@ -73,7 +72,7 @@ namespace Game.Render
             public bool FrustumCulling(double fVx, double fVy, double fVz, double sVx, double sVy, double sVz,
                 double tVx, double tVy, double tVz)
             {
-//                return true;
+                return true;
                 if (((fVx > 1 || fVx < -1) || (fVy > 1 || fVy < -1) || (fVz > 1 || fVz < -1)) &&
                     ((sVx > 1 || sVx < -1) || (sVy > 1 || sVy < -1) || (sVz > 1 || sVz < -1)) &&
                     ((tVx > 1 || tVx < -1) || (tVy > 1 || tVy < -1) || (tVz > 1 || tVz < -1)))
@@ -298,8 +297,8 @@ namespace Game.Render
 
         public void MyDrawLine(PaintEventArgs e, Pen pen, Point p1, Point p2, ProjectedTriangle projectedTriangle)
         {
-//            MyLine(e, p1.X, p1.Y, p2.X, p2.Y, pen.Brush, projectedTriangle);
-            e.Graphics.DrawLine(pen, p1, p2);
+            MyLine(e, p1.X, p1.Y, p2.X, p2.Y, pen.Brush, projectedTriangle);
+//            e.Graphics.DrawLine(pen, p1, p2);
         }
 
 

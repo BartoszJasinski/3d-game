@@ -29,10 +29,10 @@ namespace Game.Render
 
         void RenderModel(PaintEventArgs e, PictureBox gamePictureBox, GameData.GameData gameData, Model model/*, Mouse mouse*/) //DEBUG mouse DELETE mouse arguement after dubugging
         {
-            phi += 0.1;
+            phi += 0.05;
 
-//            model.rotationAngle = phi;
-//            model.rotationVector = new Vector(0, 0, 1);
+            model.rotationAngle = phi;
+            model.rotationVector = new Vector(0, 0, 1);
 //            model.translationVector.z = phi;
 //            gameData.player.translationVector.z = phi;
             model.modelMatrix = model.Transform();
@@ -48,7 +48,7 @@ namespace Game.Render
         public bool BackfaceCulling(Vector fragPosition, Vector cameraPosition, Vector triangleNormal)
         {
             return true;
-//            return (fragPosition.CastVectorTo3D() - cameraPosition).CastVectorTo3D().DotProduct(triangleNormal.CastVectorTo3D()) > 0;
+            return (fragPosition.CastVectorTo3D() - cameraPosition).CastVectorTo3D().DotProduct(triangleNormal.CastVectorTo3D()) > 0;
         }
         
         //TODO: implement fragShader and vertexShader

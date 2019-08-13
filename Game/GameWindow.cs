@@ -70,14 +70,13 @@ namespace Game
         private void gamePictureBox_Click(object sender, EventArgs e)
         {
             gamePictureBox.Invalidate();
-            
         }
 
         public Rectangle GetScreen()
         {
             return Screen.FromControl(this).Bounds;
         }
-        
+
         //TODO prevent cursor from exiting form when in focus
 //        https://stackoverflow.com/questions/15029274/prevent-mouse-from-leaving-my-form/15029994#15029994
 
