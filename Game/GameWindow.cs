@@ -29,8 +29,8 @@ namespace Game
             gamePictureBox.BackColor = Color.Black;
 
             _gameData = _gameStateInitializer.InitializeGameData();
-            _mouse = _gameStateInitializer.InitializeMouse();
-            _keyboard = _gameStateInitializer.InitializeKeyboard();
+            _mouse = GameStateInit.InitializeMouse();
+            _keyboard = GameStateInit.InitializeKeyboard();
 
             InitializeTimer();
         }

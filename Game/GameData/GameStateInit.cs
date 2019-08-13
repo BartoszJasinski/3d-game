@@ -22,16 +22,14 @@ namespace Game.GameData
             return gameData;
         }
         
-        public Mouse InitializeMouse()
+        public static Mouse InitializeMouse()
         {
-            Mouse initializedMouse = new Mouse();
-            initializedMouse.Yaw = 180.0f;
-            initializedMouse.Pitch = 0.0f;
+            var initializedMouse = new Mouse {Yaw = 180.0f, Pitch = 0.0f};
 
             return initializedMouse;
         }
         
-        public Keyboard InitializeKeyboard()
+        public static Keyboard InitializeKeyboard()
         {
             return new Keyboard();
         }
@@ -43,9 +41,9 @@ namespace Game.GameData
 
         }
         
-        private List<Model> CreateModels()
+        private static List<Model> CreateModels()
         {
-            List<Model> models = new List<Model> {};
+            var models = new List<Model> {};
             
 //            models.Add(CreateSphere());
 //            models.Add(CreateCone());
@@ -55,7 +53,7 @@ namespace Game.GameData
         
         private Cone CreateCone()
         {
-            Cone cone = CreateCone(new Vector(-5, 0, 0, 1), new Vector(1.0, 1.0, 1.0), new Vector(0, 1, 0), 0);
+            var cone = CreateCone(new Vector(-5, 0, 0, 1), new Vector(1.0, 1.0, 1.0), new Vector(0, 1, 0), 0);
 //            cone.translationVector = ;
 //            cone.scaleVector = ;
 //            cone.rotationVector = ;
@@ -64,7 +62,7 @@ namespace Game.GameData
             return cone;
         }
         
-        private Cone CreateCone(Vector translationVector, Vector scaleVector, Vector rotationVector, double rotationAngle)
+        private static Cone CreateCone(Vector translationVector, Vector scaleVector, Vector rotationVector, double rotationAngle)
         {
             Cone cone = new Cone();
             cone.translationVector = translationVector;
@@ -77,12 +75,14 @@ namespace Game.GameData
         
         private Cone CreateCone(Color color, Vector translationVector, Vector scaleVector, Vector rotationVector, double rotationAngle)
         {
-            Cone cone = new Cone(color);
-            cone.translationVector = translationVector;
-            cone.scaleVector = scaleVector;
-            cone.rotationVector = rotationVector;
-            cone.rotationAngle = rotationAngle;
-            
+            Cone cone = new Cone(color)
+            {
+                translationVector = translationVector,
+                scaleVector = scaleVector,
+                rotationVector = rotationVector,
+                rotationAngle = rotationAngle
+            };
+
             return cone;
         }
         
@@ -98,24 +98,24 @@ namespace Game.GameData
         }
         
         
-        private Camera.Camera CreateCamera()
+        private static Camera.Camera CreateCamera()
         {
             return new Camera.Camera(new Vector(5.0, 0.0, 0.0), new Vector(-1.0, 0.0, 0.0), new Vector(0.0, 0.0, -1.0), 1);
         }
         
-        private Cameras CreateCameras()
+        private static Cameras CreateCameras()
         {
             return new Cameras(CameraMode.StationaryCamera);
         }
         
         private List<LightSource> CreateIllumination()
         {
-            List<LightSource> lightSources = new List<LightSource> { CreateLamp() };
+            var lightSources = new List<LightSource> { CreateLamp() };
             
             return lightSources;
         }
         
-        private void AddLightModelsToRenderList(GameData gameData)
+        private static void AddLightModelsToRenderList(GameData gameData)
         {
             foreach (var lightObject in gameData.lightSources)
             {
@@ -141,26 +141,26 @@ namespace Game.GameData
             return new Lamp(cone, ambientLight, diffuseLight, specularLight);
         }
 
-        private Light CreateAmbientLight()
+        private static Light CreateAmbientLight()
         {
             Light ambientLight = new Light(new Color(1.0, 1.0, 1.0), 0.1);
 
             return ambientLight;
         }
         
-        private Light CreateDiffuseLight()
+        private static Light CreateDiffuseLight()
         {
             Light diffuseLight = new Light(new Color(1.0, 1.0, 1.0));
             return diffuseLight;
         }
 
-        private Light CreateSpecularLight()
+        private static Light CreateSpecularLight()
         {
             Light specularLight = new Light(new Color(1.0, 1.0, 1.0));
             return specularLight;
         }
 
-        private ILightningModel CreateLightningModel()
+        private static ILightningModel CreateLightningModel()
         {
             return new PhongLighting();
         }

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using static System.Math;
-
 using Game.Math;
 using Game.Lightning;
 using Vector = Game.Math.Vector;
@@ -11,12 +10,12 @@ namespace Game.Figure
     public class Model
     {
         public List<Triangle> triangles { get; set; }
-        
+
         public Vector scaleVector { get; set; }
         public Vector rotationVector { get; set; }
         public double rotationAngle { get; set; }
         public Vector translationVector { get; set; }
-        
+
         public Matrix modelMatrix { get; set; } = new Matrix(new double[,]
         {
             {1, 0, 0, 0},
@@ -24,7 +23,6 @@ namespace Game.Figure
             {0, 0, 1, 0},
             {0, 0, 0, 1}
         });
-
 
 
         public Matrix Scale(Vector scalingVector)
@@ -39,7 +37,7 @@ namespace Game.Figure
 
             return scalingMatrix;
         }
-        
+
 //        public Matrix<double> Scale(Matrix<double> modelMatrix, Vector<double> scalingVector)
 //        {
 //            Matrix<double> scalingMatrix = DenseMatrix.OfArray(new double[,]
@@ -59,18 +57,27 @@ namespace Game.Figure
             double rotCos = Cos(rotationAngle), rotSin = Sin(rotationAngle);
             double Rx = rotationVector.x, Ry = rotationVector.y, Rz = rotationVector.z;
             double RxRy = Rx * Ry, RxRz = Rx * Rz, RyRx = Ry * Rx, RyRz = Ry * Rz, RzRx = Rz * Rx, RzRy = Rz * Ry;
-            
+
             Matrix rotationMatrix = new Matrix(new double[,]
             {
-                {rotCos + Pow(Rx, 2) * (1 - rotCos), RxRy * (1 - rotCos) - Rz * rotSin, RxRz * (1 - rotCos) + Ry * rotSin, 0},
-                {RyRx * (1 - rotCos) + Rz * rotSin, rotCos + Pow(Ry, 2) * (1 - rotCos), RyRz * (1 - rotCos) - Rx * rotSin, 0},
-                {RzRx * (1 - rotCos) - Ry * rotSin, RzRy * (1 - rotCos) + Rx * rotSin, rotCos + Pow(Rz, 2) * (1 - rotCos), 0},
+                {
+                    rotCos + Pow(Rx, 2) * (1 - rotCos), RxRy * (1 - rotCos) - Rz * rotSin,
+                    RxRz * (1 - rotCos) + Ry * rotSin, 0
+                },
+                {
+                    RyRx * (1 - rotCos) + Rz * rotSin, rotCos + Pow(Ry, 2) * (1 - rotCos),
+                    RyRz * (1 - rotCos) - Rx * rotSin, 0
+                },
+                {
+                    RzRx * (1 - rotCos) - Ry * rotSin, RzRy * (1 - rotCos) + Rx * rotSin,
+                    rotCos + Pow(Rz, 2) * (1 - rotCos), 0
+                },
                 {0, 0, 0, 1}
             });
 
             return rotationMatrix;
         }
-        
+
 //        public Matrix<double> Rotate(Matrix<double> modelMatrix, Vector<double> rotationVector, double rotationAngle)
 //        {
 //            double rotCos = Cos(rotationAngle), rotSin = Sin(rotationAngle);
@@ -88,20 +95,20 @@ namespace Game.Figure
 //            Matrix<double> rotatedMatrix = modelMatrix * rotationMatrix;
 //            return rotationMatrix;
 //        }
-        
+
         public Matrix Translate(Vector translationVector)
         {
             Matrix translationMatrix = new Matrix(new double[,]
             {
                 {1, 0, 0, translationVector.x},
-                {0,1,0,translationVector.y},
-                {0,0,1,translationVector.z},
-                {0,0,0,1}
+                {0, 1, 0, translationVector.y},
+                {0, 0, 1, translationVector.z},
+                {0, 0, 0, 1}
             });
 
             return translationMatrix;
         }
-        
+
 //        public Matrix<double> Translate(Matrix<double> modelMatrix, Vector<double> translationVector)
 //        {
 //            Matrix<double> translationMatrix = DenseMatrix.OfArray(new double[,]
@@ -118,7 +125,6 @@ namespace Game.Figure
 
         public Matrix Transform()
         {
-
             return Transform(scaleVector, rotationVector, rotationAngle, translationVector);
         }
 
@@ -126,9 +132,43 @@ namespace Game.Figure
             Vector translationVector)
         {
             return Translate(translationVector) * Rotate(rotationVector, rotationAngle) * Scale(scaleVector);
-            
         }
 
+        private bool isTriangleAdjacentToVertex(Vertex vertex, Triangle triangleChecked)
+        {
+            foreach (var checkedTriangleVertex in triangleChecked.vertices)
+            {
+                if (vertex.position == checkedTriangleVertex.position)
+                {
+                    return true;
+                }
+            }
 
+            return false;
+        }
+
+        private void CalculateNormalVectors()
+        {
+            foreach (var triangle in triangles)
+            {
+                foreach (var vertex in triangle.vertices)
+                { 
+                    var vertexNormal = triangle.normal;
+
+//                    if (vertex.normal == null)
+//                    {
+                        foreach (var adjacentTriangle in triangles)
+                        {
+                            if (isTriangleAdjacentToVertex(vertex, adjacentTriangle))
+                            {
+                                vertexNormal += adjacentTriangle.normal;
+                            }
+                        }
+//                    }
+
+                    vertex.normal = vertexNormal.Normalize();
+                }
+            }
+        }
     }
 }
