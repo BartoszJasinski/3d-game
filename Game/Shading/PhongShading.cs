@@ -1,7 +1,15 @@
+using System;
+using Game.Figure;
+using Game.Math;
+
 namespace Game.Shading
 {
-    public class PhongShading
+    public class PhongShading : IShading
     {
-        //TODO
+        Vector IShading.GetNormalVectorAtGivenPoint(Triangle triangle, double x, double y)
+        {
+            throw new NotImplementedException();
+
+        }
     }
 }

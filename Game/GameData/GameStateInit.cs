@@ -33,7 +33,7 @@ namespace Game.GameData
             return new Keyboard();
         }
 
-        private Model CreatePlayer()
+        private static Model CreatePlayer()
         {
             return CreateCone();
 //            return CreateSphere();
@@ -49,13 +49,9 @@ namespace Game.GameData
             return models;
         }
 
-        private Cone CreateCone()
+        private static Cone CreateCone()
         {
             var cone = CreateCone(new Vector(-5, 0, 0, 1), new Vector(1.0, 1.0, 1.0), new Vector(0, 1, 0), 0);
-//            cone.translationVector = ;
-//            cone.scaleVector = ;
-//            cone.rotationVector = ;
-//            cone.rotationAngle = 0;
 
             return cone;
         }

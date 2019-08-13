@@ -87,7 +87,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Render\Algorithms.cs" />
     <Compile Include="Render\Render.cs" />
+    <Compile Include="Shading\FlatShading.cs" />
     <Compile Include="Shading\GouraudShading.cs" />
+    <Compile Include="Shading\IShading.cs" />
     <Compile Include="Shading\PhongShading.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>GameWindow.cs</DependentUpon>
