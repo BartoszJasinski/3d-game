@@ -29,7 +29,7 @@ namespace Game.Render
 
         public class ProjectedTriangle
         {
-            public bool draw = true;
+//            public bool draw = true;
             public List<Vector> vertices { get; set; } = new List<Vector>(NumberOfTriangleVertices);
 
             public Vector firstVertex
@@ -358,18 +358,17 @@ namespace Game.Render
 
         private double InterpolateZ(double x, double y, ProjectedTriangle projectedTriangle)
         {
-            double[,] matrixElements = new double[,]
-            {
+            double[,] matrixElements = {
                 {projectedTriangle.firstVertex.x, projectedTriangle.secondVertex.x, projectedTriangle.thirdVertex.x},
                 {projectedTriangle.firstVertex.y, projectedTriangle.secondVertex.y, projectedTriangle.thirdVertex.y},
                 {1, 1, 1}
             };
-            Matrix A = new Matrix(matrixElements);
-            Vector B = new Vector(x, y, 1);
+            var A = new Matrix(matrixElements);
+            var B = new Vector(x, y, 1);
 
-            Vector coefficients = A.Inverse() * B;
+            var coefficients = A.Inverse() * B;
 
-            double z = coefficients[0] * projectedTriangle.firstVertex.z +
+            var z = coefficients[0] * projectedTriangle.firstVertex.z +
                        coefficients[1] * projectedTriangle.secondVertex.z +
                        coefficients[2] * projectedTriangle.thirdVertex.z;
 

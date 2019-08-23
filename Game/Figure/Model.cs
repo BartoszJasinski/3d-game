@@ -147,7 +147,7 @@ namespace Game.Figure
             return false;
         }
 
-        private void CalculateNormalVectors()
+        public void CalculateNormalVectors()
         {
             foreach (var triangle in triangles)
             {

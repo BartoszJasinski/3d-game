@@ -11,6 +11,7 @@ namespace Game.Figure
     {
         public Cone()
         {
+            
             Vertex firstVertex, secondVertex, thirdVertex;
             Triangle triangle;
             double Angle = 30f / 180 * PI;
@@ -27,14 +28,15 @@ namespace Game.Figure
                 secondVertex = new Vertex(R * Cos(Alpha), R * Sin(Alpha), 0);
                 thirdVertex = new Vertex(R * Cos(Alpha + Angle), R * Sin(Alpha + Angle), 0);
 
-                triangle = new Triangle(firstVertex, secondVertex, thirdVertex);
-                triangle.color = Lightning.Color.RandomColor();
+                triangle = new Triangle(firstVertex, secondVertex, thirdVertex) {color = Lightning.Color.RandomColor()};
                 triangles.Add(triangle);
                 secondVertex = thirdVertex;
                 Alpha += Angle;
             }
 
             this.triangles = triangles;
+
+            CalculateNormalVectors();
         }
 
         public Cone(Lightning.Color color)

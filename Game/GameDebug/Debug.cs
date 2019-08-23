@@ -28,7 +28,11 @@ namespace Game.GameDebug
                 graphics.DrawString("Camera Pitch = " + NoDataMessage/*mouse.pitch*/, myFont, Brushes.Cyan, debugStringPlacementPoints[7]);
                 
                 PrintFps(graphics, gameData, myFont);
-                
+
+                graphics.DrawString("First Vertex Normal = " + gameData.player.triangles[0].firstVertex.normal, myFont, Brushes.Cyan, debugStringPlacementPoints[15]);
+                graphics.DrawString("Second Vertex Normal = " + gameData.player.triangles[0].secondVertex.normal, myFont, Brushes.Cyan, debugStringPlacementPoints[16]);
+                graphics.DrawString("Third Vertex Normal = " + gameData.player.triangles[0].thirdVertex.normal, myFont, Brushes.Cyan, debugStringPlacementPoints[17]);
+
             }
         }
 

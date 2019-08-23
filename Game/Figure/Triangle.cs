@@ -38,7 +38,7 @@ namespace Game.Figure
             vertices.Add(secondVertex);
             vertices.Add(thirdVertex);
             CalculateNormal();
-            CalculateNormalVectors();
+//            CalculateNormalVectors();
         }
 
         public Triangle(List<Vertex> vertices)
@@ -50,7 +50,7 @@ namespace Game.Figure
 
             this.vertices = vertices;
             CalculateNormal();
-            CalculateNormalVectors();
+//            CalculateNormalVectors();
         }
 
         //TODO https://www.opengl-tutorial.org/beginners-tutorials/tutorial-8-basic-shading/#triangle-normals

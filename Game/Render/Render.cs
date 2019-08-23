@@ -61,7 +61,7 @@ namespace Game.Render
                 //TODO: maybe fragposiotion should be 3D vector
                 Vector fragPosition = model.modelMatrix * triangle.vertices[1].position;
 //                Vector triangleNormal = model.modelMatrix * triangle.vertices[1].normal.Cast3DVectorTo4D();
-                Vector triangleNormal = model.modelMatrix * triangle.normal.Cast3DVectorTo4D();
+                Vector triangleNormal = model.modelMatrix * triangle.firstVertex.normal.Cast3DVectorTo4D();
                 //Backface Culling
                 if (BackfaceCulling(fragPosition, gameData.camera.cameraPosition, triangleNormal))
                 {
