@@ -41,11 +41,10 @@ namespace Game.Math
             set => vector[i] = value;
         }
 
-        //TODO: maybe delete this constructor (it is not used)
-//        public Vector(): this(new DenseVector(new double[] { 0.0, 0.0, 0.0, 0.0 }))
-//        {
-//            
-//        }
+        public Vector(): this(new DenseVector(new double[] { 0.0, 0.0, 0.0, 0.0 }))
+        {
+            
+        }
 
         public Vector(double[] vectorElements) : this(DenseVector.OfArray(vectorElements))
         {
@@ -163,6 +162,12 @@ namespace Game.Math
         public static Vector operator *(double multipliedNumber, Vector secondVector)
         {
             return multipliedNumber * secondVector.vector;
+        }
+        
+        
+        public static Vector operator *(Vector secondVector, double multipliedNumber)
+        {
+            return secondVector.vector * multipliedNumber;
         }
 
         public static double operator *(Vector firstVector, Vector secondVector)

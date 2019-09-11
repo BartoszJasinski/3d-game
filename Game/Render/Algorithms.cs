@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Game.Figure;
 using Game.Math;
+using Game.Shading;
 using static System.Math;
 
 namespace Game.Render
@@ -27,10 +29,10 @@ namespace Game.Render
             }
         }
 
-        public class ProjectedTriangle
+        public class ProjectedTriangle : Triangle
         {
 //            public bool draw = true;
-            public List<Vector> vertices { get; set; } = new List<Vector>(NumberOfTriangleVertices);
+/*            public List<Vector> vertices { get; set; } = new List<Vector>(NumberOfTriangleVertices);
 
             public Vector firstVertex
             {
@@ -48,16 +50,34 @@ namespace Game.Render
             {
                 get => vertices[2];
                 set => vertices[2] = value;
+            }*/
+
+//IT HAS TO BE DONE, IN ORDER TO PREVENT SUCH INVOCATIONS e.g firstVertex.position.x etc.
+            public new Vector firstVertex
+            {
+                get => vertices[0].position;
+                set => vertices[0].position = value;
             }
 
+            public new Vector secondVertex
+            {
+                get => vertices[1].position;
+                set => vertices[1].position = value;
+            }
+
+            public new Vector thirdVertex
+            {
+                get => vertices[2].position;
+                set => vertices[2].position = value;
+            }
 
             private const int NumberOfTriangleVertices = 3;
 
             public ProjectedTriangle(Vector firstVertex, Vector secondVertex, Vector thirdVertex)
             {
-                vertices.Add(firstVertex);
-                vertices.Add(secondVertex);
-                vertices.Add(thirdVertex);
+                vertices.Add(new Figure.Vertex(firstVertex));
+                vertices.Add(new Figure.Vertex(secondVertex));
+                vertices.Add(new Figure.Vertex(thirdVertex));
             }
 
             public ProjectedTriangle(List<Vector> vertices)
@@ -65,7 +85,22 @@ namespace Game.Render
                 if (vertices.Count != NumberOfTriangleVertices)
                     throw new ArgumentException("Triangle should have three vertices");
 
-                this.vertices = vertices;
+                var tmpVertices = new List<Figure.Vertex>();
+                foreach (var vertex in vertices)
+                {
+                    tmpVertices.Add(new Figure.Vertex(vertex));
+                }
+
+                this.vertices = tmpVertices;
+            }
+
+            public ProjectedTriangle(Vector firstVertex, Vector secondVertex, Vector thirdVertex,
+                Lightning.Color triangleColor)
+            {
+                vertices.Add(new Figure.Vertex(firstVertex));
+                vertices.Add(new Figure.Vertex(secondVertex));
+                vertices.Add(new Figure.Vertex(thirdVertex));
+                color = triangleColor;
             }
 
             //TODO: maybe you should implement near plane far plane in Frustum Culling
@@ -187,7 +222,7 @@ namespace Game.Render
 //    }
 
 
-        private class Vertex
+        public class Vertex
         {
             public Point point { get; set; }
             public int index { get; set; }
@@ -208,7 +243,8 @@ namespace Game.Render
             public int secondVertexIndex { get; set; }
         }
 
-        public void ScanLineFillVertexSort(PaintEventArgs e, Color color, ProjectedTriangle projectedTriangle)
+        public void ScanLineFillVertexSort(PaintEventArgs e, ProjectedTriangle projectedTriangle,
+            GameData.GameData gameData, Color triangleColor)
         {
             List<Vertex> polygonVertices = new List<Vertex>();
             //for (int i = 0; i < 3; i++)
@@ -278,8 +314,8 @@ namespace Game.Render
 
                 for (int i = 0; i < AET.Count / 2; i++)
                 {
-                    MyDrawLine(e, new Pen(color), new Point((int) AET[2 * i].x, y),
-                        new Point((int) AET[2 * i + 1].x, y), projectedTriangle);
+                    MyDrawLine(e, new Point((int) AET[2 * i].x, y),
+                        new Point((int) AET[2 * i + 1].x, y), projectedTriangle, gameData, triangleColor);
                 }
             }
         }
@@ -295,15 +331,16 @@ namespace Game.Render
             return (Abs(a * b) + a) % b;
         }
 
-        public void MyDrawLine(PaintEventArgs e, Pen pen, Point p1, Point p2, ProjectedTriangle projectedTriangle)
+        public void MyDrawLine(PaintEventArgs e, Point p1, Point p2, ProjectedTriangle projectedTriangle,
+            GameData.GameData gameData, Color triangleColor)
         {
-            MyLine(e, p1.X, p1.Y, p2.X, p2.Y, pen.Brush, projectedTriangle);
+            MyLine(e, p1.X, p1.Y, p2.X, p2.Y, projectedTriangle, gameData, triangleColor);
 //            e.Graphics.DrawLine(pen, p1, p2);
         }
 
 
-        public void MyLine(PaintEventArgs e, int x, int y, int x2, int y2, Brush brush,
-            ProjectedTriangle projectedTriangle)
+        public void MyLine(PaintEventArgs e, int x, int y, int x2, int y2, ProjectedTriangle projectedTriangle,
+            GameData.GameData gameData, Color triangleColor)
         {
             int w = x2 - x;
             int h = y2 - y;
@@ -336,7 +373,15 @@ namespace Game.Render
                     double z = InterpolateZ(x, y, projectedTriangle);
                     if (z <= zBuffer[x, y])
                     {
-                        SetPixel(e, brush, new Point(x, y));
+//                        var shading = new PhongShading();
+//                        Vector normalVectorAtGivenPoint = PhongShading.GetNormalVectorAtGivenPoint(projectedTriangle, new Point(x, y));
+//                        Vector trianglePositionAtGivenPoint = GetTrianglePositionAtGivenPoint(projectedTriangle, x, y);
+//                        var col =
+//                            Lightning.Lightning.ApplyLightning(gameData, projectedTriangle.color, trianglePositionAtGivenPoint,
+//                                normalVectorAtGivenPoint);
+//                        Color newTriangleColor = triangleColor;
+                        Pen pen = new Pen(triangleColor);
+                        SetPixel(e, pen.Brush, new Point(x, y));
                         zBuffer[x, y] = z;
                     }
                 }
@@ -356,9 +401,11 @@ namespace Game.Render
             }
         }
 
+
         private double InterpolateZ(double x, double y, ProjectedTriangle projectedTriangle)
         {
-            double[,] matrixElements = {
+            double[,] matrixElements =
+            {
                 {projectedTriangle.firstVertex.x, projectedTriangle.secondVertex.x, projectedTriangle.thirdVertex.x},
                 {projectedTriangle.firstVertex.y, projectedTriangle.secondVertex.y, projectedTriangle.thirdVertex.y},
                 {1, 1, 1}
@@ -369,10 +416,17 @@ namespace Game.Render
             var coefficients = A.Inverse() * B;
 
             var z = coefficients[0] * projectedTriangle.firstVertex.z +
-                       coefficients[1] * projectedTriangle.secondVertex.z +
-                       coefficients[2] * projectedTriangle.thirdVertex.z;
+                    coefficients[1] * projectedTriangle.secondVertex.z +
+                    coefficients[2] * projectedTriangle.thirdVertex.z;
 
             return z;
+        }
+
+        private Vector GetTrianglePositionAtGivenPoint(ProjectedTriangle projectedTriangle, int x, int y)
+        {
+//            return model.modelMatrix * triangle.vertices[1].position;
+            return new Vector();
+            throw new NotImplementedException();
         }
     }
 }

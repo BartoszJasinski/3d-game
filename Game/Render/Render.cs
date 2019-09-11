@@ -74,7 +74,7 @@ namespace Game.Render
 
 //                    Algorithms.ProjectedTriangle projectedTriangle = new Algorithms.ProjectedTriangle(p1e, p2e, p3e);
 //                    projectedTriangle = projectedTriangle.ProjectTriangle(gamePictureBox.Width, gamePictureBox.Height);
-                    Algorithms.ProjectedTriangle projectedTriangle = new Algorithms.ProjectedTriangle(p1e, p2e, p3e);
+                    Algorithms.ProjectedTriangle projectedTriangle = new Algorithms.ProjectedTriangle(p1e, p2e, p3e, triangle.color);
                     //TODO: refactor
                     Tuple<Algorithms.ProjectedTriangle, bool> returnedValue = projectedTriangle.ProjectTriangle(gamePictureBox.Width, gamePictureBox.Height);
                     projectedTriangle = returnedValue.Item1;
@@ -82,13 +82,11 @@ namespace Game.Render
                     //TODO: refactor
                     if (returnedValue.Item2)
                     {
-//                        Color triangleColor =
-//                            Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition, triangleNormal);
                         var col =
-                            Lightning.Lightning.ApplyLightning(gameData, triangle, fragPosition, triangleNormal);
+                            Lightning.Lightning.ApplyLightning(gameData, triangle.color, fragPosition, triangleNormal);
                         Color triangleColor = col;
 
-                        algorithms.ScanLineFillVertexSort(e, triangleColor, projectedTriangle);
+                        algorithms.ScanLineFillVertexSort(e, projectedTriangle, gameData, triangleColor);
                     }
                     
 

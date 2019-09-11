@@ -32,6 +32,10 @@ namespace Game.Figure
         public Color color { get; set; }
         private const int NumberOfTriangleVertices = 3;
 
+        public Triangle()
+        {
+            
+        }
         public Triangle(Vertex firstVertex, Vertex secondVertex, Vertex thirdVertex)
         {
             vertices.Add(firstVertex);

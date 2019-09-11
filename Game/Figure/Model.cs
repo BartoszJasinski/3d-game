@@ -134,7 +134,7 @@ namespace Game.Figure
             return Translate(translationVector) * Rotate(rotationVector, rotationAngle) * Scale(scaleVector);
         }
 
-        private bool isTriangleAdjacentToVertex(Vertex vertex, Triangle triangleChecked)
+        private static bool IsTriangleAdjacentToVertex(Vertex vertex, Triangle triangleChecked)
         {
             foreach (var checkedTriangleVertex in triangleChecked.vertices)
             {
@@ -159,7 +159,7 @@ namespace Game.Figure
 //                    {
                         foreach (var adjacentTriangle in triangles)
                         {
-                            if (isTriangleAdjacentToVertex(vertex, adjacentTriangle))
+                            if (IsTriangleAdjacentToVertex(vertex, adjacentTriangle))
                             {
                                 vertexNormal += adjacentTriangle.normal;
                             }
