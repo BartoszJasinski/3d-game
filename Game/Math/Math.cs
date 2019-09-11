@@ -2,14 +2,14 @@ using static System.Math;
 
 namespace Game.Math
 {
-    public class Math
+    public static class Math
     {
 
         public static double ConvertToRange(double oldValue, double oldMin, double oldMax, double newMin, double newMax)
         {
-            double oldRange = oldMax - oldMin;
-            double newRange = newMax - newMin;
-            double newValue = (((oldValue - oldMin) * newRange) / oldRange) + newMin;
+            var oldRange = oldMax - oldMin;
+            var newRange = newMax - newMin;
+            var newValue = (((oldValue - oldMin) * newRange) / oldRange) + newMin;
             return newValue;
         }
         

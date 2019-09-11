@@ -126,6 +126,11 @@ namespace Game.GameData
 
         private static LightSource CreateLamp()
         {
+            return new Lamp(CreateLightSource());
+        }
+
+        private static LightSource CreateLightSource()
+        {
             //TODO when you change x coordinate zBuffer is being drawn wrongly
             //TODO fix, when cube is located near camera like (9.9, 0, 0) game freezes/ have exception or just simply take long to draw one frame
             var translationVector = new Vector(2.0, 2.0, 2.0, 1);
@@ -138,8 +143,8 @@ namespace Game.GameData
             var ambientLight = CreateAmbientLight();
             var diffuseLight = CreateDiffuseLight();
             var specularLight = CreateSpecularLight();
-
-            return new Lamp(cone, ambientLight, diffuseLight, specularLight);
+            
+            return new LightSource(cone, ambientLight, diffuseLight, specularLight);
         }
 
         private static Light CreateAmbientLight()
@@ -165,5 +170,17 @@ namespace Game.GameData
         {
             return new PhongLighting();
         }
+
+        private static Flashlight CreateFlashlight()
+        {
+            
+            var spotDir = new Vector();
+            var cutoffAngle = Math.Math.ConvertDegreesToRadians(30);
+            var lightSource = CreateLightSource();
+            var flashlight = new Flashlight(lightSource, spotDir, cutoffAngle);
+
+            return flashlight;
+        }
+        
     }
 }
