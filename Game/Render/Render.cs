@@ -48,7 +48,7 @@ namespace Game.Render
         public bool BackfaceCulling(Vector fragPosition, Vector cameraPosition, Vector triangleNormal)
         {
             return true;
-            return (fragPosition.CastVectorTo3D() - cameraPosition).CastVectorTo3D().DotProduct(triangleNormal.CastVectorTo3D()) > 0;
+            return ((fragPosition.CastVectorTo3D() - cameraPosition).CastVectorTo3D().DotProduct(triangleNormal.CastVectorTo3D()) > 0);
         }
         
         //TODO: implement fragShader and vertexShader
@@ -59,7 +59,7 @@ namespace Game.Render
             {
                 //TODO: fix tirangle.verticec[0] because it is not fragPosition probably
                 //TODO: maybe fragposiotion should be 3D vector
-                Vector fragPosition = model.modelMatrix * triangle.vertices[1].position;
+                Vector fragPosition = model.modelMatrix * triangle.vertices[2].position;
 //                Vector triangleNormal = model.modelMatrix * triangle.vertices[1].normal.Cast3DVectorTo4D();
                 Vector triangleNormal = model.modelMatrix * triangle.firstVertex.normal.Cast3DVectorTo4D();
                 //Backface Culling

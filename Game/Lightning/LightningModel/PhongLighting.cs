@@ -4,6 +4,7 @@ using static System.Math;
 
 namespace Game.Lightning.LightningModel
 {
+    //TODO You should invert inclusion LightSources should contain PhongLightning (LightSources should user PhongLighthing internally),now PhongLightning "contains" LightSources 
     public class PhongLighting : ILightningModel
     {
         //TODO write function which applies(renders) phong lighining on scene
@@ -14,8 +15,20 @@ namespace Game.Lightning.LightningModel
             Vector triangleAfterLightningColor = new Vector(0, 0, 0);
             foreach (var lightSource in gameData.lightSources)
             {
-                triangleAfterLightningColor +=
-                    ApplyLightning(gameData, color, fragPosition, triangleNormal, lightSource).rgb;
+                if (lightSource is Flashlight flashlight)
+                {
+                    if (flashlight.CalculateIfFragmentShouldBeIlluminated(fragPosition))
+                    {
+                        flashlight.spotDir = gameData.camera.cameraFront;
+                        triangleAfterLightningColor +=
+                            ApplyLightning(gameData, color, fragPosition, triangleNormal, lightSource).rgb;
+                    }
+                }
+                else
+                {
+                    triangleAfterLightningColor +=
+                        ApplyLightning(gameData, color, fragPosition, triangleNormal, lightSource).rgb;
+                }
             }
 
             return new Color(triangleAfterLightningColor);

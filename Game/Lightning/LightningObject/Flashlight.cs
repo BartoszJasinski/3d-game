@@ -4,7 +4,7 @@ namespace Game.Lightning.LightningObject
 {
     public class Flashlight : LightSource
     {
-        private Vector spotDir { get; set; }
+        public Vector spotDir { get; set; }
         private double cutoffAngle { get; set; }
 
         public Flashlight(LightSource lightSource, Vector spotDir, double cutoffAngle): base(lightSource)
@@ -16,7 +16,7 @@ namespace Game.Lightning.LightningObject
         public bool CalculateIfFragmentShouldBeIlluminated(Vector fragmentPosition)
         {
             Vector lightDir = model.translationVector - fragmentPosition;
-            double theta = lightDir.DotProduct(-spotDir.Normalize());
+            double theta = lightDir.CastVectorTo3D().DotProduct(-spotDir.Normalize());
 
 
             return theta > cutoffAngle;

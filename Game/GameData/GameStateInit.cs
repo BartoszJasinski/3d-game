@@ -111,7 +111,8 @@ namespace Game.GameData
 
         private static List<LightSource> CreateIllumination()
         {
-            var lightSources = new List<LightSource> {CreateLamp()};
+//            var lightSources = new List<LightSource> {CreateLamp()};
+            var lightSources = new List<LightSource> {CreateFlashlight()};
 
             return lightSources;
         }
@@ -129,6 +130,19 @@ namespace Game.GameData
             return new Lamp(CreateLightSource());
         }
 
+        private static LightSource CreateLightSource(Vector translationVector, Vector scaleVector,
+            Vector rotationVector, double rotationAngle)
+        {
+            
+//            Cone cone = CreateCone(new Color(1.0, 1.0, 1.0), translationVector, scaleVector, rotationVector, rotationAngle);
+            var cone = CreateCone(translationVector, scaleVector, rotationVector, rotationAngle);
+            var ambientLight = CreateAmbientLight();
+            var diffuseLight = CreateDiffuseLight();
+            var specularLight = CreateSpecularLight();
+
+            return new LightSource(cone, ambientLight, diffuseLight, specularLight);
+        }
+        
         private static LightSource CreateLightSource()
         {
             //TODO when you change x coordinate zBuffer is being drawn wrongly
@@ -143,8 +157,8 @@ namespace Game.GameData
             var ambientLight = CreateAmbientLight();
             var diffuseLight = CreateDiffuseLight();
             var specularLight = CreateSpecularLight();
-            
-            return new LightSource(cone, ambientLight, diffuseLight, specularLight);
+
+            return CreateLightSource(translationVector, scaleVector, rotationVector, rotationAngle);
         }
 
         private static Light CreateAmbientLight()
@@ -173,14 +187,12 @@ namespace Game.GameData
 
         private static Flashlight CreateFlashlight()
         {
-            
-            var spotDir = new Vector();
-            var cutoffAngle = Math.Math.ConvertDegreesToRadians(30);
+            var spotDir = new Vector(-1.0, 0.0, 0.0);
+            var cutoffAngle = Math.Math.ConvertDegreesToRadians(1);
             var lightSource = CreateLightSource();
             var flashlight = new Flashlight(lightSource, spotDir, cutoffAngle);
 
             return flashlight;
         }
-        
     }
 }
