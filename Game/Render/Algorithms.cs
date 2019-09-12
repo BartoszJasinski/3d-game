@@ -247,7 +247,6 @@ namespace Game.Render
             GameData.GameData gameData, Color triangleColor)
         {
             List<Vertex> polygonVertices = new List<Vertex>();
-            //for (int i = 0; i < 3; i++)
             polygonVertices.Add(
                 new Vertex(new Point((int) projectedTriangle.firstVertex.x, (int) projectedTriangle.firstVertex.y), 0));
             polygonVertices.Add(new Vertex(
@@ -371,7 +370,7 @@ namespace Game.Render
                 else
                 {
                     double z = InterpolateZ(x, y, projectedTriangle);
-                    if (zBuffer[x, y] > z && z > 0)
+                    if (zBuffer[x, y] > z /*&& z > 0*/)
                     {
 //                        var shading = new PhongShading();
 //                        Vector normalVectorAtGivenPoint = PhongShading.GetNormalVectorAtGivenPoint(projectedTriangle, new Point(x, y));

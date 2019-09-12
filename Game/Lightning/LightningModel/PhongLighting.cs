@@ -43,17 +43,17 @@ namespace Game.Lightning.LightningModel
 //                ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition,
 //                    triangleNormal)*/).rgb /*.Normalize(2)*/);
 
-            return new Color((ApplyAmbientLightning(color, lightSource) +
-                              ApplyDiffuseLightning(color, fragPosition, triangleNormal, lightSource) +
-                              ApplySpecularLightning(gameData.camera.cameraPosition, fragPosition,
-                                  triangleNormal, lightSource)).rgb.Normalize());
+//            return new Color((ApplyAmbientLightning(color, lightSource) +
+//                              ApplyDiffuseLightning(color, fragPosition, triangleNormal, lightSource) +
+//                              ApplySpecularLightning(gameData.camera.cameraPosition, fragPosition,
+//                                  triangleNormal, lightSource)).rgb.Normalize());
 
 
-//            return new Color(ApplyAmbientLightning(color, lightSource).rgb.Normalize());
-            return new Color(ApplyDiffuseLightning(color, fragPosition, triangleNormal, lightSource).rgb
-                .Normalize());
-//            return new Color(ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition,
-//                triangleNormal, lightSource).rgb.Normalize());
+            return new Color(ApplyAmbientLightning(color, lightSource).rgb.Normalize());
+//            return new Color(ApplyDiffuseLightning(color, fragPosition, triangleNormal, lightSource).rgb
+//                .Normalize());
+            return new Color(ApplySpecularLightning(gameData.camera.cameraPosition, fragPosition,
+                triangleNormal, lightSource).rgb.Normalize());
         }
 
         private Color ApplyAmbientLightning(Color color, LightSource lightSource)
@@ -147,7 +147,7 @@ namespace Game.Lightning.LightningModel
 
             Vector viewDir = (cameraPosition - fragPosition).Normalize();
             Vector lightDir = (lightPos - fragPosition).Normalize();
-            Vector reflectDir = (-lightDir /*.ResizeVectorToLength(3)*/).ReflectVector(triangleNormal);
+            Vector reflectDir = (lightDir /*.ResizeVectorToLength(3)*/).ReflectVector(triangleNormal);
             double dot = (viewDir /*.ResizeVectorToLength(3)*/).DotProduct(reflectDir);
             double spec = Pow(Max(dot, 0.0), 32);
 

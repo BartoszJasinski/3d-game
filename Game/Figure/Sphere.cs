@@ -76,7 +76,6 @@ namespace Game.Figure
 //            this.triangles = triangles;
             triangles = GetSpherePoints();
             CalculateNormalVectors();
-//            this.triangles = GetSphere();
         }
 
         public void AddTriangle(Triangle triangle)
@@ -94,7 +93,7 @@ namespace Game.Figure
         {
             Vertex p1, p2, p3, p4;
             Triangle triangle;
-            double Angle = 20f / 180 * PI;
+            double Angle = 30f / 180 * PI;
             double R = 1;
             double Alpha = 0;
             double Beta = 0;

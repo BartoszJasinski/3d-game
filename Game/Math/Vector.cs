@@ -8,7 +8,7 @@ namespace Game.Math
 {
     public class Vector
     {
-        public int Count => vector.Count;
+        public int count => vector.Count;
         public Vector<double> vector { get; set; }
 
         public double x
@@ -41,9 +41,8 @@ namespace Game.Math
             set => vector[i] = value;
         }
 
-        public Vector(): this(new DenseVector(new double[] { 0.0, 0.0, 0.0, 0.0 }))
+        public Vector() : this(new DenseVector(new double[] {0.0, 0.0, 0.0, 0.0}))
         {
-            
         }
 
         public Vector(double[] vectorElements) : this(DenseVector.OfArray(vectorElements))
@@ -67,7 +66,7 @@ namespace Game.Math
         public Vector CrossProduct(Vector secondVector)
         {
             const int numberOfElementsIn3DVector = 3;
-            if ((Count != numberOfElementsIn3DVector || secondVector.Count != numberOfElementsIn3DVector))
+            if ((count != numberOfElementsIn3DVector || secondVector.count != numberOfElementsIn3DVector))
             {
                 const string message = "Vectors must have a length of 3";
                 throw new ArgumentException(message);
@@ -84,12 +83,12 @@ namespace Game.Math
 
         public Vector PointwiseMultiply(Vector secondVector)
         {
-            if (Count != secondVector.Count)
+            if (count != secondVector.count)
             {
                 throw new ArgumentException("Vectors should have the same number of elements");
             }
 
-            var resultVectorSize = Min(Count, secondVector.Count);
+            var resultVectorSize = Min(count, secondVector.count);
             var resultVectorElementsArray = new double[resultVectorSize];
             var resultVector = new Vector(0, 0, 0);
 
@@ -163,8 +162,8 @@ namespace Game.Math
         {
             return multipliedNumber * secondVector.vector;
         }
-        
-        
+
+
         public static Vector operator *(Vector secondVector, double multipliedNumber)
         {
             return secondVector.vector * multipliedNumber;
@@ -173,6 +172,45 @@ namespace Game.Math
         public static double operator *(Vector firstVector, Vector secondVector)
         {
             return firstVector.vector * secondVector.vector;
+        }
+
+        public static bool operator ==(Vector firstVector, Vector secondVector)
+        {
+            if (firstVector.count != secondVector.count)
+            {
+                throw new ArgumentException("Vectors have different dimensions");
+            }
+
+            return (Abs(firstVector.x - secondVector.x) < 0.0000001 &&
+                    Abs(firstVector.y - secondVector.y) < 0.0000001 &&
+                    Abs(firstVector.z - secondVector.z) < 0.0000001);
+
+/*
+            for (int i = 0; i < firstVector.count; i++)
+            {
+                if (firstVector[i] != secondVector[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+*/
+        }
+
+        public static bool operator !=(Vector firstVector, Vector secondVector)
+        {
+            return !(firstVector == secondVector);
+            //            if (firstVector.count != secondVector.count)
+//            {
+//                throw new ArgumentException("Vectors have different dimensions");
+//            }
+//
+//            return !(firstVector != null && (secondVector != null &&
+//                                           (Abs(firstVector.x - secondVector.x) < 0.00001 &&
+//                                            Abs(firstVector.y - secondVector.y) < 0.00001 &&
+//                                            Abs(firstVector.z - secondVector.z) < 0.00001)));
+//
         }
 
 

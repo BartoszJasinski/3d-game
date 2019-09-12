@@ -16,7 +16,7 @@ namespace Game.GameData
             var gameData = new GameData(CreateModels(), CreateCamera(), CreateCameras(), CreateIllumination(),
                 CreateLightningModel(), CreatePlayer());
 //            gameData.player = gameData.models.First();
-            AddLightModelsToRenderList(gameData);
+//            AddLightModelsToRenderList(gameData);
 
             return gameData;
         }
@@ -35,8 +35,8 @@ namespace Game.GameData
 
         private static Model CreatePlayer()
         {
-            return CreateCone();
-//            return CreateSphere();
+//            return CreateCone();
+            return CreateSphere();
         }
 
         private static List<Model> CreateModels()
@@ -100,7 +100,7 @@ namespace Game.GameData
 
         private static Camera.Camera CreateCamera()
         {
-            return new Camera.Camera(new Vector(5.0, 0.0, 0.0), new Vector(-1.0, 0.0, 0.0), new Vector(0.0, 0.0, -1.0),
+            return new Camera.Camera(new Vector(50.0, 0.0, 0.0), new Vector(-1.0, 0.0, 0.0), new Vector(0.0, 0.0, -1.0),
                 1);
         }
 
@@ -133,7 +133,6 @@ namespace Game.GameData
         private static LightSource CreateLightSource(Vector translationVector, Vector scaleVector,
             Vector rotationVector, double rotationAngle)
         {
-            
 //            Cone cone = CreateCone(new Color(1.0, 1.0, 1.0), translationVector, scaleVector, rotationVector, rotationAngle);
             var cone = CreateCone(translationVector, scaleVector, rotationVector, rotationAngle);
             var ambientLight = CreateAmbientLight();
@@ -142,7 +141,7 @@ namespace Game.GameData
 
             return new LightSource(cone, ambientLight, diffuseLight, specularLight);
         }
-        
+
         private static LightSource CreateLightSource()
         {
             //TODO when you change x coordinate zBuffer is being drawn wrongly
@@ -163,7 +162,7 @@ namespace Game.GameData
 
         private static Light CreateAmbientLight()
         {
-            var ambientLight = new Light(new Color(1.0, 1.0, 1.0), 0.1);
+            var ambientLight = new Light(new Color(1.0, 1.0, 1.0), 0.01);
 
             return ambientLight;
         }
