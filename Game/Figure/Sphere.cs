@@ -74,7 +74,8 @@ namespace Game.Figure
             }*/
 
 //            this.triangles = triangles;
-            this.triangles = GetSpherePoints();
+            triangles = GetSpherePoints();
+            CalculateNormalVectors();
 //            this.triangles = GetSphere();
         }
 

@@ -84,11 +84,11 @@ namespace Game.GameData
             return cone;
         }
 
-        private Sphere CreateSphere()
+        private static Sphere CreateSphere()
         {
             var sphere = new Sphere
             {
-                translationVector = new Vector(0, 0, 0, 1),
+                translationVector = new Vector(-5, 0, 0, 1),
                 scaleVector = new Vector(1, 1, 1.0),
                 rotationVector = new Vector(0, 0, 1),
                 rotationAngle = 0
@@ -111,8 +111,8 @@ namespace Game.GameData
 
         private static List<LightSource> CreateIllumination()
         {
-//            var lightSources = new List<LightSource> {CreateLamp()};
-            var lightSources = new List<LightSource> {CreateFlashlight()};
+            var lightSources = new List<LightSource> {CreateLamp()};
+//            var lightSources = new List<LightSource> {CreateFlashlight()};
 
             return lightSources;
         }

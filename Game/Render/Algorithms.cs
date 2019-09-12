@@ -371,7 +371,7 @@ namespace Game.Render
                 else
                 {
                     double z = InterpolateZ(x, y, projectedTriangle);
-                    if (z <= zBuffer[x, y])
+                    if (zBuffer[x, y] > z && z > 0)
                     {
 //                        var shading = new PhongShading();
 //                        Vector normalVectorAtGivenPoint = PhongShading.GetNormalVectorAtGivenPoint(projectedTriangle, new Point(x, y));
