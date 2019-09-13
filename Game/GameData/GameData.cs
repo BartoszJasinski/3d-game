@@ -7,7 +7,6 @@ using Game.Lightning.LightningObject;
 
 namespace Game.GameData
 {
-    //TODO make additional classes (or refactor functions) which encapsulate data so in different processing classes like (lightnig, ScanLine) you dont have to pass whole gamedata object
     public class GameData
     {
         public List<Model> models { get; set; }
@@ -29,11 +28,6 @@ namespace Game.GameData
             
             models.Add(player);
         }
-
-//        public GameData(): this(new List<Model>(), new Camera.Camera(), new Cameras(), new List<ILightningObject>(), new PhongLighting())
-//        {
-//                
-//        }
 
 
   

@@ -30,11 +30,6 @@ namespace Game.Lightning.LightningObject
             this(lightSource.model, lightSource.ambientLight, lightSource.diffuseLight,
                 lightSource.specularLight)
         {
-            //TODO Make it deep copy constructor
-//            model = lightSource.model;
-//            ambientLight = lightSource.ambientLight;
-//            diffuseLight = lightSource.diffuseLight;
-//            specularLight = lightSource.specularLight;
         }
     }
 }

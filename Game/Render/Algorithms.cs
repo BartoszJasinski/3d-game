@@ -12,9 +12,6 @@ namespace Game.Render
 {
     public class Algorithms
     {
-        //TODO: zBuffer trhrows System.IndexOutOfRangeException: Index was outside the bounds of the array. when outside of window
-        //TODO: make screenWidth and screenHeightchanging apropiate to screen size https://stackoverflow.com/questions/7970262/disable-resizing-of-a-windows-forms-form
-        //TODO: refactor
         public const int screenWidth = 900, screenHeight = 900;
         double[,] zBuffer = new double[screenWidth, screenHeight];
 
@@ -31,28 +28,7 @@ namespace Game.Render
 
         public class ProjectedTriangle : Triangle
         {
-//            public bool draw = true;
-/*            public List<Vector> vertices { get; set; } = new List<Vector>(NumberOfTriangleVertices);
 
-            public Vector firstVertex
-            {
-                get => vertices[0];
-                set => vertices[0] = value;
-            }
-
-            public Vector secondVertex
-            {
-                get => vertices[1];
-                set => vertices[1] = value;
-            }
-
-            public Vector thirdVertex
-            {
-                get => vertices[2];
-                set => vertices[2] = value;
-            }*/
-
-//IT HAS TO BE DONE, IN ORDER TO PREVENT SUCH INVOCATIONS e.g firstVertex.position.x etc.
             public new Vector firstVertex
             {
                 get => vertices[0].position;
@@ -183,43 +159,6 @@ namespace Game.Render
         }
 
 
-//        public ProjectedTriangle ProjectTriangle(int gamePictureBoxWidth, int gamePictureBoxHeight)
-//        {
-//            ProjectedTriangle projectedTriangle = this;
-//                
-//            projectedTriangle.firstVertex.x /= projectedTriangle.firstVertex.w;
-//            projectedTriangle.firstVertex.y /= projectedTriangle.firstVertex.w;
-//
-//            projectedTriangle.secondVertex.x /= projectedTriangle.secondVertex.w;
-//            projectedTriangle.secondVertex.y /= projectedTriangle.secondVertex.w;
-//                
-//            projectedTriangle.thirdVertex.x /= projectedTriangle.thirdVertex.w;
-//            projectedTriangle.thirdVertex.y /= projectedTriangle.thirdVertex.w;
-//
-//            projectedTriangle.firstVertex.x += 1;
-//            projectedTriangle.firstVertex.x /= 2;
-//            projectedTriangle.firstVertex.x *= gamePictureBoxWidth;
-//            projectedTriangle.firstVertex.y += 1;
-//            projectedTriangle.firstVertex.y /= 2;
-//            projectedTriangle.firstVertex.y *= gamePictureBoxHeight;
-//                
-//            projectedTriangle.secondVertex.x += 1;
-//            projectedTriangle.secondVertex.x /= 2;
-//            projectedTriangle.secondVertex.x *= gamePictureBoxWidth;
-//            projectedTriangle.secondVertex.y += 1;
-//            projectedTriangle.secondVertex.y /= 2;
-//            projectedTriangle.secondVertex.y *= gamePictureBoxHeight;
-//                
-//            projectedTriangle.thirdVertex.x += 1;
-//            projectedTriangle.thirdVertex.x /= 2;
-//            projectedTriangle.thirdVertex.x *= gamePictureBoxWidth;
-//            projectedTriangle.thirdVertex.y += 1;
-//            projectedTriangle.thirdVertex.y /= 2;
-//            projectedTriangle.thirdVertex.y *= gamePictureBoxHeight;
-//
-//            return projectedTriangle;
-//        }
-//    }
 
 
         public class Vertex

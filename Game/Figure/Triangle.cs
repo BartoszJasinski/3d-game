@@ -76,10 +76,6 @@ namespace Game.Figure
 
         private void CalculateNormal()
         {
-//            triangle ( v1, v2, v3 )
-//            edge1 = v2-v1
-//            edge2 = v3-v1
-//            triangle.normal = cross(edge1, edge2).normalize()
             var firstEdge = (secondVertex - firstVertex).CastVectorTo3D();
             var secondEdge = (thirdVertex - firstVertex).CastVectorTo3D();
             normal = firstEdge.CrossProduct(secondEdge).Normalize();

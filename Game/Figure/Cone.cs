@@ -6,7 +6,6 @@ using static System.Math;
 
 namespace Game.Figure
 {
-    //TODO: refactor both Cone() functions
     public class Cone : Model, IModel
     {
         public Cone()

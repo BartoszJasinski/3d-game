@@ -185,32 +185,11 @@ namespace Game.Math
                     Abs(firstVector.y - secondVector.y) < 0.0000001 &&
                     Abs(firstVector.z - secondVector.z) < 0.0000001);
 
-/*
-            for (int i = 0; i < firstVector.count; i++)
-            {
-                if (firstVector[i] != secondVector[i])
-                {
-                    return false;
-                }
-            }
-
-            return true;
-*/
         }
 
         public static bool operator !=(Vector firstVector, Vector secondVector)
         {
             return !(firstVector == secondVector);
-            //            if (firstVector.count != secondVector.count)
-//            {
-//                throw new ArgumentException("Vectors have different dimensions");
-//            }
-//
-//            return !(firstVector != null && (secondVector != null &&
-//                                           (Abs(firstVector.x - secondVector.x) < 0.00001 &&
-//                                            Abs(firstVector.y - secondVector.y) < 0.00001 &&
-//                                            Abs(firstVector.z - secondVector.z) < 0.00001)));
-//
         }
 
 

@@ -15,7 +15,6 @@ namespace Game.GameData
         {
             var gameData = new GameData(CreateModels(), CreateCamera(), CreateCameras(), CreateIllumination(),
                 CreateLightningModel(), CreatePlayer());
-//            gameData.player = gameData.models.First();
             AddLightModelsToRenderList(gameData);
 
             return gameData;
@@ -144,8 +143,6 @@ namespace Game.GameData
 
         private static LightSource CreateLightSource()
         {
-            //TODO when you change x coordinate zBuffer is being drawn wrongly
-            //TODO fix, when cube is located near camera like (9.9, 0, 0) game freezes/ have exception or just simply take long to draw one frame
             var translationVector = new Vector(2.0, 2.0, 2.0, 1);
             var scaleVector = new Vector(1.0, 1.0, 1.0);
             var rotationVector = new Vector(0, 1, 0);

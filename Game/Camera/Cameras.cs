@@ -16,11 +16,8 @@ namespace Game.Camera
         {
             this.cameraMode = cameraMode;
         }
-        Matrix ViewMatrix(CameraMode cameraMode, Camera camera/*,  cameraPosition, cameraTarget,upAxis */)
+        Matrix ViewMatrix(CameraMode cameraMode, Camera camera)
         {
-//            camera.cameraPosition = cameraPosition ?? new DenseVector(new[] {0.0, 0.0, 0.0});
-//            camera.cameraTarget = cameraTarget ?? new DenseVector(new[] {0.0, 0.0, 0.0});
-//            camera.upAxis = upAxis ?? new DenseVector(new[] {0.0, 0.0, 1.0});
 
             return camera.LookAt();
 
@@ -49,28 +46,16 @@ namespace Game.Camera
             }
 
             return StationaryCamera(gameData.camera);
-//            gameData.camera.viewMatrix = gameData.cameras.StationaryTrackingModelCamera(gameData.camera, model.translationVector);
-//            Vector cameraOffset = new Vector(10, 0, 0);
-//            gameData.camera.viewMatrix =
-//                gameData.cameras.MovingAssociatedWithObjectCamera(gameData.camera, model.translationVector,
-//                    cameraOffset);
 
         }
 
-//        public void ChangeCameraMode(CameraMode cameraMode)
-//        {
-//            if(cameraMode == CameraMode.StationaryCamera)
-//                return StationaryCamera()
-//        }
         public Matrix GetCameraWithSpecifiedMode(CameraMode cameraMode)
         {
-            //TODO: implement
             throw new NotImplementedException();
         }
         
         public Matrix StationaryCamera(Camera camera)
         {
-            //TODO: create stationary camera stationary tracing camera and moveing associated with object camera
             return StationaryCamera(camera, camera.cameraPosition, camera.cameraFront, camera.upAxis);
         }
         
@@ -86,42 +71,18 @@ namespace Game.Camera
 
         public Matrix StationaryTrackingModelCamera(Camera camera, Vector modelPosition, Vector cameraPosition, Vector cameraFront, Vector upAxis)
         {
-//            Vector<double> cameraPosition = new DenseVector(new[] {3.0, 1.0, 1.0});
-//            Vector<double> cameraTarget = modelPosition;
-//            Vector<double> upAxis = new DenseVector(new[] {0.0, 0.0, 1.0});
             return camera.LookAt(cameraPosition, modelPosition, upAxis);
         }
         
         public Matrix MovingAssociatedWithObjectCamera(Camera camera, Vector modelPosition, Vector cameraOffset)
         {
-            //Moving Associated With Object Camera
-//            Vector<double> cameraPosition = modelPosition;
-//            Vector<double> cameraTarget = modelPosition;
-//            Vector<double> upAxis = new DenseVector(new[] {0.0, 0.0, 1.0});
-//            Vector<double> cameraOffset = new DenseVector(new [] {10.0, 0.0, 0.0});
             return MovingAssociatedWithObjectCamera(camera, modelPosition, cameraOffset, camera.cameraPosition, camera.cameraFront, camera.upAxis);
         }
         
         public Matrix MovingAssociatedWithObjectCamera(Camera camera, Vector modelPosition, Vector cameraOffset, Vector cameraPosition, Vector cameraFront, Vector upAxis)
         {
-            //Moving Associated With Object Camera
-//            Vector<double> cameraPosition = modelPosition;
-//            Vector<double> cameraTarget = modelPosition;
-//            Vector<double> upAxis = new DenseVector(new[] {0.0, 0.0, 1.0});
-//            Vector<double> cameraOffset = new DenseVector(new [] {10.0, 0.0, 0.0});
             return camera.LookAt(modelPosition.CastVectorTo3D() + cameraOffset, modelPosition, upAxis);
         }
         
-//        Dictionary<CameraMode, List<Vector>> CamerasList = new Dictionary<CameraMode, List<Vector>>
-//        {
-//            {CameraMode.StationaryCamera, new List<Vector> {new Vector(0.0, 0.0, 0.0), 
-//                new Vector(0.0, 0.0, 0.0),new Vector(0.0, 1.0, 0.0)}},
-//            
-//            {CameraMode.StationaryTrackingObjectCamera, new List<Vector>{new Vector(0.0, 0.0, 0.0), 
-//                new Vector(0.0, 0.0, 0.0),new Vector(0.0, 1.0, 0.0)}},
-//
-//            {CameraMode.MovingAssociatedWithObjectCamera, new List<Vector> {new Vector(0.0, 0.0, 0.0), 
-//                new Vector(0.0, 0.0, 0.0),new Vector(0.0, 1.0, 0.0)}}
-//        };
     }
 }
