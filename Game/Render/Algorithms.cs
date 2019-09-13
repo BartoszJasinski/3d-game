@@ -334,9 +334,9 @@ namespace Game.Render
             GameData.GameData gameData, Color triangleColor)
         {
             MyLine(e, p1.X, p1.Y, p2.X, p2.Y, projectedTriangle, gameData, triangleColor);
+//            Pen pen = new Pen(triangleColor);
 //            e.Graphics.DrawLine(pen, p1, p2);
         }
-
 
         public void MyLine(PaintEventArgs e, int x, int y, int x2, int y2, ProjectedTriangle projectedTriangle,
             GameData.GameData gameData, Color triangleColor)
@@ -370,16 +370,10 @@ namespace Game.Render
                 else
                 {
                     double z = InterpolateZ(x, y, projectedTriangle);
-                    if (zBuffer[x, y] > z /*&& z > 0*/)
+                    if (z <= zBuffer[x, y])
                     {
-//                        var shading = new PhongShading();
-//                        Vector normalVectorAtGivenPoint = PhongShading.GetNormalVectorAtGivenPoint(projectedTriangle, new Point(x, y));
-//                        Vector trianglePositionAtGivenPoint = GetTrianglePositionAtGivenPoint(projectedTriangle, x, y);
-//                        var col =
-//                            Lightning.Lightning.ApplyLightning(gameData, projectedTriangle.color, trianglePositionAtGivenPoint,
-//                                normalVectorAtGivenPoint);
-//                        Color newTriangleColor = triangleColor;
                         Pen pen = new Pen(triangleColor);
+//                        Brush brush = Brush.From(triangleColor.ToKnownColor());
                         SetPixel(e, pen.Brush, new Point(x, y));
                         zBuffer[x, y] = z;
                     }
@@ -399,6 +393,67 @@ namespace Game.Render
                 }
             }
         }
+//        public void MyLine(PaintEventArgs e, int x, int y, int x2, int y2, ProjectedTriangle projectedTriangle,
+//            GameData.GameData gameData, Color triangleColor)
+//        {
+//            int w = x2 - x;
+//            int h = y2 - y;
+//            int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
+//            if (w < 0) dx1 = -1;
+//            else if (w > 0) dx1 = 1;
+//            if (h < 0) dy1 = -1;
+//            else if (h > 0) dy1 = 1;
+//            if (w < 0) dx2 = -1;
+//            else if (w > 0) dx2 = 1;
+//            int longest = Abs(w);
+//            int shortest = Abs(h);
+//            if (!(longest > shortest))
+//            {
+//                longest = Abs(h);
+//                shortest = Abs(w);
+//                if (h < 0) dy2 = -1;
+//                else if (h > 0) dy2 = 1;
+//                dx2 = 0;
+//            }
+//
+//            int numerator = longest >> 1;
+//            for (int i = 0; i <= longest; i++)
+//            {
+//                if (x < 0 || x >= screenWidth || y < 0 || y >= screenHeight)
+//                {
+//                }
+//                else
+//                {
+//                    double z = InterpolateZ(x, y, projectedTriangle);
+//                    if (zBuffer[x, y] > z /*&& z > 0*/)
+//                    {
+////                        var shading = new PhongShading();
+////                        Vector normalVectorAtGivenPoint = PhongShading.GetNormalVectorAtGivenPoint(projectedTriangle, new Point(x, y));
+////                        Vector trianglePositionAtGivenPoint = GetTrianglePositionAtGivenPoint(projectedTriangle, x, y);
+////                        var col =
+////                            Lightning.Lightning.ApplyLightning(gameData, projectedTriangle.color, trianglePositionAtGivenPoint,
+////                                normalVectorAtGivenPoint);
+////                        Color newTriangleColor = triangleColor;
+//                        Pen pen = new Pen(triangleColor);
+//                        SetPixel(e, pen.Brush, new Point(x, y));
+//                        zBuffer[x, y] = z;
+//                    }
+//                }
+//
+//                numerator += shortest;
+//                if (!(numerator < longest))
+//                {
+//                    numerator -= longest;
+//                    x += dx1;
+//                    y += dy1;
+//                }
+//                else
+//                {
+//                    x += dx2;
+//                    y += dy2;
+//                }
+//            }
+//        }
 
 
         private double InterpolateZ(double x, double y, ProjectedTriangle projectedTriangle)

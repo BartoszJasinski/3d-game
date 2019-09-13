@@ -16,7 +16,7 @@ namespace Game.GameData
             var gameData = new GameData(CreateModels(), CreateCamera(), CreateCameras(), CreateIllumination(),
                 CreateLightningModel(), CreatePlayer());
 //            gameData.player = gameData.models.First();
-//            AddLightModelsToRenderList(gameData);
+            AddLightModelsToRenderList(gameData);
 
             return gameData;
         }
@@ -35,8 +35,8 @@ namespace Game.GameData
 
         private static Model CreatePlayer()
         {
-//            return CreateCone();
-            return CreateSphere();
+            return CreateCone();
+//            return CreateSphere();
         }
 
         private static List<Model> CreateModels()

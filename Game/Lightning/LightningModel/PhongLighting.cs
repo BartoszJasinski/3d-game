@@ -43,10 +43,10 @@ namespace Game.Lightning.LightningModel
 //                ApplySpecularLightning(triangle, gameData.camera.cameraPosition, fragPosition,
 //                    triangleNormal)*/).rgb /*.Normalize(2)*/);
 
-//            return new Color((ApplyAmbientLightning(color, lightSource) +
-//                              ApplyDiffuseLightning(color, fragPosition, triangleNormal, lightSource) +
-//                              ApplySpecularLightning(gameData.camera.cameraPosition, fragPosition,
-//                                  triangleNormal, lightSource)).rgb.Normalize());
+            return new Color((ApplyAmbientLightning(color, lightSource) +
+                              ApplyDiffuseLightning(color, fragPosition, triangleNormal, lightSource) +
+                              ApplySpecularLightning(gameData.camera.cameraPosition, fragPosition,
+                                  triangleNormal, lightSource)).rgb.Normalize());
 
 
             return new Color(ApplyAmbientLightning(color, lightSource).rgb.Normalize());

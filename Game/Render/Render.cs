@@ -34,7 +34,8 @@ namespace Game.Render
             model.rotationAngle = phi;
             model.rotationVector = new Vector(0, 0, 1);
 //            model.translationVector.z = phi;
-//            gameData.player.translationVector.z = phi;
+            gameData.player.translationVector.z = System.Math.Cos(phi);
+            gameData.player.translationVector.y = System.Math.Sin(phi);
             model.modelMatrix = model.Transform();
 
             gameData.camera.viewMatrix = gameData.cameras.GetCamera(gameData);
